@@ -49,6 +49,7 @@ export class MemberService extends DataService {
     try {
       const response = await fetch(`${this.url}/${username}`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -67,6 +68,7 @@ export class MemberService extends DataService {
     try {
       const response = await fetch(`${this.url}`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
