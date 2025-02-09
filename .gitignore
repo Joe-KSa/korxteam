@@ -1,0 +1,26 @@
+# Local
+.DS_Store
+*.local
+*.log*
+*.env*
+.env
+
+# Dependencias y builds
+node_modules/
+dist/
+bun.lock
+
+# IDE y configuración de editores
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Caché de TypeScript y herramientas de compilación
+*.tsbuildinfo
+.cache/
+
+# Archivos de Netlify y despliegue
+.netlify/
+.vercel/

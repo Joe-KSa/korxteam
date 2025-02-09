@@ -1,0 +1,89 @@
+.labelSection {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    align-items: center;
+    display: flex;
+    inline-size: 100%;
+    padding-block-end: var(--encore-spacing-tighter-2, 8px);
+    font-size: var(--encore-text-size-smaller);
+    font-weight: 700;
+
+    &__label {
+        color: var(--text-base, #000000);
+        box-sizing: border-box;
+        font-size: var(--encore-text-size-smaller);
+
+        span {
+            display: inline-block;
+            box-sizing: border-box;
+        }
+    }
+}
+
+.containerInput {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    padding-block-end: var(--encore-spacing-looser, 24px);
+    width: 100%;
+}
+
+.formInput {
+    font-family: var(--encore-body-font-stack);
+    font-size: var(--encore-text-size-smaller);
+    font-weight: 400;
+    border-radius: var(--encore-corner-radius-base);
+    margin-block: 0;
+    min-block-size: var(--encore-control-size-base);
+    padding-block: var(--encore-spacing-tighter);
+    padding-inline: var(--encore-spacing-tighter);
+    --encore-box-shadow-color: var(--essential-subdued);
+    --encore-box-shadow-width: 1px;
+    background-color: var(--background-base);
+    border: 0;
+    -webkit-box-shadow: inset 0 0 0 var(--encore-box-shadow-width) var(--encore-box-shadow-color);
+    box-shadow: inset 0 0 0 var(--encore-box-shadow-width) var(--encore-box-shadow-color);
+    color: var(--text-base);
+    display: block;
+    inline-size: 100%;
+    outline: 0;
+    position: relative;
+}
+
+.textAreaContainer {
+    width: 100%;
+    max-height: 150px;
+    padding-inline: 0;
+    padding-block: 0;
+    cursor: text;
+
+    &__inner {
+        padding-inline: var(--encore-spacing-tighter);
+        padding-block: var(--encore-spacing-tighter);
+        min-height: 48px;
+        max-height: 150px;
+        padding-top: 16px;
+
+        &__textarea {
+            outline: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    }
+}
+
+.skillInputContainer {
+    display: flex;
+    flex: 1;
+
+    &__skillInput {
+        flex: 1;
+        background: transparent;
+        outline: 0;
+        border: 0;
+        color: white;
+    }
+}
+
+.inputError {
+    --encore-box-shadow-color: var(--essential-negative);
+}
