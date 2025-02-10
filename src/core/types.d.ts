@@ -21,6 +21,8 @@ export interface memberProps {
   banner: string;
   publicBannerId: string
   phrase: string;
+  primaryColor: string;
+  secondaryColor: string;
   hidden:  0 | 1 ;
 }
 

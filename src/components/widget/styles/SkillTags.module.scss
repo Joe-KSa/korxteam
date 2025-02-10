@@ -17,13 +17,21 @@
     justify-content: center;
     border-radius: 0.3125em;
     padding: 0.5em;
-    background-color: #242424;
+    background-color: rgb(36, 36, 36);
     color: #fff;
     box-sizing: border-box;
     min-height: 24px;
     font-size: 12px;
     max-width: 268px;
     font-weight: 500;
+    border: 1px solid color-mix(in oklab, hsl(0 calc(1 * 0%) 100% /0.03) 100%, hsl(0 0% 0% /0.03) 0%);
+
+    &__gradient {
+        --profile-body-border-color: hsla(0, 0%, 100%, 0.12);
+        border-color: var(--profile-body-border-color);
+        background-color: rgb(36, 36, 36, 0.1);
+
+    }
 
     &__text {
         border-radius: 4px;
@@ -98,7 +106,6 @@
 }
 
 .tagContent__circleContainer__circle {
-
     &:hover .tagRemove {
         display: flex;
     }
@@ -122,55 +129,48 @@
     &[data-tag="php"] {
         background-color: #4f5d95;
     }
-    
+
     &[data-tag="c#"] {
         background-color: #7f399c;
     }
-    
+
     &[data-tag="tailwind css"] {
         background-color: #003159;
     }
-    
+
     &[data-tag="next.js"] {
         background-color: #000000;
     }
-    
+
     &[data-tag="react"] {
         background-color: #03799ac2;
     }
-    
+
     &[data-tag="typescript"] {
         background-color: #007acc;
     }
-    
+
     &[data-tag="html"] {
         background-color: #e34c26;
     }
-    
+
     &[data-tag="css"] {
         background-color: #0e7db8;
     }
-    
+
     &[data-tag="scss"] {
         background-color: #c6538c;
     }
-    
+
     &[data-tag="sass"] {
         background-color: #c6538c;
     }
-    
+
     &[data-tag="less"] {
         background-color: #1d365d;
     }
-    
+
     &[data-tag="julia"] {
         background-color: #79086f;
     }
-
 }
-
-
-
-
-
-

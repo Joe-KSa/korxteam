@@ -5,6 +5,36 @@
     overflow-y: auto;
     scrollbar-width: none;
 
+    &__gradient {
+        /* Variables */
+        --profile-gradient-primary-color: #ffffff;
+        --profile-gradient-secondary-color: #000000;
+        --profile-gradient-overlay-color: #00000099;
+        --elevation-hight: 0 8px 16px hsl(0 0% 0% / 0.24);
+        --custom-user-profile-banner-height: 105px;
+
+        /* Gradientes */
+        --profile-gradient-start: color-mix(
+            in oklab,
+            var(--profile-gradient-overlay-color) 50%,
+            var(--profile-gradient-primary-color)
+        );
+
+        --profile-gradient-end: color-mix(
+            in oklab,
+            var(--profile-gradient-overlay-color) 50%,
+            var(--profile-gradient-secondary-color)
+        );
+
+        background: linear-gradient(
+            var(--profile-gradient-start),
+            var(--profile-gradient-start) var(--custom-user-profile-banner-height),
+            var(--profile-gradient-end)
+        );
+
+        box-shadow: var(--elevation-hight);
+    }
+
     @media (max-width: 767px) {
         width: 100%;
         min-width: 100%;
@@ -84,12 +114,10 @@
                 object-position: center;
             }
 
-            
-         &__fileEditable {
-            position: absolute;
-            opacity: 0;
-         }
-
+            &__fileEditable {
+                position: absolute;
+                opacity: 0;
+            }
         }
     }
 }
@@ -183,12 +211,10 @@
 
 // Tools
 .selectedFile {
-
     &:hover .header__bannerContainer__banner__fileEditable,
     &:hover .header__imageContainer__image__fileEditable {
         opacity: 1;
     }
-    
 
     &:hover {
         filter: brightness(0.8);

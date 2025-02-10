@@ -32,6 +32,19 @@
 .section {
     display: flex;
     flex-wrap: wrap;
+
+    &__colors {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1em;
+        gap: 1em;
+
+        &__input {
+            display: flex;
+            gap: 1em;
+        }
+    }
 }
 
 .containerButtons {

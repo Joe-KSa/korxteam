@@ -1,6 +1,7 @@
 import { type JSX } from "react";
 import styles from "./styles/SkillTags.module.scss";
 import * as icon from "@/assets/icons";
+import { useMembers } from "@/hooks/useMembers";
 
 interface SkillTagsProps {
   tags: string[];
@@ -8,6 +9,7 @@ interface SkillTagsProps {
   children?: React.ReactNode;
   centerContent?: boolean;
   onlyIcon?: boolean;
+  activeGradient?: boolean;
   size?: "small-icon" | "medium-icon" | "large-icon";
 }
 
@@ -18,7 +20,9 @@ const SkillTags: React.FC<SkillTagsProps> = ({
   children,
   centerContent,
   onlyIcon = false,
+  activeGradient = false
 }) => {
+  const { selectedMember } = useMembers();
 
   const iconClassName = `${size || "small-icon"}`;
 
@@ -68,7 +72,7 @@ const SkillTags: React.FC<SkillTagsProps> = ({
     turso: <icon.TursoIcon className={iconClassName} />,
     laravel: <icon.LaravelIcon className={iconClassName} />,
     aseprite: <icon.AsepriteIcon className={iconClassName} />,
-  };;
+  };
 
   const getIcon = (tag: string) => tagIcons[tag.toLowerCase()] || null;
 
@@ -82,6 +86,11 @@ const SkillTags: React.FC<SkillTagsProps> = ({
         <div
           className={`${styles.tagContainer} ${
             !onlyIcon ? styles.tagContainer__text : ""
+          } ${
+            activeGradient &&
+            (selectedMember?.primaryColor || selectedMember?.secondaryColor)
+              ? styles.tagContainer__gradient
+              : ""
           }`}
           key={`${tag}-${index}`}
         >
@@ -90,7 +99,7 @@ const SkillTags: React.FC<SkillTagsProps> = ({
               <div className={styles.tagContent__circleContainer}>
                 <span
                   className={styles.tagContent__circleContainer__circle}
-                  data-tag={tag.toLocaleLowerCase() || 'default'}
+                  data-tag={tag.toLocaleLowerCase() || "default"}
                 >
                   {onRemoveTag && (
                     <div

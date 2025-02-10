@@ -13,6 +13,7 @@ import { useImageStore } from "@/store/store";
 import HeaderProfile from "@/components/ui/HeaderProfile";
 import { MemberService } from "../../core/services/member/memberService";
 import { CloudinaryService } from "@/core/services/cloudinary/cloudinaryService";
+import InputColor from "@/components/common/InputColor";
 
 const ERROR_MESSAGES = {
   fieldsRequired: "Todos los campos son requeridos",
@@ -31,6 +32,8 @@ const ProfilePage = () => {
     name: "",
     description: "",
     github: "",
+    primaryColor: "",
+    secondaryColor: "",
   });
   const [tags, setTags] = useState<tagProps[]>(member?.tags || []);
 
@@ -41,6 +44,8 @@ const ProfilePage = () => {
         name: member.name,
         description: member.description,
         github: member.github,
+        primaryColor: member.primaryColor,
+        secondaryColor: member.secondaryColor,
       });
       setTags(member.tags);
     }
@@ -52,10 +57,11 @@ const ProfilePage = () => {
       const hasFormChanged =
         formState.name !== member.name ||
         formState.description !== member.description ||
-        formState.github !== member.github;
+        formState.github !== member.github ||
+        formState.primaryColor !== member.primaryColor ||
+        formState.secondaryColor !== member.secondaryColor;
 
-        const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
-
+      const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
 
       const hasTagsChanged =
         JSON.stringify(tags.map((t) => t.id)) !==
@@ -86,6 +92,14 @@ const ProfilePage = () => {
 
   const handleTagsChange = (newTags: tagProps[]) => {
     setTags(newTags);
+  };
+
+  const handleRemoveGradients = () => {
+    setFormState((prev) => ({
+      ...prev,
+      primaryColor: "",
+      secondaryColor: "",
+    }));
   };
 
   const handleImageUpload = async (
@@ -149,6 +163,8 @@ const ProfilePage = () => {
         | "banner"
         | "publicId"
         | "publicBannerId"
+        | "primaryColor"
+        | "secondaryColor"
       > = {
         name: formState.name,
         description: formState.description || "",
@@ -159,6 +175,8 @@ const ProfilePage = () => {
         banner: bannerUrl || "",
         publicBannerId,
         github: formState.github,
+        primaryColor: formState.primaryColor,
+        secondaryColor: formState.secondaryColor,
         // phrase: formState.phrase,
       };
 
@@ -240,6 +258,29 @@ const ProfilePage = () => {
             valueSkill={tags}
             onChangeSkill={(value) => handleTagsChange(value)}
           />
+          <div className={styles.section__colors}>
+            <div className={styles.section__colors__input}>
+              <InputColor
+                onChange={(value) => handleInputChange("primaryColor", value)}
+                defaultColor={formState.primaryColor || "#ffffff"}
+                text="Primario"
+              />
+              <InputColor
+                onChange={(value) => handleInputChange("secondaryColor", value)}
+                defaultColor={formState.secondaryColor || "#000000"}
+                text="Secundario"
+              />
+            </div>
+
+            <Button
+              styleType={ButtonStyle.TEXT_ONLY}
+              label="Quitar gradientes"
+              fontSize="12px"
+              borderRadius="4px"
+              backgroundColor="var(--decorative-subdued)"
+              onClick={handleRemoveGradients}
+            />
+          </div>
         </div>
         <div className={styles.containerButtons}>
           <Button
