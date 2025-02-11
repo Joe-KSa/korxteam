@@ -2,7 +2,7 @@ export const environment = {
   production: "production",
   environmentName: "production",
   backEnd: {
-    baseUrl:  "https://backend-korx.vercel.app/",
+    baseUrl:  "https://backend-korx.vercel.app",
   },
   frontEnd: {
     baseUrl: "https://korxteam.netlify.app",
