@@ -31,6 +31,7 @@ export class ProjectService extends DataService {
     try {
       const response = await fetch(`${this.url}`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -55,6 +56,7 @@ export class ProjectService extends DataService {
     try {
       const response = await fetch(`${this.url}/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -76,6 +78,7 @@ export class ProjectService extends DataService {
     try {
       const response = await fetch(`${this.url}/${id}`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

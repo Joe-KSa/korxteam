@@ -34,6 +34,7 @@ export class ProjectMemberService extends DataService {
     try {
       const response = await fetch(`${this.url}`, {
         method: "POST",
+        credentials: "include",
         headers: {
           Authorization: `Bearer ${this.token}`,
           "Content-Type": "application/json",
@@ -59,6 +60,7 @@ export class ProjectMemberService extends DataService {
     try {
       const response = await fetch(`${this.url}`, {
         method: "DELETE",
+        credentials: "include", 
         headers: {
           Authorization: `Bearer ${this.token}`,
           "Content-Type": "application/json",
