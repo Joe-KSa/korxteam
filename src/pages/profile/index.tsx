@@ -151,7 +151,10 @@ const ProfilePage = () => {
   };
 
   const handleAudioChange = (url: string | null) => {
-    setFormState((prev) => ({ ...prev, soundUrl: url || "" }));
+    setFormState((prev) => ({
+      ...prev,
+      soundUrl: url ?? prev.soundUrl,
+    }));
   };
 
   useEffect(() => {
@@ -194,7 +197,10 @@ const ProfilePage = () => {
 
       const audioFile = inputSoundRef.current?.getFile() || null;
 
-      const audioUpload = await handleAudioUpload(audioFile, member?.soundPath);
+      const audioUpload = audioFile
+      ? await handleAudioUpload(audioFile, member?.soundPath)
+      : { soundUrl: member?.soundUrl || "", soundPath: member?.soundPath || "" };
+
 
       const memberData: Pick<
         postMemberProps,

@@ -39,6 +39,7 @@ interface ButtonProps {
   width?: string;
   justifyContent?: string;
   border?: boolean;
+  hideLabelOnSmallScreen?: boolean;
   type?: "button" | "reset" | "submit";
 }
 
@@ -62,7 +63,8 @@ const Button: React.FC<ButtonProps> = ({
   width,
   justifyContent,
   border = false,
-  type = "button"
+  type = "button",
+  hideLabelOnSmallScreen = false
 }) => {
 
   const buttonClasses = [
@@ -70,6 +72,7 @@ const Button: React.FC<ButtonProps> = ({
     disabled && styles.buttonDisabled,
     border && styles.buttonBorder,
     hoverStyleType && styles[hoverStyleType],
+    hideLabelOnSmallScreen && styles.hideLabelOnSmallScreen,
     styles[styleType],
   ]
     .filter(Boolean)

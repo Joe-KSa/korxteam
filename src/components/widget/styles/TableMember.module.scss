@@ -54,9 +54,18 @@
     grid-gap: 16px;
     height: 36px;
 
+    @media (max-width: 400px) {
+        grid-template-columns: [name] 3fr [role] 2fr;
+    }
 
     &__border {
         border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+    }
+
+    @media (max-width: 400px) {
+        &__item:first-child {
+            display: none;
+        }
     }
 }
 
@@ -74,6 +83,14 @@
         cursor: pointer;
         height: 56px;
         grid-gap: 16px;
+
+        @media (max-width: 400px) {
+            grid-template-columns: [name] 3fr [role] 2fr;
+
+            &__item:first-child {
+                display: none;
+            }
+        }
 
         &:hover {
             background-color: #444;
@@ -93,19 +110,19 @@
                 height: 100%;
 
                 div {
-                    color: var(--text-subdued,#b3b3b3);
+                    color: var(--text-subdued, #b3b3b3);
                     display: inline-block;
                     height: 16px;
                     min-height: 16px;
                     min-width: 16px;
                     position: relative;
-                    width: var(--tracklist-index-column-width,16px);
+                    width: var(--tracklist-index-column-width, 16px);
 
                     span {
                         font-variant: tabular-nums;
                         pointer-events: none;
                         position: absolute;
-                        right: .25em;
+                        right: 0.25em;
                         font-weight: 700;
                     }
                 }

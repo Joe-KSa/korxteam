@@ -35,6 +35,7 @@ const Navbar = () => {
           iconMargin="0 5px 0 0"
           hoverStyleType={ButtonHoverStyle.SCALE}
           redirect
+          hideLabelOnSmallScreen
           href="https://discord.com/invite/fhjm8rJAf5"
         >
           <DiscordIcon className="medium-icon" />

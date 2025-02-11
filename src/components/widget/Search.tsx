@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import styles from "./styles/Search.module.scss";
-import Button, { ButtonStyle} from "../common/Button";
+import Button, { ButtonStyle } from "../common/Button";
 import { HomeIcon, SearchIcon, ProjectIcon } from "../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "@/hooks/useProjects";
@@ -8,10 +9,18 @@ export const Search = () => {
   const navigate = useNavigate();
   const { setSelectedProject } = useProjects();
 
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 400);
+
+  useEffect(() => {
+    const handleResize = () => setIsSmallScreen(window.innerWidth < 400);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const hanleHomeClick = () => {
-    setSelectedProject(null)
+    setSelectedProject(null);
     navigate("/");
-  }
+  };
 
   return (
     <div className={styles.searchContainer}>
@@ -24,7 +33,7 @@ export const Search = () => {
             borderRadius="50%"
             onClick={() => hanleHomeClick()}
           >
-            <HomeIcon className="large-icon" />
+            <HomeIcon className={isSmallScreen ? "medium-icon" : "large-icon"} />
           </Button>
 
           {/* Contenedor principal de búsqueda */}
@@ -39,8 +48,14 @@ export const Search = () => {
                 >
                   <SearchIcon className="large-icon" />
                 </Button> */}
-                <Button styleType={ButtonStyle.ICON} borderRadius="50%" backgroundColor="var(--background-elevated-base)" href="/project" redirect> 
-                  <ProjectIcon className="large-icon" />
+                <Button
+                  styleType={ButtonStyle.ICON}
+                  borderRadius="50%"
+                  backgroundColor="var(--background-elevated-base)"
+                  href="/project"
+                  redirect
+                >
+                  <ProjectIcon className={isSmallScreen ? "medium-icon" : "large-icon"} />
                 </Button>
               </div>
 
@@ -63,8 +78,13 @@ export const Search = () => {
 
               <div className={styles.projectsButtonContainer}>
                 <div className={styles.projectsButtonContainer__inner}>
-                  <Button styleType={ButtonStyle.ICON} padding="0" href="/project" redirect>
-                    <ProjectIcon className="large-icon"/>
+                  <Button
+                    styleType={ButtonStyle.ICON}
+                    padding="0"
+                    href="/project"
+                    redirect
+                  >
+                    <ProjectIcon className="large-icon" />
                   </Button>
                 </div>
               </div>

@@ -36,7 +36,9 @@
 .buttonBorder {
     --profile-body-border-color: hsla(0, 0%, 100%, 0.12);
     border: 1px solid var(--profile-body-border-color);
+    background-color: transparent;
 }
+
 
 
 .buttonContent {
@@ -74,4 +76,21 @@
 .disabledhover:hover {
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+
+
+    .hideLabelOnSmallScreen .buttonLabel {
+        display: none;
+    }
+
+    .hideLabelOnSmallScreen .buttonIcon {
+        margin: 0 !important;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }
