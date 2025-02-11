@@ -13,7 +13,6 @@ import MenuModeration from "./MenuModeration";
 import { useModeratorById } from "@/hooks/useModeratorById";
 import { useLocation } from "react-router-dom";
 
-
 interface memberProfileProps {
   width: number;
 }
@@ -57,9 +56,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
     if (soundUrl) {
       const audio = new Audio(soundUrl);
       audioRef.current = audio;
-      audio
-        .play()
-        .catch((error) => console.error("Error al reproducir sonido:", error));
+      audio.play().catch(() => {});
     }
 
     return () => {

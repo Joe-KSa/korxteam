@@ -13,7 +13,6 @@ export class TokenManager {
       );
 
       if (!response.ok) {
-        console.error("Error al refrescar el token:", await response.text());
         return false;
       }
 

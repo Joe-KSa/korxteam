@@ -26,6 +26,6 @@ export const useProjects = () => {
     selectedProject,
     setSelectedProject,
     deselectProject,
-    projectBanner: selectedProject || projects[0],
+    projectBanner: selectedProject || projects[projects.length - 1],
   };
 };

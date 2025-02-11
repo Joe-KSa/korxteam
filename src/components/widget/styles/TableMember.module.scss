@@ -54,18 +54,16 @@
     grid-gap: 16px;
     height: 36px;
 
-    @media (max-width: 400px) {
+    @media (max-width: 500px) {
         grid-template-columns: [name] 3fr [role] 2fr;
+
+        &__item:first-child {
+            display: none;
+        }
     }
 
     &__border {
         border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
-    }
-
-    @media (max-width: 400px) {
-        &__item:first-child {
-            display: none;
-        }
     }
 }
 
@@ -84,7 +82,7 @@
         height: 56px;
         grid-gap: 16px;
 
-        @media (max-width: 400px) {
+        @media (max-width: 500px) {
             grid-template-columns: [name] 3fr [role] 2fr;
 
             &__item:first-child {

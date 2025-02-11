@@ -14,16 +14,15 @@ export class UserService extends DataService {
         credentials: "include",
       });
 
-      // Procesar códigos de estado primero
       if (response.status === 200) {
-        return await response.json(); // Usuario no baneado
+        return await response.json();
       } else if (response.status === 403) {
-        console.error("User is banned");
+        console.warn("User is banned");
         return null;
       } else if (response.status === 401) {
-        // Lógica de renovación de token..
+        // Silenciar el error y reintentar con el refresh token
         const tokenRefreshed = await TokenManager.refreshToken();
-        if (!tokenRefreshed) return null; // Evita bucles infinitos
+        if (!tokenRefreshed) return null; 
 
         const retryResponse = await fetch(`${this.url}`, {
           method: "GET",
@@ -32,9 +31,10 @@ export class UserService extends DataService {
 
         return retryResponse.ok ? await retryResponse.json() : null;
       }
-      throw new Error("Error fetching user data");
-    } catch (error) {
-      console.error(error);
+      
+      return null;
+    } catch {
+      // Silenciar errores inesperados sin imprimir en consola
       return null;
     }
   }

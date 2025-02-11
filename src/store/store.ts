@@ -41,11 +41,15 @@ interface rolesStoreProps {
 interface userStore {
   user: userProps | null;
   setUser: (user: userProps | null) => void;
+  hasFetched: boolean;
+  setHasFetched: (fetched: boolean) => void;
 }
 
 export const userStore = create<userStore>((set) => ({
   user: null,
   setUser: (user) => set({ user }),
+  hasFetched: false,
+  setHasFetched: (fetched) => set({ hasFetched: fetched }),
 }));
 
 export const projectStore = create<projectStoreProps>((set) => ({
