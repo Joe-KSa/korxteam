@@ -128,3 +128,52 @@ export const useImageStore = create<ImageStore>((set) => ({
     }
   }),
 }));
+
+// Audio
+interface AudioStore {
+  audio: {
+    audioUrl: string | null;
+    audioFile: File | null;
+  };
+  setAudio: (file: File | null) => void;
+  clearAudio: () => void;
+}
+
+export const useAudioStore = create<AudioStore>((set) => ({
+  audio: {
+    audioUrl: null,
+    audioFile: null,
+  },
+  setAudio: (file) => {
+    if (!file) {
+      set({
+        audio: {
+          audioUrl: null,
+          audioFile: null,
+        },
+      });
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    set({
+      audio: {
+        audioUrl: url,
+        audioFile: file,
+      },
+    });
+  },
+  clearAudio: () => {
+    set((state) => {
+      if (state.audio.audioUrl) {
+        URL.revokeObjectURL(state.audio.audioUrl);
+      }
+      return {
+        audio: {
+          audioUrl: null,
+          audioFile: null,
+        },
+      };
+    });
+  },
+}));

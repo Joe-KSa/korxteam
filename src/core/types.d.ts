@@ -23,6 +23,8 @@ export interface memberProps {
   phrase: string;
   primaryColor: string;
   secondaryColor: string;
+  soundUrl: string;
+  soundPath: string;
   hidden:  0 | 1 ;
 }
 
@@ -76,6 +78,11 @@ export interface postProjectMemberData {
 export interface fileFromCloudProps {
   publicId: string;
   url: string;
+}
+
+export interface fileFromSupabaseProps {
+  soundPath: string;
+  soundUrl: string;
 }
 
 export interface apiResponse {

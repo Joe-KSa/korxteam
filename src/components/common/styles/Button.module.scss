@@ -33,6 +33,12 @@
     }
 }
 
+.buttonBorder {
+    --profile-body-border-color: hsla(0, 0%, 100%, 0.12);
+    border: 1px solid var(--profile-body-border-color);
+}
+
+
 .buttonContent {
     display: flex;
     align-items: center;

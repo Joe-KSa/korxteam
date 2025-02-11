@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles/InputColor.module.scss";
 
 interface InputColorProps {
   text: string;
   defaultColor: string;
   onChange: (color: string) => void;
+  disabled?: boolean;
 }
 
-const InputColor = ({ text, onChange, defaultColor }: InputColorProps) => {
+const InputColor = ({ text, onChange, defaultColor, disabled }: InputColorProps) => {
   const [color, setColor] = useState<string>(defaultColor);
+
+  useEffect(() => {
+    setColor(defaultColor);
+  }, [defaultColor]);
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.currentTarget.value;
@@ -22,6 +27,7 @@ const InputColor = ({ text, onChange, defaultColor }: InputColorProps) => {
         <input
           name="color"
           type="color"
+          disabled={disabled}
           value={color}
           onChange={handleColorChange}
         />

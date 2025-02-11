@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./styles/Profile.module.scss";
 import InputField from "@/components/common/InputField";
 import { useUser } from "@/hooks/useUser";
@@ -14,10 +14,15 @@ import HeaderProfile from "@/components/ui/HeaderProfile";
 import { MemberService } from "../../core/services/member/memberService";
 import { CloudinaryService } from "@/core/services/cloudinary/cloudinaryService";
 import InputColor from "@/components/common/InputColor";
+import InputAudio, { InputAudioRef } from "@/components/common/InputAudio";
+import FormStyles from "@/components/common/styles/InputField.module.scss";
+import { SupabaseService } from "@/core/services/supabase/supabaseService";
 
 const ERROR_MESSAGES = {
   fieldsRequired: "Todos los campos son requeridos",
-  uploadFailed: "Error al subir la imagen. Intenta nuevamente.",
+  uploadImageFailed: "Error al subir la imagen. Intenta nuevamente.",
+  uploadAudioFailed: "Error al subir el audio. Intenta nuevamente.",
+  updateProfileFailed: "Error al actualizar el perfil. Intenta nuevamente.",
 };
 
 const ProfilePage = () => {
@@ -34,8 +39,11 @@ const ProfilePage = () => {
     github: "",
     primaryColor: "",
     secondaryColor: "",
+    soundUrl: "",
+    soundPath: "",
   });
   const [tags, setTags] = useState<tagProps[]>(member?.tags || []);
+  const inputSoundRef = useRef<InputAudioRef>(null);
 
   // Carga de datos
   useEffect(() => {
@@ -46,6 +54,8 @@ const ProfilePage = () => {
         github: member.github,
         primaryColor: member.primaryColor,
         secondaryColor: member.secondaryColor,
+        soundUrl: member.soundUrl,
+        soundPath: member.soundPath,
       });
       setTags(member.tags);
     }
@@ -59,7 +69,8 @@ const ProfilePage = () => {
         formState.description !== member.description ||
         formState.github !== member.github ||
         formState.primaryColor !== member.primaryColor ||
-        formState.secondaryColor !== member.secondaryColor;
+        formState.secondaryColor !== member.secondaryColor ||
+        formState.soundUrl !== member.soundUrl;
 
       const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
 
@@ -111,8 +122,36 @@ const ProfilePage = () => {
       await new CloudinaryService().deleteImage(existingPublicId);
     const uploadResponse = await new CloudinaryService().uploadImage(image);
     if (!uploadResponse?.url || !uploadResponse?.publicId)
-      throw new Error(ERROR_MESSAGES.uploadFailed);
+      throw new Error(ERROR_MESSAGES.uploadImageFailed);
     return { url: uploadResponse.url, publicId: uploadResponse.publicId };
+  };
+
+  const handleAudioUpload = async (
+    audioFile: File | null,
+    existingSoundPath?: string
+  ) => {
+    if (existingSoundPath) {
+      await new SupabaseService().deleteAudio(existingSoundPath);
+    }
+
+    if (!audioFile) {
+      return { soundUrl: "", soundPath: "" };
+    }
+
+    const uploadResponse = await new SupabaseService().uploadAudio(audioFile);
+
+    if (!uploadResponse?.soundUrl || !uploadResponse?.soundPath) {
+      throw new Error(ERROR_MESSAGES.uploadAudioFailed);
+    }
+
+    return {
+      soundUrl: uploadResponse.soundUrl,
+      soundPath: uploadResponse.soundPath,
+    };
+  };
+
+  const handleAudioChange = (url: string | null) => {
+    setFormState((prev) => ({ ...prev, soundUrl: url || "" }));
   };
 
   useEffect(() => {
@@ -153,6 +192,10 @@ const ProfilePage = () => {
       const { url: bannerUrl, publicId: publicBannerId } =
         await handleImageUpload(images.bannerFile, member?.publicBannerId);
 
+      const audioFile = inputSoundRef.current?.getFile() || null;
+
+      const audioUpload = await handleAudioUpload(audioFile, member?.soundPath);
+
       const memberData: Pick<
         postMemberProps,
         | "name"
@@ -165,10 +208,11 @@ const ProfilePage = () => {
         | "publicBannerId"
         | "primaryColor"
         | "secondaryColor"
+        | "soundUrl"
+        | "soundPath"
       > = {
         name: formState.name,
         description: formState.description || "",
-        // role: role.id,
         tags: tags.map((t) => t.id),
         image: imageUrl || "",
         publicId,
@@ -177,7 +221,8 @@ const ProfilePage = () => {
         github: formState.github,
         primaryColor: formState.primaryColor,
         secondaryColor: formState.secondaryColor,
-        // phrase: formState.phrase,
+        soundUrl: audioUpload?.soundUrl || "",
+        soundPath: audioUpload?.soundPath || "",
       };
 
       const response = await new MemberService().updateMember(
@@ -194,7 +239,7 @@ const ProfilePage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert(ERROR_MESSAGES.uploadFailed);
+      alert(ERROR_MESSAGES.updateProfileFailed);
     } finally {
       setIsSubmitting(false);
     }
@@ -258,31 +303,59 @@ const ProfilePage = () => {
             valueSkill={tags}
             onChangeSkill={(value) => handleTagsChange(value)}
           />
-          <div className={styles.section__colors}>
-            <div className={styles.section__colors__input}>
-              <InputColor
-                onChange={(value) => handleInputChange("primaryColor", value)}
-                defaultColor={formState.primaryColor || "#ffffff"}
-                text="Primario"
-              />
-              <InputColor
-                onChange={(value) => handleInputChange("secondaryColor", value)}
-                defaultColor={formState.secondaryColor || "#000000"}
-                text="Secundario"
-              />
-            </div>
 
+          <div className={styles.section}>
+            <div className={FormStyles.labelSection}>
+              <label className={FormStyles.labelSection__label}>
+                <span>Personalización</span>
+              </label>
+            </div>
+            <div className={styles.section__tools}>
+              <InputAudio
+                ref={inputSoundRef}
+                soundUrl={member?.soundUrl}
+                onChange={handleAudioChange}
+              />
+              <div className={styles.section__tools__inputColor}>
+                <InputColor
+                  onChange={(value) => handleInputChange("primaryColor", value)}
+                  disabled={isDisabled}
+                  defaultColor={formState.primaryColor || "#ffffff"}
+                  text="Primario"
+                />
+                <InputColor
+                  onChange={(value) =>
+                    handleInputChange("secondaryColor", value)
+                  }
+                  disabled={isDisabled}
+                  defaultColor={formState.secondaryColor || "#000000"}
+                  text="Secundario"
+                />
+              </div>
+            </div>
+          </div>
+          <div className={styles.section__buttons}>
             <Button
               styleType={ButtonStyle.TEXT_ONLY}
-              label="Quitar gradientes"
+              label="Quitar efectos"
               fontSize="12px"
               borderRadius="4px"
               backgroundColor="var(--decorative-subdued)"
               onClick={handleRemoveGradients}
             />
+            <Button
+              onClick={() => inputSoundRef.current?.clearAudio()}
+              label="Quitar audio"
+              fontSize="12px"
+              styleType={ButtonStyle.TEXT_ONLY}
+              backgroundColor="var(--decorative-subdued)"
+              borderRadius="4px"
+              padding="10px 20px"
+            />
           </div>
         </div>
-        <div className={styles.containerButtons}>
+
+        <div className={styles.SaveButton}>
           <Button
             styleType={ButtonStyle.TEXT_ONLY}
             type="submit"

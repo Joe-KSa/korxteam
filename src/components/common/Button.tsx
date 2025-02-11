@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./styles/Button.module.scss";
 import { Link } from "react-router-dom";
+import { useMembers } from "@/hooks/useMembers";
 
 export enum ButtonStyle {
   ICON = "icon",
@@ -38,6 +39,7 @@ interface ButtonProps {
   flexDirection?: ButtonDirection;
   width?: string;
   justifyContent?: string;
+  border?: boolean;
   type?: "button" | "reset" | "submit";
 }
 
@@ -60,23 +62,26 @@ const Button: React.FC<ButtonProps> = ({
   flexDirection,
   width,
   justifyContent,
+  border = false,
   type = "button"
 }) => {
+
   const buttonClasses = [
     styles.buttonCommon,
     disabled && styles.buttonDisabled,
+    border && styles.buttonBorder,
     hoverStyleType && styles[hoverStyleType],
     styles[styleType],
   ]
     .filter(Boolean)
     .join(" ");
 
-  const contentClasses = `${styles.buttonContent} ${styles[styleType]}`;
+  const contentClasses = `${styles.buttonContent} ${styles[styleType]} `;
 
   const commonProps = {
     className: buttonClasses,
     style: {
-      backgroundColor,
+      backgroundColor: border ? "transparent" : backgroundColor,
       fontSize,
       padding,
       color,

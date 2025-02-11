@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { MemberService } from "@/core/services/member/memberService";
 import { membersStore } from "@/store/store";
 
@@ -23,9 +23,5 @@ export const useMembers = () => {
     setMembers(sortedMembers);
   }, [setMembers]);
 
-  useEffect(() => {
-    loadMembers();
-  }, [loadMembers]);
-
-  return { members, setMembers, loadMembers, selectedMember, setSelectedMember};
+  return { members, setMembers, loadMembers, selectedMember, setSelectedMember };
 };

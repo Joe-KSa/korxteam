@@ -164,7 +164,7 @@ const InputField: React.FC<InputFieldProps> = ({
           defaultOption={options[0]}
         />
       ) : type === "skills" ? (
-        <SkillInput id={htmlFor} onChangeSkill={onChangeSkill} value={valueSkill} maxLength={maxLength} disabled={disabled}
+        <SkillInput id={htmlFor} onChangeSkill={onChangeSkill} value={valueSkill} maxLength={maxLength} disabled= {disabled}
         />
       ) : (
         <input
