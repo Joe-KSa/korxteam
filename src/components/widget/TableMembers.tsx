@@ -18,7 +18,7 @@ const TableMembers: React.FC<{ isProjectCardVisible: boolean }> = ({
   const isModerationPage = location.pathname.startsWith("/moderation");
 
 
-  const dominantColor = useDominantColor(projectBanner?.image);
+  const dominantColor = useDominantColor(projectBanner?.images?.url);
 
   useEffect(() => {
     if (selectedProject?.id) {
@@ -107,7 +107,7 @@ const TableMembers: React.FC<{ isProjectCardVisible: boolean }> = ({
                     >
                       <img
                         className={styles.body__row__item__member__image}
-                        src={member.image}
+                        src={member?.images?.avatar?.url}
                         alt={member.name}
                       />
 

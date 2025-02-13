@@ -25,7 +25,7 @@ const ProjectPage = () => {
               {projects.map((project) => (
                 <ProjectItem
                   key={project.id}
-                  image={project.image}
+                  image={project.images.url}
                   title={project.title}
                   url={project.url}
                   creator={project.creator}

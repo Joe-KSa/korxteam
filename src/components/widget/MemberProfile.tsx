@@ -10,7 +10,6 @@ import HeaderProfile from "../ui/HeaderProfile";
 import { useUser } from "@/hooks/useUser";
 import useClickOutside from "@/hooks/useClickOutside";
 import MenuModeration from "./MenuModeration";
-import { useModeratorById } from "@/hooks/useModeratorById";
 import { useLocation } from "react-router-dom";
 
 interface memberProfileProps {
@@ -20,7 +19,6 @@ interface memberProfileProps {
 const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
   const { setSelectedMember, selectedMember } = useMembers();
   const { user } = useUser();
-  const { moderator } = useModeratorById(user?.id);
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +34,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
   const github = selectedMember?.github ?? "#";
   const primaryColor = selectedMember?.primaryColor;
   const secondaryColor = selectedMember?.secondaryColor;
-  const soundUrl = selectedMember?.soundUrl;
+  const soundUrl = selectedMember?.sound.url || "";
 
   const tagNames = (tags ?? []).map((tag) => tag.name);
   const formattedDate = formatDate(createdAt);
@@ -89,7 +87,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
           >
             <DeleteIcon className={"large-icon"} />
           </div>
-          {moderator?.role.name === "Moderador" && (
+          {user?.role.name === "Moderador" && (
             <div ref={selectBoxRef} onClick={() => setIsOpen(!isOpen)}>
               <div className={styles.container__actions__icon}>
                 <MoreIcon className={"large-icon"} />
@@ -145,7 +143,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
                 iconMargin="0 5px 0 0"
                 borderRadius="4px"
                 padding="10px 20px"
-                border={!!(primaryColor && secondaryColor)}
+                border={!!(selectedMember?.primaryColor || selectedMember?.secondaryColor)}
               >
                 <GithubIcon className={"small-icon"} />
               </Button>

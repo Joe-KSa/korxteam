@@ -94,10 +94,7 @@ export class MemberService extends DataService {
       | "description"
       | "tags"
       | "github"
-      | "image"
-      | "banner"
-      | "publicId"
-      | "publicBannerId"
+      | "images"
     >
   ): Promise<apiResponse> {
     try {

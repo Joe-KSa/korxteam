@@ -32,7 +32,7 @@ const Layout: React.FC = () => {
           >
             <div className={styles.pageContainer__inner}>
               <div className={styles.pageContainer__inner__content}>
-                {projects.length > 0 ? (
+                {true ? (
                   <OverlayScrollbarsComponent
                     options={{
                       scrollbars: {

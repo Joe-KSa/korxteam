@@ -33,6 +33,10 @@
     min-height: auto;
     margin-bottom: 1em;
 
+    @container (max-width: 400px) {
+        padding: 0 8px;
+    }
+
     &__headerContainer {
         position: sticky;
         height: 36px;
@@ -41,6 +45,8 @@
         z-index: 2;
         padding-left: var(--content-spacing);
     }
+
+    
 }
 
 .header {
@@ -54,7 +60,7 @@
     grid-gap: 16px;
     height: 36px;
 
-    @media (max-width: 500px) {
+    @container (max-width: 500px) {
         grid-template-columns: [name] 3fr [role] 2fr;
 
         &__item:first-child {
@@ -82,7 +88,7 @@
         height: 56px;
         grid-gap: 16px;
 
-        @media (max-width: 500px) {
+        @container (max-width: 500px) {
             grid-template-columns: [name] 3fr [role] 2fr;
 
             &__item:first-child {

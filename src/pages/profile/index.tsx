@@ -39,8 +39,11 @@ const ProfilePage = () => {
     github: "",
     primaryColor: "",
     secondaryColor: "",
-    soundUrl: "",
-    soundPath: "",
+    sound: {
+      url: "",
+      path: "",
+      type: "",
+    },
   });
   const [tags, setTags] = useState<tagProps[]>(member?.tags || []);
   const inputSoundRef = useRef<InputAudioRef>(null);
@@ -54,8 +57,11 @@ const ProfilePage = () => {
         github: member.github,
         primaryColor: member.primaryColor,
         secondaryColor: member.secondaryColor,
-        soundUrl: member.soundUrl,
-        soundPath: member.soundPath,
+        sound: {
+          url: member.sound.url,
+          path: member.sound.path,
+          type: member.sound.type,
+        },
       });
       setTags(member.tags);
     }
@@ -70,7 +76,7 @@ const ProfilePage = () => {
         formState.github !== member.github ||
         formState.primaryColor !== member.primaryColor ||
         formState.secondaryColor !== member.secondaryColor ||
-        formState.soundUrl !== member.soundUrl;
+        formState.sound.url !== member.sound.url;
 
       const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
 
@@ -118,6 +124,7 @@ const ProfilePage = () => {
     existingPublicId?: string
   ) => {
     if (!image) return { url: "", publicId: existingPublicId || "" };
+    console.log(existingPublicId)
     if (existingPublicId)
       await new CloudinaryService().deleteImage(existingPublicId);
     const uploadResponse = await new CloudinaryService().uploadImage(image);
@@ -153,17 +160,32 @@ const ProfilePage = () => {
   const handleAudioChange = (url: string | null) => {
     setFormState((prev) => ({
       ...prev,
-      soundUrl: url ?? prev.soundUrl,
+      sound: url
+        ? { ...prev.sound, url }
+        : { url: "", path: "", type: "" },
     }));
   };
+  
 
   useEffect(() => {
     if (member) {
       setSelectedMember({
         ...member,
         ...formState,
-        image: member.image || images.imageUrl || "",
-        banner: member.banner || images.bannerUrl || "",
+        images: {
+          avatar: {
+            url: images.imageUrl || member?.images.avatar.url,
+            publicId: images.imageUrl
+             ? member?.images.avatar.publicId
+              : member?.images.avatar.publicId,
+          },
+          banner: {
+            url: images.bannerUrl || member?.images.banner.url,
+            publicId: images.bannerUrl
+             ? member?.images.banner.publicId
+              : member?.images.banner.publicId,
+          }
+        },
         tags,
       });
     }
@@ -188,19 +210,21 @@ const ProfilePage = () => {
     setIsSubmitting(true);
 
     try {
-      const { url: imageUrl, publicId } = await handleImageUpload(
+      const { url: avatarUrl, publicId: publicAvatarId } = await handleImageUpload(
         images.imageFile,
-        member?.publicId
+        member?.images.avatar.publicId
       );
       const { url: bannerUrl, publicId: publicBannerId } =
-        await handleImageUpload(images.bannerFile, member?.publicBannerId);
+        await handleImageUpload(images.bannerFile, member?.images.banner.publicId);
 
       const audioFile = inputSoundRef.current?.getFile() || null;
 
       const audioUpload = audioFile
-      ? await handleAudioUpload(audioFile, member?.soundPath)
-      : { soundUrl: member?.soundUrl || "", soundPath: member?.soundPath || "" };
-
+        ? await handleAudioUpload(audioFile, member?.sound.path)
+        : {
+            soundUrl: "",
+            soundPath: "",
+          };
 
       const memberData: Pick<
         postMemberProps,
@@ -208,27 +232,32 @@ const ProfilePage = () => {
         | "description"
         | "tags"
         | "github"
-        | "image"
-        | "banner"
-        | "publicId"
-        | "publicBannerId"
         | "primaryColor"
         | "secondaryColor"
-        | "soundUrl"
-        | "soundPath"
+        | "sound"
+        | "images"
       > = {
         name: formState.name,
         description: formState.description || "",
         tags: tags.map((t) => t.id),
-        image: imageUrl || "",
-        publicId,
-        banner: bannerUrl || "",
-        publicBannerId,
+        images: {
+          avatar: {
+            url: avatarUrl,
+            publicId: publicAvatarId,
+          },
+          banner: {
+            url: bannerUrl,
+            publicId: publicBannerId,
+          },
+        },
         github: formState.github,
         primaryColor: formState.primaryColor,
         secondaryColor: formState.secondaryColor,
-        soundUrl: audioUpload?.soundUrl || "",
-        soundPath: audioUpload?.soundPath || "",
+        sound: {
+          url: audioUpload?.soundUrl || "",
+          path: audioUpload?.soundPath || "",
+          type: "general"
+        },
       };
 
       const response = await new MemberService().updateMember(
@@ -319,7 +348,7 @@ const ProfilePage = () => {
             <div className={styles.section__tools}>
               <InputAudio
                 ref={inputSoundRef}
-                soundUrl={member?.soundUrl}
+                soundUrl={member?.sound.url}
                 onChange={handleAudioChange}
               />
               <div className={styles.section__tools__inputColor}>

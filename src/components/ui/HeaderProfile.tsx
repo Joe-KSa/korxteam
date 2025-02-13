@@ -17,18 +17,18 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
   const isCurrentUser = user?.username === selectedMember?.username;
   const isSettingsPage = window.location.pathname === "/profile";
 
-  const image =
+  const profile =
     isSettingsPage && isCurrentUser
-      ? images.imageUrl || selectedMember?.image
-      : currentUser?.image || selectedMember?.image;
+      ? images.imageUrl || selectedMember?.images.avatar.url
+      : currentUser?.images.avatar.url || selectedMember?.images.avatar.url;
 
   const banner =
     isSettingsPage && isCurrentUser
-      ? images.bannerUrl || selectedMember?.banner
-      : currentUser?.banner || selectedMember?.banner;
+      ? images.bannerUrl || selectedMember?.images.banner.url
+      : currentUser?.images.banner.url || selectedMember?.images.banner.url;
 
 
-  const dominantColor = useDominantColor(image || "");
+  const dominantColor = useDominantColor(profile || "");
   const isMobile = window.innerWidth <= 767;
 
   const isDisabled = !isSettingsPage || user?.writeAccess === 0;
@@ -125,7 +125,7 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={image}/>
+          <img src={profile}/>
           {isSettingsPage && (isCurrentUser || isMobile) && (
             <div className={styles.header__imageContainer__image__fileEditable}>
               <PencilIcon className={"medium-icon"} />

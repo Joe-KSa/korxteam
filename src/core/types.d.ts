@@ -9,23 +9,36 @@ export interface userProps {
   createdAt: string;
   writeAccess: 1 | 0;
   updatedAt: string;
+  role: roleProps;
+}
+
+export interface imageProps {
+  url: string;
+  publicId: string;
+}
+
+export interface soundProps {
+  url: string;
+  path: string;
+  type: string;
+}
+
+export interface memberImageProps {
+  avatar: imageProps;
+  banner: imageProps;
 }
 
 export interface memberProps {
   name: string;
   username: string;
   description: string;
-  image: string;
-  publicId: string;
   github: string;
-  banner: string;
-  publicBannerId: string
   phrase: string;
   primaryColor: string;
   secondaryColor: string;
-  soundUrl: string;
-  soundPath: string;
+  sound: soundProps
   hidden:  0 | 1 ;
+  images: memberImageProps
 }
 
 export interface getMemberProps extends memberProps {
@@ -50,13 +63,17 @@ export interface tagProps {
   name: string;
 }
 
+export interface imageProps {
+  url: string
+  publicId: string; 
+}
+
 export interface projectProps {
   title: string;
   description: string;
   repository: string;
   url: string;
-  image: string;
-  publicId: string;
+  images: imageProps;
 }
 
 export interface getProjectProps extends projectProps {

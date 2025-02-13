@@ -11,7 +11,7 @@ const ProjectCard: React.FC<{
 }> = ({ projectCardRef }) => {
   const { projects, setSelectedProject, projectBanner } = useProjects();
 
-  const dominantColor = useDominantColor(projectBanner?.image);
+  const dominantColor = useDominantColor(projectBanner?.images?.url);
 
   return (
     <div className={styles.container} ref={projectCardRef}>
@@ -47,7 +47,7 @@ const ProjectCardItem = ({
       <div className={styles.card}>
         <div className={styles.card__imageContainer}>
           <img
-            src={project.image}
+            src={project.images?.url}
             alt={`Imagen del proyecto ${project.title}`}
             className={styles.card__imageContainer__img}
           />
