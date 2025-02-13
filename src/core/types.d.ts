@@ -32,6 +32,7 @@ export interface memberProps {
   name: string;
   username: string;
   description: string;
+  userId: string;
   github: string;
   phrase: string;
   primaryColor: string;
@@ -39,13 +40,13 @@ export interface memberProps {
   sound: soundProps
   hidden:  0 | 1 ;
   images: memberImageProps
+  createdAt: string;
 }
 
 export interface getMemberProps extends memberProps {
   id: number;
   role: roleProps;
   tags: tagProps[];
-  createdAt: string;
 }
 
 export interface postMemberProps extends memberProps {

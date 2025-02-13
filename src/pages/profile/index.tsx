@@ -342,7 +342,7 @@ const ProfilePage = () => {
           <div className={styles.section}>
             <div className={FormStyles.labelSection}>
               <label className={FormStyles.labelSection__label}>
-                <span>Personalización</span>
+                <span>Audio</span>
               </label>
             </div>
             <div className={styles.section__tools}>
@@ -372,7 +372,7 @@ const ProfilePage = () => {
           <div className={styles.section__buttons}>
             <Button
               styleType={ButtonStyle.TEXT_ONLY}
-              label="Quitar efectos"
+              label="Restablecer Colores"
               fontSize="12px"
               borderRadius="4px"
               backgroundColor="var(--decorative-subdued)"
@@ -380,7 +380,7 @@ const ProfilePage = () => {
             />
             <Button
               onClick={() => inputSoundRef.current?.clearAudio()}
-              label="Quitar audio"
+              label="Restablecer audio"
               fontSize="12px"
               styleType={ButtonStyle.TEXT_ONLY}
               backgroundColor="var(--decorative-subdued)"

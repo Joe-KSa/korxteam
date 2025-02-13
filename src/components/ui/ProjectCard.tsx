@@ -79,6 +79,7 @@ const ProjectCardItem = ({
               borderRadius="4px"
               padding="10px 20px"
               hoverStyleType={ButtonHoverStyle.SCALE}
+            
             >
               <GithubIcon className="medium-icon" />
             </Button>
@@ -91,6 +92,7 @@ const ProjectCardItem = ({
               flexDirection={ButtonDirection.REVERSE}
               iconMargin="0 0 0 10px"
               hoverStyleType={ButtonHoverStyle.SCALE}
+            
             >
               <ChainIcon className="medium-icon" />
             </Button>
