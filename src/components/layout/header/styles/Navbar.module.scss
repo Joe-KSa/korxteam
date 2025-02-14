@@ -2,25 +2,35 @@
     opacity: 1;
     transition: opacity 0.3s ease-in;
     grid-area: global-nav;
-    background-color: #000;
+    background-color: var(--background-press);
     height: calc(48px + var(--panel-gap) * 2);
     justify-content: space-between;
     margin: calc(var(--panel-gap) * -1);
     padding: calc(var(--panel-gap));
+    padding-left: 0;
     position: relative;
     display: flex;
     align-items: center;
 
-    @media (max-width: 767px) {
-        padding: 0;
-        padding-right: 8px;
-    }
+    
 
-    .containerLogo {
+    .containerButtons {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+
+.containerLogo {
+    display: flex;
+    z-index: 1;
+
+    &__inner {
         display: flex;
         align-items: center;
         gap: 8px;
-        z-index: 1;
         flex-flow: nowrap;
 
         &:focus-visible {
@@ -48,13 +58,6 @@
                 }
             }
         }
-    }
-
-    .containerButtons {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-end;
-        align-items: center;
     }
 }
 

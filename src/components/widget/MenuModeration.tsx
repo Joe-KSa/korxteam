@@ -1,8 +1,8 @@
-import styles from "./styles/UserConfiguration.module.scss";
 import Button, { ButtonHoverStyle, ButtonStyle } from "../common/Button";
 import type { getMemberProps } from "@/core/types";
 import { UserService } from "../../core/services/user/userService";
 import { useUser } from "@/hooks/useUser";
+import Dropdown from "../common/Dropdown";
 
 const MenuModeration = ({
   selectedMember,
@@ -22,48 +22,41 @@ const MenuModeration = ({
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{ transform: "translate3d(0px, 35px, 0)" }}
-    >
-      <div className={styles.container__inner}>
-        <ul role="menu">
-          <li role="menuitem">
-            {user?.writeAccess === 0 ? (
-              <Button
-                styleType={ButtonStyle.TEXT_ONLY}
-                label="Desbloquear"
-                width="100%"
-                color="var(--text-base)"
-                justifyContent="start"
-                hoverStyleType={ButtonHoverStyle.NORMAL}
-                onClick={handleUnblockUser}
-              />
-            ) : (
-              <Button
-                styleType={ButtonStyle.TEXT_ONLY}
-                label="Bloquear"
-                width="100%"
-                justifyContent="start"
-                color="var(--text-base)"
-                hoverStyleType={ButtonHoverStyle.NORMAL}
-                onClick={handleBlockUser}
-              />
-            )}
-          </li>
-          <li role="menuitem">
-            <Button
-              styleType={ButtonStyle.TEXT_ONLY}
-              label="Banear"
-              justifyContent="start"
-              width="100%"
-              color="var(--essential-negative)"
-              hoverStyleType={ButtonHoverStyle.NORMAL}
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
+    <Dropdown transform="translate3d(0px, 35px, 0)">
+      <li role="menuitem">
+        {user?.writeAccess === 0 ? (
+          <Button
+            styleType={ButtonStyle.TEXT_ONLY}
+            label="Desbloquear"
+            width="100%"
+            color="var(--text-base)"
+            justifyContent="start"
+            hoverStyleType={ButtonHoverStyle.NORMAL}
+            onClick={handleUnblockUser}
+          />
+        ) : (
+          <Button
+            styleType={ButtonStyle.TEXT_ONLY}
+            label="Bloquear"
+            width="100%"
+            justifyContent="start"
+            color="var(--text-base)"
+            hoverStyleType={ButtonHoverStyle.NORMAL}
+            onClick={handleBlockUser}
+          />
+        )}
+      </li>
+      <li role="menuitem">
+        <Button
+          styleType={ButtonStyle.TEXT_ONLY}
+          label="Banear"
+          justifyContent="start"
+          width="100%"
+          color="var(--essential-negative)"
+          hoverStyleType={ButtonHoverStyle.NORMAL}
+        />
+      </li>
+    </Dropdown>
   );
 };
 

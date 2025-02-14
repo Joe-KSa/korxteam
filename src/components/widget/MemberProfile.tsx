@@ -34,7 +34,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
   const github = selectedMember?.github ?? "#";
   const primaryColor = selectedMember?.primaryColor;
   const secondaryColor = selectedMember?.secondaryColor;
-  const soundUrl = selectedMember?.sound.url || "";
+  const soundUrl = selectedMember?.sound.url ;
 
   const tagNames = (tags ?? []).map((tag) => tag.name);
   const formattedDate = formatDate(createdAt);
@@ -120,7 +120,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
           </div>
           {tagNames.length > 0 && (
             <div className={styles.body__languages}>
-              <h1>Lenguajes</h1>
+              <h1>Tecnologias</h1>
               <SkillTags tags={tagNames} activeGradient />
             </div>
           )}

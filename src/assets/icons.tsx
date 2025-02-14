@@ -2,13 +2,110 @@ interface IconProps {
   className?: string;
 }
 
+export const RetoIcon = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M3.996 7.996a4 4 0 0 0 3.456-6.015A11 11 0 0 1 12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12c0-1.622.351-3.162.981-4.548a4 4 0 0 0 2.015.544m12.52.938h-2.004v2.003h2.004zm-6.118 5.124l-.489-.872l-1.745.977l.489.872a3.834 3.834 0 0 0 6.696 0l.488-.872l-1.745-.977l-.488.872a1.834 1.834 0 0 1-3.206 0M7.463 8.934v2.004h2.004V8.934z"
+    ></path>
+    <path
+      fill="currentColor"
+      d="M3.996.695L5.094 2.9l2.204 1.097l-2.204 1.097l-1.098 2.204L2.9 5.093L.695 3.996L2.9 2.9zm16.835 20.124l-1.569.78l1.57.782l.78 1.569l.781-1.57l1.569-.78l-1.569-.781l-.78-1.569z"
+    ></path>
+  </svg>
+);
+
+export const BookIcon = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2z"
+      clipRule="evenodd"
+    ></path>
+  </svg>
+);
+
+export const BackIcon = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={512}
+    height={512}
+    viewBox="0 0 512 512"
+    className={className}
+  >
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={48}
+      d="M244 400L100 256l144-144M120 256h292"
+    ></path>
+  </svg>
+);
+
+export const LinesHorizontalIcon = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M2 3.75A.75.75 0 0 1 2.75 3h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75m0 4A.75.75 0 0 1 2.75 7h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 7.75m0 4a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75"
+    ></path>
+  </svg>
+);
+
+export const SortDown = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={320}
+    height={512}
+    viewBox="0 0 320 512"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41"
+    ></path>
+  </svg>
+);
+
+export const PlusIcon = ({ className }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    className={className}
+  >
+    <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"></path>
+  </svg>
+);
+
 export const MoreIcon = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     viewBox="0 0 24 24"
-    className={`${className} responsive-icon`}
+    className={className}
   >
     <path
       fill="currentColor"
@@ -16,7 +113,7 @@ export const MoreIcon = ({ className }: IconProps) => (
       d="M7 12a2 2 0 1 1-4 0a2 2 0 0 1 4 0m5-2a2 2 0 1 1 0 4a2 2 0 0 1 0-4m7 0a2 2 0 1 1 0 4a2 2 0 0 1 0-4"
     ></path>
   </svg>
-)
+);
 
 export const PencilIcon = ({ className }: IconProps) => (
   <svg
@@ -106,15 +203,15 @@ export const GithubIcon = ({ className }: IconProps) => (
 export const HomeIcon = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={14}
-    height={14}
+    width="24"
+    height="24"
     viewBox="0 0 24 24"
     className={className}
   >
     <path
       fill="currentColor"
-      d="M6 19h3v-6h6v6h3v-9l-6-4.5L6 10zm-2 2V9l8-6l8 6v12h-7v-6h-2v6zm8-8.75"
-    ></path>
+      d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"
+    />
   </svg>
 );
 

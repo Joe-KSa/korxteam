@@ -1,97 +1,120 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles/Search.module.scss";
-import Button, { ButtonStyle } from "../common/Button";
-import { HomeIcon, SearchIcon, ProjectIcon } from "../../assets/icons";
+import Button, { ButtonHoverStyle, ButtonStyle } from "../common/Button";
+import {
+  HomeIcon,
+  SearchIcon,
+  ProjectIcon,
+  BackIcon,
+} from "../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "@/hooks/useProjects";
 
-export const Search = () => {
+interface SearchProps {
+  setSearchExpanded: (value: boolean) => void;
+  searchExpanded: boolean;
+}
+
+export const Search: React.FC<SearchProps> = ({
+  setSearchExpanded,
+  searchExpanded,
+}) => {
   const navigate = useNavigate();
   const { setSelectedProject } = useProjects();
-
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 400);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => setIsSmallScreen(window.innerWidth < 400);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const hanleHomeClick = () => {
-    setSelectedProject(null);
-    navigate("/");
+  const handleButtonClick = () => {
+    if (searchExpanded) {
+      setSearchExpanded(false);
+    } else {
+      setSelectedProject(null);
+      navigate("/");
+    }
   };
 
   return (
     <div className={styles.searchContainer}>
-      <div className={styles.searchContainer__inner}>
-        <div className={styles.searchContent}>
-          {/* Botón de inicio visible siempre */}
+      {windowWidth < 900 && !searchExpanded && (
+        <div className={styles.searchContainer__wrapper}>
           <Button
             styleType={ButtonStyle.ICON}
-            backgroundColor="var(--background-elevated-base)"
+            onClick={() => setSearchExpanded(true)}
+            padding="8px"
+            margin="0"
             borderRadius="50%"
-            onClick={() => hanleHomeClick()}
+            hoverStyleType={ButtonHoverStyle.NORMAL}
           >
-            <HomeIcon className={isSmallScreen ? "medium-icon" : "large-icon"} />
+            <SearchIcon className="medium-icon" />
           </Button>
+        </div>
+      )}
 
-          {/* Contenedor principal de búsqueda */}
-          <div className={styles.searchFormWrapper}>
-            <form action="" role="search">
-              {/* Botón de búsqueda para móvil */}
-              <div className={styles.mobileSearchTrigger}>
-                {/* <Button
-                  styleType={ButtonStyle.ICON}
-                  borderRadius="50%"
-                  backgroundColor="var(--background-elevated-base)"
-                >
+      {(searchExpanded || windowWidth >= 900) && (
+        <div
+          className={styles.searchContainer__inner}
+          style={{ maxWidth: searchExpanded ? "100%" : "546px" }}
+        >
+          <div className={styles.searchContent}>
+            <Button
+              styleType={ButtonStyle.ICON}
+              backgroundColor={
+                searchExpanded
+                  ? "transparent"
+                  : "var(--background-elevated-base)"
+              }
+              borderRadius="50%"
+              hoverStyleType={ButtonHoverStyle.NORMAL}
+              onClick={() => handleButtonClick()}
+            >
+              {searchExpanded ? (
+                <BackIcon className="large-icon" />
+              ) : (
+                <HomeIcon className="large-icon" />
+              )}
+            </Button>
+
+            <div className={styles.searchFormWrapper}>
+              <form action="" role="search">
+                <div className={styles.desktopSearchIcon}>
                   <SearchIcon className="large-icon" />
-                </Button> */}
-                <Button
-                  styleType={ButtonStyle.ICON}
-                  borderRadius="50%"
-                  backgroundColor="var(--background-elevated-base)"
-                  href="/project"
-                  redirect
-                >
-                  <ProjectIcon className={isSmallScreen ? "medium-icon" : "large-icon"} />
-                </Button>
-              </div>
-
-              {/* Icono de búsqueda para desktop */}
-              <div className={styles.desktopSearchIcon}>
-                <SearchIcon className="large-icon" />
-              </div>
-
-              {/* Input y elementos relacionados (visible en desktop) */}
-              <div className={styles.searchInputContainer}>
-                <input
-                  type="text"
-                  className={styles.searchInput}
-                  placeholder="¿Qué quieres buscar?"
-                />
-                <div className={styles.inputPlaceholderHelper}>
-                  <span>¿Qué quieres buscar?</span>
                 </div>
-              </div>
 
-              <div className={styles.projectsButtonContainer}>
-                <div className={styles.projectsButtonContainer__inner}>
-                  <Button
-                    styleType={ButtonStyle.ICON}
-                    padding="0"
-                    href="/project"
-                    redirect
-                  >
-                    <ProjectIcon className="large-icon" />
-                  </Button>
+                <div className={styles.searchInputContainer}>
+                  <input
+                    type="text"
+                    className={styles.searchInput}
+                    placeholder="¿Qué quieres buscar?"
+                  />
+                  <div className={styles.inputPlaceholderHelper}>
+                    <span>¿Qué quieres buscar?</span>
+                  </div>
                 </div>
-              </div>
-            </form>
+                {!searchExpanded && (
+                  <div className={styles.projectsButtonContainer}>
+                    <div className={styles.projectsButtonContainer__inner}>
+                      <Button
+                        styleType={ButtonStyle.ICON}
+                        padding="0"
+                        href="/project"
+                        redirect
+                      >
+                        <ProjectIcon className="large-icon" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
