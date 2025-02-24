@@ -1,0 +1,90 @@
+.buttonCommon {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    box-sizing: border-box;
+    background-color: transparent;
+    min-inline-size: 0;
+    text-decoration: none;
+    text-transform: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-family);
+    font-size: var(--encore-text-size-smaller);
+    min-block-size: var(--encore-control-size-smaller, 32px);
+    padding-block: var(--encore-spacing-tighter, 12px);
+    padding-inline: var(--encore-spacing-tighter, 12px);
+    color: var(--text-subdued, #656565);
+    transition: all 33ms ease;
+    transition-property: background-color, border-color, color, box-shadow, filter, transform;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &:focus-visible {
+        outline: 0;
+    }
+}
+
+.buttonBorder {
+    --profile-body-border-color: hsla(0, 0%, 100%, 0.12);
+    border: 1px solid var(--profile-body-border-color);
+    background-color: transparent;
+}
+
+
+
+.buttonContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.buttonIcon {
+    display: flex;
+    align-items: center;
+}
+
+.buttonLabel {
+    white-space: nowrap;
+    font-size: inherit;
+}
+
+.buttonDisabled {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.hover:hover:not(:disabled) {
+    background-color: #555;
+    color: white;
+}
+
+.scaleHover:hover:not(:disabled) {
+    transform: scale(1.05);
+    color: white;
+}
+
+.disabledhover:hover {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+
+
+    .hideLabelOnSmallScreen .buttonLabel {
+        display: none;
+    }
+
+    .hideLabelOnSmallScreen .buttonIcon {
+        margin: 0 !important;
+    }
+}

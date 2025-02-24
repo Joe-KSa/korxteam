@@ -1,0 +1,101 @@
+.container {
+    gap: 24px;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 0 32px 16px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 1;
+}
+
+.mask {
+    height: 232px;
+    background-image: linear-gradient(rgb(0, 0, 0, 0.6) 0, #121212 100%),
+        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvjPwZvmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=");
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+
+.presentation {
+    display: flex;
+
+    h1 {
+        padding-block-end: 16px;
+        flex: 1 1 0%;
+        font-weight: 700;
+        text-wrap: balance;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        margin-block: 0;
+    }
+}
+
+.actions {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    max-width: var(--content-max-width);
+    padding: var(--content-spacing);
+    width: 100%;
+    margin: 0 auto;
+
+    &__inner {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+
+        &__wrapper {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            &__swapper {
+                margin-right: var(--content-spacing);
+                flex-shrink: 0;
+            }
+        }
+    }
+}
+
+.searchContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+
+    &__content {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 1em;
+
+        input {
+            background: var(--background-elevated-base);
+            font-family: var(--font-family);
+            padding-inline: 10px;
+            border: none;
+            height: 3em;
+            border-radius: 4px;
+            width: 100%;
+            outline: none;
+            color: var(--text-color);
+            transition: background-color 0.2s ease-in-out;
+        }
+    }
+}
+
+.errorMessage {
+    font-size: 10px;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}

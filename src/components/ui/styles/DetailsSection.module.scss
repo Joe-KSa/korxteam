@@ -1,0 +1,11 @@
+.container {
+    position: relative;
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

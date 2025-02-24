@@ -1,0 +1,176 @@
+.container {
+    width: 100%;
+    display: flex;
+    gap: 0.3125em;
+    flex-wrap: wrap;
+    align-items: center;
+    color: white;
+
+    &__center {
+        justify-content: center;
+    }
+}
+
+.tagContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.3125em;
+    padding: 0.5em;
+    background-color: rgb(36, 36, 36);
+    color: #fff;
+    box-sizing: border-box;
+    min-height: 24px;
+    font-size: 12px;
+    max-width: 268px;
+    font-weight: 500;
+    border: 1px solid color-mix(in oklab, hsl(0 calc(1 * 0%) 100% /0.03) 100%, hsl(0 0% 0% /0.03) 0%);
+
+    &__gradient {
+        --profile-body-border-color: hsla(0, 0%, 100%, 0.12);
+        border-color: var(--profile-body-border-color);
+        background-color: rgb(36, 36, 36, 0.1);
+
+    }
+
+    &__text {
+        border-radius: 4px;
+        padding: 4px;
+    }
+}
+
+.tagContent {
+    display: flex;
+    align-items: center;
+
+    &__circleContainer {
+        margin-right: 0.25em;
+        margin-left: 0.625em;
+
+        &__circle {
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            padding: 0;
+            margin: 0 0.25em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(196, 201, 206);
+            position: relative;
+        }
+    }
+
+    &__text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1em;
+        font-size: 12px;
+
+        i {
+            display: flex;
+        }
+
+        &__centerIcon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__gapText {
+            margin-right: 4px;
+        }
+
+        span {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            position: relative;
+            margin-right: 2px;
+        }
+    }
+}
+
+// Modifiers
+.tagRemove {
+    font-weight: lighter;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    display: none;
+    font-size: 10px;
+    color: #000;
+}
+
+.tagContent__circleContainer__circle {
+    &:hover .tagRemove {
+        display: flex;
+    }
+}
+
+// Circle Colors
+
+.tagContent__circleContainer__circle {
+    &[data-tag="javascript"] {
+        background-color: #f7df1e;
+    }
+
+    &[data-tag="python"] {
+        background-color: #306998;
+    }
+
+    &[data-tag="java"] {
+        background-color: #b07219;
+    }
+
+    &[data-tag="php"] {
+        background-color: #4f5d95;
+    }
+
+    &[data-tag="c#"] {
+        background-color: #7f399c;
+    }
+
+    &[data-tag="tailwind css"] {
+        background-color: #003159;
+    }
+
+    &[data-tag="next.js"] {
+        background-color: #000000;
+    }
+
+    &[data-tag="react"] {
+        background-color: #03799ac2;
+    }
+
+    &[data-tag="typescript"] {
+        background-color: #007acc;
+    }
+
+    &[data-tag="html"] {
+        background-color: #e34c26;
+    }
+
+    &[data-tag="css"] {
+        background-color: #0e7db8;
+    }
+
+    &[data-tag="scss"] {
+        background-color: #c6538c;
+    }
+
+    &[data-tag="sass"] {
+        background-color: #c6538c;
+    }
+
+    &[data-tag="less"] {
+        background-color: #1d365d;
+    }
+
+    &[data-tag="julia"] {
+        background-color: #79086f;
+    }
+}

@@ -1,0 +1,165 @@
+.cardWrapper {
+    width: 100%;
+    height: 100%;
+
+    &__backgroundColor {
+        display: block;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+    }
+
+    &__mask {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(transparent 0, rgba(0, 0, 0, 0.5) 100%),
+            url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=");
+    }
+}
+
+.card {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    margin-inline: auto;
+    max-width: var(--content-max-width);
+    padding: 0 var(--content-spacing);
+    width: 100%;
+    container-type: inline-size;
+    justify-content: center;
+
+    @container (max-width: 900px) {
+        max-width: 400px;
+        flex-direction: column;
+    }
+
+    &__imageContainer {
+        border-radius: 0.5em;
+        max-width: 350px;
+        width: calc(clamp(128px, 128px + (var(--main-view-grid-width) - 600px)/424 * 104, 200px) * 1.5);
+        height: calc(clamp(128px, 128px + (var(--main-view-grid-width) - 600px)/424 * 104, 200px) * 1);
+        overflow: hidden;
+        margin-right: var(--content-spacing);
+        align-items: flex-end;
+        align-self: flex-end;
+        z-index: 0;
+        display: flex;
+        container-type: inline-size;
+
+        @container (max-width: 767px) {
+            max-width: 100%;
+            width: 100%;
+            height: 200px;
+            margin: 0;
+            align-self: center;
+        }
+
+        &__img {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            object-fit: cover;
+            object-position: center center;
+            container-type: inline-size;
+            background-color: #282828;
+
+            &:focus-visible,
+            &:focus-within {
+                outline: transparent;
+            }
+
+            @container (max-width: 767px) {
+                object-fit: cover;
+                object-position: top;
+            }
+        }
+
+        input {
+            all: unset;
+            &:focus-visible,
+            &:focus-within {
+                outline: transparent;
+            }
+        }
+    }
+}
+
+.infoContainer {
+    flex: 1;
+    flex-flow: column;
+    justify-content: flex-end;
+    z-index: 0;
+    display: flex;
+    max-width: 800px;
+    container-type: inline-size;
+
+    @container (max-width: 767px) {
+        justify-content: space-between;
+        padding-top: 1em;
+    }
+
+    &__state {
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    &__titleContainer {
+        line-height: normal;
+        text-align: left;
+        word-break: break-word;
+        overflow: hidden;
+        color: white;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+
+        h1 {
+            visibility: visible;
+            width: 100%;
+            white-space: nowrap;
+            text-wrap-style: balance;
+            font-weight: 700;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: clamp(1.5rem, 4vw, 6rem);
+        }
+    }
+
+    &__descriptionContainer {
+        color: rgba(255, 255, 255, 0.7);
+        width: 100%;
+        font-size: var(--encore-text-size-smaller);
+        font-weight: 400;
+        margin-block: 0;
+
+        &__text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            max-height: 74px;
+            overflow: hidden;
+            word-break: break-word;
+            
+            margin: 0.5em 0;
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    margin-top: var(--content-spacing);
+    width: 100%;
+    gap: 1em;
+    container-type: inline-size;
+
+    @container (max-width: 500px) {
+        justify-content: space-between;
+    }
+}

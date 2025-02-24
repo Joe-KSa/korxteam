@@ -1,0 +1,50 @@
+.container {
+  position: fixed;
+  top: 0px;
+  margin-top: 8px;
+  left: 8px;
+  bottom: 0;
+  width: var(--offcanvas-width, 248px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-press);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateX(-110%);
+  opacity: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+
+  @media (min-width: 767px) {
+    display: none;
+  }
+
+  &.visible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &__logo {
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+    background-color: var(--background-press);
+    height: calc(48px + var(--panel-gap) * 2);
+    padding: calc(var(--panel-gap));
+    padding-left: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__inner {
+    height: 100%;
+    width: 100%;
+    padding: calc(var(--panel-gap));
+    padding-left: 0;
+
+    &__content {
+      max-width: 400px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

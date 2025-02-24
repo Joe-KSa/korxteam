@@ -1,0 +1,23 @@
+.container {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #2e2e2e;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+
+    &__inner {
+        padding: 10px;
+        color: white;
+
+        &__item {
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+}

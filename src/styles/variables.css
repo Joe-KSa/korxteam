@@ -1,0 +1,343 @@
+:root {
+   /* Space */
+   --panel-gap: 8px;
+   --zoom-level: 100;
+   --content-spacing: clamp(16px, 16px + (var(--main-view-grid-width) - 600px)/424 * 8, 24px);
+    --main-view-grid-width: 100cqw;
+
+   --main-view-grid-width: 100cqw;
+   --content-max-width: 1955px;
+
+   --fluid-height: clamp(186px,186px + (var(--main-view-grid-width) - 600px)/424*150,336px);
+    
+   --min-fluid-height: clamp(186px,186px + (var(--main-view-grid-width) - 600px)/424*90,276px);
+
+   --min-fluid-height-large-header: clamp(216px,216px + (var(--main-view-grid-width) - 600px)/424*60,276px);
+
+   --min-fluid-height-xlarge-header: calc(clamp(286px,286px + (var(--main-view-grid-width) - 600px)/424*50,336px)* 1.5);
+
+   /* OffCanvas */
+   --offcanvas-width: 232px;
+
+    /* 
+     * ======================
+     * TAMAÑOS DE TEXTO (Font Sizes)
+     * ======================
+     * Valores predefinidos para escalar tipografía consistentemente.
+     */
+    --encore-text-size-smaller-2: 0.6875rem;
+    /* Texto muy pequeño (ej: etiquetas) */
+    --encore-text-size-smaller: 0.8125rem;
+    /* Texto pequeño (ej: notas) */
+    --encore-text-size-base: 1rem;
+    /* Tamaño base (párrafos) */
+    --encore-text-size-larger: 1.25rem;
+    /* Subtítulos */
+    --encore-text-size-larger-2: 1.5rem;
+    /* Títulos medianos */
+    --encore-text-size-larger-3: 2rem;
+    /* Títulos grandes */
+    --encore-text-size-larger-4: 2.5rem;
+    /* Títulos extra grandes */
+    --encore-text-size-larger-5: 3rem;
+    /* Títulos hero (ej: portadas) */
+
+    /* 
+     * ======================
+     * ANCHOS DE BORDE (Border Widths)
+     * ======================
+     * Grosor de bordes para mantener consistencia en contenedores y componentes.
+     */
+
+    --encore-border-width-hairline: 1px;
+    /* Borde casi imperceptible */
+    --encore-border-width-thin: 2px;
+    /* Borde delgado estándar */
+    --encore-border-width-thick: 4px;
+    /* Borde destacado */
+    --encore-border-width-thicker: 8px;
+    /* Borde grueso (ej: tarjetas) */
+    --encore-border-width-focus: 3px;
+    /* Borde para estados de foco */
+
+
+    /* 
+     * ======================
+     * TAMAÑOS GRÁFICOS (Iconos/Ilustraciones)
+     * ======================
+     * Dimensiones para elementos visuales no textuales.
+     */
+    /* Decorativos (ej: iconos de acciones) */
+    --encore-graphic-size-decorative-smaller-2: 12px;
+    --encore-graphic-size-decorative-smaller: 16px;
+    --encore-graphic-size-decorative-base: 24px;
+    /* Tamaño estándar */
+    --encore-graphic-size-decorative-larger: 32px;
+    --encore-graphic-size-decorative-larger-2: 40px;
+    --encore-graphic-size-decorative-larger-3: 48px;
+    --encore-graphic-size-decorative-larger-4: 64px;
+    --encore-graphic-size-decorative-larger-5: 88px;
+
+    /* Informativos (ej: íconos de estado) */
+    --encore-graphic-size-informative-smaller-2: 0.75rem;
+    --encore-graphic-size-informative-smaller: 1rem;
+    --encore-graphic-size-informative-base: 1.5rem;
+    /* Tamaño legible */
+    --encore-graphic-size-informative-larger: 2rem;
+    --encore-graphic-size-informative-larger-2: 2.5rem;
+    --encore-graphic-size-informative-larger-3: 3rem;
+    --encore-graphic-size-informative-larger-4: 4rem;
+    --encore-graphic-size-informative-larger-5: 5.5rem;
+
+
+    /* 
+     * ======================
+     * ESPACIADOS (Margins & Paddings)
+     * ======================
+     * Sistema de espaciado para mantener relaciones proporcionales.
+     */
+    --encore-spacing-tighter-5: 2px;
+    /* Espacio mínimo (detalles) */
+
+    --encore-spacing-tighter-4: 4px;
+    --encore-spacing-tighter-3: 6px;
+    --encore-spacing-tighter-2: 8px;
+    /* Espaciado interno pequeño */
+
+    --encore-spacing-tighter: 12px;
+    --encore-spacing-base: 16px;
+    /* Espaciado estándar */
+
+    --encore-spacing-looser: 20px;
+    /* Separación entre secciones */
+
+    --encore-spacing-looser-2: 24px;
+    --encore-spacing-looser-3: 32px;
+    --encore-spacing-looser-4: 40px;
+    --encore-spacing-looser-5: 48px;
+    --encore-spacing-looser-6: 64px;
+    /* Máxima separación */
+
+
+    /* 
+     * ======================
+     * TAMAÑOS DE CONTROLES (Botones, Inputs)
+     * ======================
+     * Alturas predefinidas para elementos interactivos.
+     */
+    --encore-control-size-smaller: 32px;
+    /* Botones compactos */
+    --encore-control-size-base: 48px;
+    /* Tamaño estándar */
+    --encore-control-size-larger: 56px;
+    /* Botones destacados */
+
+
+    /* 
+     * ======================
+     * MÁRGENES DE LAYOUT (Diseño Macro)
+     * ======================
+     * Espaciado para estructuras de página.
+     */
+    --encore-layout-margin-tighter: 16px;
+    /* Márgenes ajustados */
+
+    --encore-layout-margin-base: 16px;
+    /* Márgenes estándar */
+
+    --encore-layout-margin-looser: 24px;
+    /* Márgenes amplios */
+
+
+    /* 
+     * ======================
+     * RADIOS DE ESQUINA (Bordes Redondeados)
+     * ======================
+     * Suavizado de bordes para diferentes elementos.
+     */
+    --encore-corner-radius-smaller: 2px;
+    /* Bordes casi rectos */
+
+    --encore-corner-radius-base: 4px;
+    /* Redondeo estándar */
+
+    --encore-corner-radius-larger: 6px;
+    /* Tarjetas */
+
+    --encore-corner-radius-larger-2: 8px;
+    /* Botones */
+
+    --encore-corner-radius-larger-3: 16px;
+    /* Componentes grandes */
+
+
+
+    /* Coloors */
+    --background-base: #121212;
+    --background-highlight: #1f1f1f;
+    --background-press: #000;
+    --background-elevated-base: #1f1f1f;
+    --background-elevated-highlight: #2a2a2a;
+    --background-elevated-press: #191919;
+    --background-tinted-base: hsla(0, 0%, 100%, .1);
+    --background-tinted-highlight: hsla(0, 0%, 100%, .14);
+    --background-tinted-press: hsla(0, 0%, 100%, .21);
+    --text-base: #fff;
+    --text-subdued: #b3b3b3;
+    --text-bright-accent: #1ed760;
+    --text-negative: #f3727f;
+    --text-warning: #ffa42b;
+    --text-positive: #1ed760;
+    --text-announcement: #4cb3ff;
+    --essential-base: #fff;
+    --essential-subdued: #7c7c7c;
+    --essential-bright-accent: #1ed760;
+    --essential-negative: #ed2c3f;
+    --essential-warning: #ffa42b;
+    --essential-positive: #1ed760;
+    --essential-announcement: #4cb3ff;
+    --decorative-base: #fff;
+    --decorative-subdued: #292929;
+
+}
+
+
+
+@media (min-width: 768px) {
+    :root {
+        /* 
+     * ======================
+     * TAMAÑOS DE TEXTO (Font Sizes)
+     * ======================
+     * Valores predefinidos para escalar tipografía consistentemente.
+     */
+        --encore-text-size-smaller-2: 0.75rem;
+        /* Texto muy pequeño (ej: etiquetas) */
+        --encore-text-size-smaller: 0.875rem;
+        /* Texto pequeño (ej: notas) */
+        --encore-text-size-base: 1rem;
+        /* Tamaño base (párrafos) */
+        --encore-text-size-larger: 1.5rem;
+        /* Subtítulos */
+        --encore-text-size-larger-2: 2rem;
+        /* Títulos medianos */
+        --encore-text-size-larger-3: 3rem;
+        /* Títulos grandes */
+        --encore-text-size-larger-4: 4rem;
+        /* Títulos extra grandes */
+        --encore-text-size-larger-5: 6rem;
+        /* Títulos hero (ej: portadas) */
+
+        /* 
+     * ======================
+     * ANCHOS DE BORDE (Border Widths)
+     * ======================
+     * Grosor de bordes para mantener consistencia en contenedores y componentes.
+     */
+        --encore-border-width-hairline: 1px;
+        /* Borde casi imperceptible */
+        --encore-border-width-thin: 2px;
+        /* Borde delgado estándar */
+        --encore-border-width-thick: 4px;
+        /* Borde destacado */
+        --encore-border-width-thicker: 8px;
+        /* Borde grueso (ej: tarjetas) */
+        --encore-border-width-focus: 3px;
+        /* Borde para estados de foco */
+
+        /* 
+     * ======================
+     * TAMAÑOS GRÁFICOS (Iconos/Ilustraciones)
+     * ======================
+     * Dimensiones para elementos visuales no textuales.
+     */
+        /* Decorativos (ej: iconos de acciones) */
+        --encore-graphic-size-decorative-smaller-2: 12px;
+        --encore-graphic-size-decorative-smaller: 16px;
+        --encore-graphic-size-decorative-base: 24px;
+        /* Tamaño estándar */
+        --encore-graphic-size-decorative-larger: 32px;
+        --encore-graphic-size-decorative-larger-2: 40px;
+        --encore-graphic-size-decorative-larger-3: 48px;
+        --encore-graphic-size-decorative-larger-4: 64px;
+        --encore-graphic-size-decorative-larger-5: 88px;
+
+        /* Informativos (ej: íconos de estado) */
+        --encore-graphic-size-informative-smaller-2: 0.75rem;
+        --encore-graphic-size-informative-smaller: 1rem;
+        --encore-graphic-size-informative-base: 1.5rem;
+        /* Tamaño legible */
+        --encore-graphic-size-informative-larger: 2rem;
+        --encore-graphic-size-informative-larger-2: 2.5rem;
+        --encore-graphic-size-informative-larger-3: 3rem;
+        --encore-graphic-size-informative-larger-4: 4rem;
+        --encore-graphic-size-informative-larger-5: 5.5rem;
+
+        /* 
+     * ======================
+     * ESPACIADOS (Margins & Paddings)
+     * ======================
+     * Sistema de espaciado para mantener relaciones proporcionales.
+     */
+        --encore-spacing-tighter-5: 2px;
+        /* Espacio mínimo (detalles) */
+        --encore-spacing-tighter-4: 4px;
+        --encore-spacing-tighter-3: 6px;
+        --encore-spacing-tighter-2: 8px;
+        /* Espaciado interno pequeño */
+        --encore-spacing-tighter: 12px;
+        --encore-spacing-base: 16px;
+        /* Espaciado estándar */
+        --encore-spacing-looser: 24px;
+        /* Separación entre secciones */
+        --encore-spacing-looser-2: 32px;
+        --encore-spacing-looser-3: 48px;
+        --encore-spacing-looser-4: 64px;
+        --encore-spacing-looser-5: 96px;
+        --encore-spacing-looser-6: 128px;
+        /* Máxima separación */
+
+        /* 
+     * ======================
+     * TAMAÑOS DE CONTROLES (Botones, Inputs)
+     * ======================
+     * Alturas predefinidas para elementos interactivos.
+     */
+        --encore-control-size-smaller: 32px;
+        /* Botones compactos */
+        --encore-control-size-base: 48px;
+        /* Tamaño estándar */
+        --encore-control-size-larger: 56px;
+        /* Botones destacados */
+
+        /* 
+     * ======================
+     * MÁRGENES DE LAYOUT (Diseño Macro)
+     * ======================
+     * Espaciado para estructuras de página.
+     */
+        --encore-layout-margin-tighter: 24px;
+        /* Márgenes ajustados */
+        --encore-layout-margin-base: 32px;
+        /* Márgenes estándar */
+        --encore-layout-margin-looser: 64px;
+        /* Márgenes amplios */
+
+        /* 
+     * ======================
+     * RADIOS DE ESQUINA (Bordes Redondeados)
+     * ======================
+     * Suavizado de bordes para diferentes elementos.
+     */
+        --encore-corner-radius-smaller: 2px;
+        /* Bordes casi rectos */
+        --encore-corner-radius-base: 4px;
+        /* Redondeo estándar */
+        --encore-corner-radius-larger: 6px;
+        /* Tarjetas */
+        --encore-corner-radius-larger-2: 8px;
+        /* Botones */
+        --encore-corner-radius-larger-3: 16px;
+        /* Componentes grandes */
+    }
+}

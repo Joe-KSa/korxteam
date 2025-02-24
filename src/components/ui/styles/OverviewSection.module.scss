@@ -1,0 +1,18 @@
+.container {
+    min-height: var(--min-fluid-height);
+    max-height: 336px;
+    height: min(30vh, var(--min-fluid-height));
+    padding-bottom: var(--content-spacing);
+    width: 100%;
+    position: relative;
+    display: flex;
+    color: #fff;
+    container-type: inline-size;
+
+    // Set new variables for mobile devices
+    @container (max-width: 900px) {
+        min-height: var(--min-fluid-height-xlarge-header);
+        padding: var(--content-spacing) 0;
+        height: min(20vh, var(--min-fluid-height-xlarge-header));
+    }
+}

@@ -1,0 +1,126 @@
+.searchContainer {
+    // position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+
+    @media (max-width: 900px) {
+        justify-content: end;
+    }
+
+    &__wrapper {
+        @media (min-width: 900px) {
+            display: none;
+        }
+    }
+
+    &__inner {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .searchContent {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+
+            @media (max-width: 900px) {
+                gap: 0;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+@mixin iconPosition {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    color: var(--text-subdued, #656565);
+}
+
+.searchFormWrapper {
+    padding-inline: 8px;
+    position: relative;
+    height: 100%;
+    flex-grow: 1;
+
+    @media (max-width: 900px) {
+        padding-inline: 0;
+        max-width: 80%;
+    }
+
+    form {
+        position: relative;
+        height: 100%;
+
+        .desktopSearchIcon {
+            @include iconPosition;
+            left: 12px;
+        }
+
+        .searchInputContainer {
+            height: 100%;
+        }
+
+        .searchInput {
+            font-family: var(--font-family);
+            padding-right: var(--encore-layout-margin-looser);
+            text-overflow: ellipsis;
+            transition: all 0.22s ease-in;
+            border-radius: 500px;
+            background: var(--background-elevated-base);
+            padding-inline: calc(24px + var(--encore-spacing-tighter, 12px) * 2);
+            font-size: var(--encore-text-size-base);
+            font-weight: 400;
+            --encore-box-shadow-color: var(--essential-subdued);
+            height: 100%;
+            border: 0;
+            color: #fff;
+            padding-block: var(--encore-spacing-tighter);
+            min-block-size: var(--encore-control-size-smaller);
+            width: 100%;
+
+            &:focus-visible {
+                outline: 0;
+            }
+        }
+
+        .projectsButtonContainer {
+            @include iconPosition;
+            right: 12px;
+
+            &__inner {
+                padding-inline: 12px 4px;
+                border-inline-start: 1px solid var(--essential-subdued);
+            }
+        }
+    }
+}
+
+// Helper para transición del placeholder
+.inputPlaceholderHelper {
+    display: flex;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    align-items: center;
+    opacity: 0;
+    padding-inline: var(--encore-spacing-looser-3) var(--encore-spacing-looser-4);
+    transition: opacity 0.22s ease-in-out;
+    width: 100%;
+
+    span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        visibility: hidden;
+        white-space: nowrap;
+    }
+}
