@@ -5,6 +5,7 @@ import stylesNavbar from "../layout/header/styles/Navbar.module.scss";
 import { LinesHorizontalIcon } from "@/assets/icons";
 import image from "@/assets/KorxteamIcon.png";
 import { useMembers } from "@/hooks/useMembers";
+import { useProjects } from "@/hooks/useProjects";
 
 interface OffCanvasProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface OffCanvasProps {
 }
 const OffCanvas: React.FC<OffCanvasProps> = ({ open, setIsOpen }) => {
   const { setSelectedMember } = useMembers();
+  const { setSelectedProject } = useProjects()
 
   return (
     <>
@@ -34,7 +36,6 @@ const OffCanvas: React.FC<OffCanvasProps> = ({ open, setIsOpen }) => {
             </div>
           </div>
         </div>
-
         <div className={styles.container__inner}>
           <div className={styles.container__inner__content}>
             <Button
@@ -45,7 +46,10 @@ const OffCanvas: React.FC<OffCanvasProps> = ({ open, setIsOpen }) => {
               justifyContent="start"
               borderRadius="4px"
               href="/"
-              onClick={() => setSelectedMember(null)}
+              onClick={() => {
+                setSelectedMember(null);
+                setSelectedProject(null);
+              }}
               redirect
               iconMargin="0 5px 0 0"
             >

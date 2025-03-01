@@ -1,4 +1,11 @@
 :root {
+   /* Scrollbar */
+   --os-size: 12px;
+   --os-handle-min-size: 30px;
+   --os-handle-bg: hsla(0,0%,100%,.3);
+   --os-handle-bg-hover: hsla(0,0%,100%,.5);
+   --os-handle-bg-active: hsla(0,0%,100%,.7);   
+
    /* Space */
    --panel-gap: 8px;
    --zoom-level: 100;
@@ -14,7 +21,7 @@
 
    --min-fluid-height-large-header: clamp(216px,216px + (var(--main-view-grid-width) - 600px)/424*60,276px);
 
-   --min-fluid-height-xlarge-header: calc(clamp(286px,286px + (var(--main-view-grid-width) - 600px)/424*50,336px)* 1.5);
+   --min-fluid-height-xlarge-header: calc(clamp(286px,286px + (var(--main-view-grid-width) - 600px)/424*50,336px)* 1.65);
 
    /* OffCanvas */
    --offcanvas-width: 232px;

@@ -215,7 +215,7 @@ const NewProjectPage = () => {
       !formState.description.trim() ||
       tags.length === 0
     ) {
-      alert(ERROR_MESSAGES.fieldsRequired);
+      alert("Los campos imagen, titulo, descripcion, tecnologias son requeridos.");
       return;
     }
 

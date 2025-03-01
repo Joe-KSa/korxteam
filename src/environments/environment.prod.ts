@@ -2,10 +2,10 @@ export const environment = {
   production: "production",
   environmentName: "production",
   backEnd: {
-    baseUrl:  "https://backend-korx.vercel.app",
+    baseUrl:  "http://localhost:4000",
   },
   frontEnd: {
-    baseUrl: "https://korxteam.netlify.app",
+    baseUrl: "http://localhost:3000",
   },
 };
 

@@ -40,7 +40,7 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
   const tags = project?.tags ?? [];
   const tagNames = (tags ?? []).map((tag) => tag.name);
 
-  const textColor = getTextColor(dominantColor)
+  const textColor = getTextColor(dominantColor);
 
   return (
     <div className={styles.cardWrapper}>
@@ -77,39 +77,48 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
               <h1 style={{ color: textColor }}>{project.title}</h1>
             </span>
             <span className={styles.infoContainer__descriptionContainer}>
-              <div className={styles.infoContainer__descriptionContainer__text} style={{ color: textColor }}>
+              <div
+                className={styles.infoContainer__descriptionContainer__text}
+                style={{ color: textColor }}
+              >
                 {project.description.slice(0, 150) + "..."}
               </div>
             </span>
           </div>
           <SkillTags tags={tagNames} onlyIcon={true} />
-          <div className={styles.buttons}>
-            <Button
-              styleType={ButtonStyle.ICON}
-              backgroundColor="var(--decorative-subdued)"
-              borderRadius="4px"
-              padding="10px 20px"
-              redirect
-              href={project.repository}
-              hoverStyleType={ButtonHoverStyle.SCALE}
-            >
-              <GithubIcon className="medium-icon" />
-            </Button>
-            <Button
-              styleType={ButtonStyle.ICON_TEXT}
-              backgroundColor="var(--decorative-subdued)"
-              borderRadius="4px"
-              padding="10px 20px"
-              label="Ver más"
-              flexDirection={ButtonDirection.REVERSE}
-              iconMargin="0 0 0 10px"
-              redirect
-              href={project.url}
-              hoverStyleType={ButtonHoverStyle.SCALE}
-            >
-              <ChainIcon className="medium-icon" />
-            </Button>
-          </div>
+          {(project.repository || project.url) && (
+            <div className={styles.buttons}>
+              {project.repository && (
+                <Button
+                  styleType={ButtonStyle.ICON}
+                  backgroundColor="var(--decorative-subdued)"
+                  borderRadius="4px"
+                  padding="10px 20px"
+                  redirect
+                  href={project.repository}
+                  hoverStyleType={ButtonHoverStyle.SCALE}
+                >
+                  <GithubIcon className="medium-icon" />
+                </Button>
+              )}
+              {project.url && (
+                <Button
+                  styleType={ButtonStyle.ICON_TEXT}
+                  backgroundColor="var(--decorative-subdued)"
+                  borderRadius="4px"
+                  padding="10px 20px"
+                  label="Ver más"
+                  flexDirection={ButtonDirection.REVERSE}
+                  iconMargin="0 0 0 10px"
+                  redirect
+                  href={project.url}
+                  hoverStyleType={ButtonHoverStyle.SCALE}
+                >
+                  <ChainIcon className="medium-icon" />
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

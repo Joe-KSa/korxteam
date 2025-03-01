@@ -29,8 +29,12 @@ const ProjectCard = () => {
     }
   }, [dominantColor]);
 
-  const textColor = getTextColor(id ? dominantColor : projectDominantColor || "");
-  
+  console.log(projectBanner);
+
+  const textColor = getTextColor(
+    id ? dominantColor : projectDominantColor || ""
+  );
+
   return (
     <div className={styles.cardWrapper} key={projectBanner.id}>
       <div
@@ -47,7 +51,7 @@ const ProjectCard = () => {
           />
         </div>
         {/* Se aplica el color de texto calculado al contenedor de información */}
-        <div className={styles.infoContainer} >
+        <div className={styles.infoContainer}>
           <div>
             <span
               onClick={() => setSelectedProject(projectBanner)}
@@ -56,7 +60,18 @@ const ProjectCard = () => {
               <h1 style={{ color: textColor }}>{projectBanner.title}</h1>
             </span>
             <span className={styles.infoContainer__descriptionContainer}>
-              <div className={styles.infoContainer__descriptionContainer__text} style={{ color: textColor }}>
+              <div
+                className={styles.infoContainer__descriptionContainer__creator}
+              >
+                <img src={projectBanner.creator.image} alt="" />
+                <span style={{ color: textColor }}>
+                  @{projectBanner.creator.username}
+                </span>
+              </div>
+              <div
+                className={styles.infoContainer__descriptionContainer__text}
+                style={{ color: textColor }}
+              >
                 {projectBanner.description.slice(0, 150) + "..."}
               </div>
             </span>
@@ -65,33 +80,40 @@ const ProjectCard = () => {
               onlyIcon={true}
             />
           </div>
-          <div className={styles.buttons}>
-            <Button
-              styleType={ButtonStyle.ICON}
-              backgroundColor="var(--decorative-subdued)"
-              borderRadius="4px"
-              padding="10px 20px"
-              redirect
-              href={projectBanner.repository}
-              hoverStyleType={ButtonHoverStyle.SCALE}
-            >
-              <GithubIcon className="medium-icon" />
-            </Button>
-            <Button
-              styleType={ButtonStyle.ICON_TEXT}
-              backgroundColor="var(--decorative-subdued)"
-              borderRadius="4px"
-              padding="10px 20px"
-              label="Ver más"
-              flexDirection={ButtonDirection.REVERSE}
-              iconMargin="0 0 0 10px"
-              redirect
-              href={projectBanner.url}
-              hoverStyleType={ButtonHoverStyle.SCALE}
-            >
-              <ChainIcon className="medium-icon" />
-            </Button>
-          </div>
+
+          {(projectBanner.repository || projectBanner.url) && (
+            <div className={styles.buttons}>
+              {projectBanner.repository && (
+                <Button
+                  styleType={ButtonStyle.ICON}
+                  backgroundColor="var(--decorative-subdued)"
+                  borderRadius="4px"
+                  padding="10px 20px"
+                  redirect
+                  href={projectBanner.repository}
+                  hoverStyleType={ButtonHoverStyle.SCALE}
+                >
+                  <GithubIcon className="medium-icon" />
+                </Button>
+              )}
+              {projectBanner.url && (
+                <Button
+                  styleType={ButtonStyle.ICON_TEXT}
+                  backgroundColor="var(--decorative-subdued)"
+                  borderRadius="4px"
+                  padding="10px 20px"
+                  label="Ver más"
+                  flexDirection={ButtonDirection.REVERSE}
+                  iconMargin="0 0 0 10px"
+                  redirect
+                  href={projectBanner.url}
+                  hoverStyleType={ButtonHoverStyle.SCALE}
+                >
+                  <ChainIcon className="medium-icon" />
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
