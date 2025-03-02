@@ -1,4 +1,3 @@
-// components/ProjectList.tsx
 import React from 'react';
 import { getProjectProps } from '@/core/types';
 import ProjectItem from '@/components/ui/ProjectItem';
@@ -22,6 +21,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
   const navigate = useNavigate();
 
   const handleSelectProject = (project: getProjectProps) => {
+    
     setSelectedProject(project);
     navigate(`/project/${project.id}`)
   };

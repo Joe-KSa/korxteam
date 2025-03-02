@@ -69,10 +69,9 @@ const ProjectItem: React.FC<ProjectItem> = ({
           </figure>
         )}
 
-        <div className="project-item-extras"></div>
-        <a href={project.url}>
+        <div className={styles.overlayContainer}>
           <span>{project.title}</span>
-        </a>
+        </div>
       </div>
       <div className={styles.infoContainer}>
         <div className={styles.infoContainer__inner}>
