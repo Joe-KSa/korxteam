@@ -30,8 +30,6 @@ const ProjectCard = () => {
     }
   }, [dominantColor]);
 
-  console.log(projectBanner);
-
   const textColor = getTextColor(
     id ? dominantColor : projectDominantColor || ""
   );
