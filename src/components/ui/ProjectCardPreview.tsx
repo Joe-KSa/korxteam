@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { projectProps } from "@/core/types";
 import SkillTags from "../widget/SkillTags";
 import styles from "./styles/ProjectCard.module.scss";
@@ -9,10 +9,11 @@ import Button, {
   ButtonHoverStyle,
 } from "../common/Button";
 import { getTextColor } from "@/utils/getTextColor";
+import { validateMediaFile, getFileType } from "@/utils/validateMedia";
 
 interface ProjectCardPreviewProps {
   project: projectProps;
-  onImageChange: (imageUrl: string, file: File) => void;
+  onImageChange: (mediaUrl: string, file: File) => void;
   dominantColor: string;
 }
 
@@ -22,24 +23,35 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
   dominantColor = "",
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [mediaType, setMediaType] = useState<"image" | "video" | null>(null);
+  const [mediaUrl, setMediaUrl] = useState<string | null>(
+    project.images?.url || null
+  );
 
-  // Función para abrir el selector de archivos
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  // Manejar el cambio de imagen
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file); // Crear una URL local de la imagen
-      onImageChange(imageUrl, file);
+    if (!file) return;
+
+    const validation = await validateMediaFile(file, 5, 25);
+    if (!validation.valid) {
+      alert(validation.error);
+      return;
     }
+
+    const url = URL.createObjectURL(file);
+    setMediaUrl(url);
+    setMediaType(file.type.startsWith("video") ? "video" : "image");
+    onImageChange(url, file);
   };
 
   const tags = project?.tags ?? [];
-  const tagNames = (tags ?? []).map((tag) => tag.name);
-
+  const tagNames = tags.map((tag) => tag.name);
   const textColor = getTextColor(dominantColor);
 
   return (
@@ -55,18 +67,29 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
           onClick={handleImageClick}
           style={{ cursor: "pointer" }}
         >
-          {project.images?.url ? (
-            <img
-              src={project.images?.url}
-              className={styles.card__imageContainer__img}
-            />
+          {project.images.url || mediaUrl ? (
+            mediaType === "video" ||
+            getFileType(project.images.url) === "video" ? (
+              <video
+                src={project.images.url || mediaUrl || ""}
+                className={styles.card__imageContainer__img}
+                autoPlay
+                loop
+                muted
+              />
+            ) : (
+              <img
+                src={project.images.url || mediaUrl || ""}
+                className={styles.card__imageContainer__img}
+              />
+            )
           ) : (
             <div className={styles.card__imageContainer__img}></div>
           )}
           <input
             type="file"
             ref={fileInputRef}
-            accept="image/*"
+            accept="image/*,video/mp4"
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
@@ -84,8 +107,8 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
                 {project.description.slice(0, 150) + "..."}
               </div>
             </span>
+            <SkillTags tags={tagNames} onlyIcon={true} />
           </div>
-          <SkillTags tags={tagNames} onlyIcon={true} />
           {(project.repository || project.url) && (
             <div className={styles.buttons}>
               {project.repository && (

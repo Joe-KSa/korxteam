@@ -48,7 +48,7 @@ const LeftSidebar = () => {
                   },
                 }}
               >
-                <ul className={styles.navitation__memmbers__list}>
+                <ul className={styles.navigation__members__list}>
                   {[...members]
                     .sort((a, b) => b.projectsCount - a.projectsCount)
                     .map((member, index) => (

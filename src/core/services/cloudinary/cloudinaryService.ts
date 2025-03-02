@@ -10,7 +10,7 @@ export class CloudinaryService extends DataService {
 
   async uploadImage(image: File): Promise<fileFromCloudProps | undefined> {
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("file", image);
 
     try {
       const response = await fetch(`${this.url}`, {

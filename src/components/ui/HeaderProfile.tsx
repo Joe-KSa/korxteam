@@ -31,7 +31,7 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
   const dominantColor = useDominantColor(profile || "");
   const isMobile = window.innerWidth <= 767;
 
-  const isDisabled = !isSettingsPage || user?.writeAccess === 0;
+  const isDisabled = !isSettingsPage || user?.role.name === "Bloqueado";
 
 
   useEffect(() => {
@@ -47,10 +47,19 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
   }, [user, selectedMember]);
 
   const handleImageChange = (field: "image" | "banner", file: File) => {
+    const MAX_SIZE_MB = 3;
+    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+  
+    if (file.size > MAX_SIZE_BYTES) {
+      alert(`El archivo supera el límite de ${MAX_SIZE_MB}MB.`);
+      return;
+    }
+  
     if (isDisabled) return;
+    
     const url = URL.createObjectURL(file);
     setImage(field, file);
-
+  
     if (selectedMember) {
       const updatedMember = {
         ...selectedMember,
@@ -59,6 +68,7 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
       setSelectedMember(updatedMember);
     }
   };
+  
 
   const handleImageClick = (field: "image" | "banner") => {
 

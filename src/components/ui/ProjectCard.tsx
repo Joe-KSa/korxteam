@@ -11,6 +11,7 @@ import SkillTags from "../widget/SkillTags";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTextColor } from "@/utils/getTextColor";
+import { getFileType  } from "@/utils/validateMedia";
 
 const ProjectCard = () => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ const ProjectCard = () => {
   const textColor = getTextColor(
     id ? dominantColor : projectDominantColor || ""
   );
+  const typeFile = getFileType(projectBanner.images.url || "");
 
   return (
     <div className={styles.cardWrapper} key={projectBanner.id}>
@@ -44,12 +46,26 @@ const ProjectCard = () => {
       <div className={styles.cardWrapper__mask}></div>
       <div className={styles.card}>
         <div className={styles.card__imageContainer}>
-          <img
-            src={projectBanner.images?.url}
-            alt={`Imagen del proyecto ${projectBanner.title}`}
-            className={styles.card__imageContainer__img}
-          />
+          {projectBanner.images?.url &&
+            (typeFile === "video" ? (
+              <video
+                className={styles.card__imageContainer__img}
+                autoPlay
+                loop
+                muted
+              >
+                <source src={projectBanner.images.url} />
+              </video>
+              
+            ) : typeFile === "image" ? (
+              <img
+                src={projectBanner.images.url}
+                alt={`Imagen del proyecto ${projectBanner.title}`}
+                className={styles.card__imageContainer__img}
+              />
+            ) : null)}
         </div>
+
         {/* Se aplica el color de texto calculado al contenedor de información */}
         <div className={styles.infoContainer}>
           <div>
