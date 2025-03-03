@@ -109,7 +109,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
             </div>
           )}
         </div>
-        <HeaderProfile maskId={"memberId"} />
+        <HeaderProfile maskId={"memberId"} primaryColor={primaryColor || ""} />
         <div className={styles.body}>
           <div className={styles.body__info}>
             <div className={styles.body__info__wrapper}>
@@ -123,7 +123,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
               </div>
             </div>
 
-            {description && (
+            {description.trim() && (
               <div className={styles.body__info__description}>
                 <span>{description}</span>
               </div>
@@ -142,29 +142,32 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
               <span>{formattedDate}</span>
             </div>
           </div>
-          <div className={styles.body__socials}>
-            <h1>Conexiones</h1>
-            <div style={{ marginTop: "1rem" }}>
-              <Button
-                backgroundColor="var(--decorative-subdued)"
-                styleType={ButtonStyle.ICON_TEXT}
-                label="Github"
-                href={github}
-                redirect
-                iconMargin="0 5px 0 0"
-                borderRadius="4px"
-                padding="10px 20px"
-                border={
-                  !!(
-                    selectedMember?.primaryColor ||
-                    selectedMember?.secondaryColor
-                  )
-                }
-              >
-                <GithubIcon className={"small-icon"} />
-              </Button>
+          {selectedMember?.github && (
+            <div className={styles.body__socials}>
+              <h1>Conexiones</h1>
+              <div style={{ marginTop: "1rem" }}>
+                <Button
+                  backgroundColor="var(--decorative-subdued)"
+                  styleType={ButtonStyle.ICON_TEXT}
+                  label="Github"
+                  href={github}
+                  redirect
+                  iconMargin="0 5px 0 0"
+                  borderRadius="4px"
+                  padding="10px 20px"
+                  openInNewTab
+                  border={
+                    !!(
+                      selectedMember?.primaryColor ||
+                      selectedMember?.secondaryColor
+                    )
+                  }
+                >
+                  <GithubIcon className={"small-icon"} />
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>

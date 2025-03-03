@@ -89,6 +89,7 @@
             position: relative;
             margin-right: 2px;
         }
+        
     }
 }
 
@@ -172,5 +173,67 @@
 
     &[data-tag="julia"] {
         background-color: #79086f;
+    }
+
+    &[data-tag="go"]{
+        background-color: #00b4df
+    }
+
+    &[data-tag="express"]{
+        background-color: #000
+    }
+    
+    &[data-tag="sql"]{
+        background-color: #405658
+    }
+
+    &[data-tag="ruby"]{
+        background-color: #8e0e05
+    }
+    
+    &[data-tag="lua"]{
+        background-color: #010080
+    }
+
+    &[data-tag="rust"]{
+        background-color: #dea584
+    }
+
+    &[data-tag="mongodb"]{
+        background-color: #02eb65
+    }
+    
+    &[data-tag="redis"]{
+        background-color: rgb(204, 57, 57)
+    }
+    
+    &[data-tag="astro"]{
+        background-color: #e56017
+    }
+}
+
+.tagContent__text {
+    position: relative;
+
+    &[data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 160%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #121212;
+        color: white;
+        font-size: 12px;
+        padding: 4px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    &[data-tooltip]:hover::after {
+        opacity: 1;
     }
 }

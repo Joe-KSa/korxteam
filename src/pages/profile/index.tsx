@@ -31,6 +31,7 @@ const ProfilePage = () => {
     github: "",
     primaryColor: "",
     secondaryColor: "",
+    phrase: "",
     sound: {
       url: "",
       path: "",
@@ -49,6 +50,7 @@ const ProfilePage = () => {
         github: member.github,
         primaryColor: member.primaryColor,
         secondaryColor: member.secondaryColor,
+        phrase: member.phrase,
         sound: {
           url: member.sound.url,
           path: member.sound.path,
@@ -68,6 +70,7 @@ const ProfilePage = () => {
         formState.github !== member.github ||
         formState.primaryColor !== member.primaryColor ||
         formState.secondaryColor !== member.secondaryColor ||
+        formState.phrase!== member.phrase ||
         formState.sound.url !== member.sound.url;
 
       const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
@@ -193,6 +196,7 @@ const ProfilePage = () => {
         | "secondaryColor"
         | "sound"
         | "images"
+        | "phrase"
       > = {
         name: formState.name,
         description: formState.description || "",
@@ -207,6 +211,7 @@ const ProfilePage = () => {
             publicId: publicBannerId,
           },
         },
+        phrase: formState.phrase,
         github: formState.github,
         primaryColor: formState.primaryColor,
         secondaryColor: formState.secondaryColor,
@@ -277,6 +282,16 @@ const ProfilePage = () => {
             disabled={isDisabled}
             htmlFor="description"
             onChange={(value) => handleInputChange("description", value)}
+          />
+          <InputField
+            type="text"
+            value={formState.phrase}
+            label="Frase"
+            htmlFor="phrase"
+            disabled={isDisabled}
+            optional
+            maxLength={70}
+            onChange={(value) => handleInputChange("phrase", value)}
           />
           <InputField
             type="text"

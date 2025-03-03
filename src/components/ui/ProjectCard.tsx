@@ -10,7 +10,7 @@ import { GithubIcon, ChainIcon } from "@/assets/icons";
 import SkillTags from "../widget/SkillTags";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getTextColor } from "@/utils/getTextColor";
+import { getTextColor } from "@/utils/CheckColor";
 import { getFileType  } from "@/utils/validateMedia";
 
 const ProjectCard = () => {
@@ -92,6 +92,7 @@ const ProjectCard = () => {
             <SkillTags
               tags={projectBanner.tags.map((tag) => tag.name)}
               onlyIcon={true}
+              enableTooltip
             />
           </div>
 
@@ -106,6 +107,7 @@ const ProjectCard = () => {
                   redirect
                   href={projectBanner.repository}
                   hoverStyleType={ButtonHoverStyle.SCALE}
+                  openInNewTab
                 >
                   <GithubIcon className="medium-icon" />
                 </Button>
@@ -122,6 +124,7 @@ const ProjectCard = () => {
                   redirect
                   href={projectBanner.url}
                   hoverStyleType={ButtonHoverStyle.SCALE}
+                  openInNewTab
                 >
                   <ChainIcon className="medium-icon" />
                 </Button>

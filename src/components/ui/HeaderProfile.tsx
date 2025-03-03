@@ -7,8 +7,16 @@ import { useUser } from "@/hooks/useUser";
 import { useMembers } from "@/hooks/useMembers";
 import { useImageStore } from "@/store/store";
 import { PencilIcon } from "@/assets/icons";
+import { getTextColor } from "@/utils/CheckColor";
+import { hexToRgb } from "@/utils/CheckColor";
 
-const HeaderProfile = ({ maskId }: {maskId: string} ) => {
+const HeaderProfile = ({
+  maskId,
+  primaryColor,
+}: {
+  maskId: string;
+  primaryColor?: string;
+}) => {
   const { user } = useUser();
   const { setSelectedMember, selectedMember } = useMembers();
   const { images, setImage } = useImageStore();
@@ -27,12 +35,10 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
       ? images.bannerUrl || selectedMember?.images.banner.url
       : currentUser?.images.banner.url || selectedMember?.images.banner.url;
 
-
   const dominantColor = useDominantColor(profile || "");
   const isMobile = window.innerWidth <= 767;
 
   const isDisabled = !isSettingsPage || user?.role.name === "Bloqueado";
-
 
   useEffect(() => {
     if (user && !selectedMember) {
@@ -49,17 +55,17 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
   const handleImageChange = (field: "image" | "banner", file: File) => {
     const MAX_SIZE_MB = 3;
     const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
-  
+
     if (file.size > MAX_SIZE_BYTES) {
       alert(`El archivo supera el límite de ${MAX_SIZE_MB}MB.`);
       return;
     }
-  
+
     if (isDisabled) return;
-    
+
     const url = URL.createObjectURL(file);
     setImage(field, file);
-  
+
     if (selectedMember) {
       const updatedMember = {
         ...selectedMember,
@@ -68,10 +74,8 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
       setSelectedMember(updatedMember);
     }
   };
-  
 
   const handleImageClick = (field: "image" | "banner") => {
-
     if (isDisabled) return;
     const input = document.createElement("input");
     input.type = "file";
@@ -85,6 +89,11 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
     input.click();
   };
 
+  const rgbColor = hexToRgb(primaryColor);
+  const phraseColor = rgbColor
+    ? getTextColor(`rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`)
+    : "#fff";
+
   return (
     <header className={styles.header}>
       <svg className={styles.header__bannerContainer}>
@@ -92,7 +101,7 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
           <mask id={maskId}>
             <rect fill="white" x="0" y="0" width="100%" height="100%"></rect>
             <circle fill="black" cx="52" cy="97" r="46">
-                dasdasd
+              dasdasd
             </circle>
           </mask>
         </defs>
@@ -106,7 +115,9 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
         >
           <div
             className={`${styles.header__bannerContainer__banner} ${
-              isSettingsPage && (isCurrentUser || isMobile) ? styles.selectedFile : ""
+              isSettingsPage && (isCurrentUser || isMobile)
+                ? styles.selectedFile
+                : ""
             }`}
             onClick={() => handleImageClick("banner")}
             style={{
@@ -131,11 +142,13 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
       <div className={styles.header__imageContainer}>
         <div
           className={`${styles.header__imageContainer__image} ${
-            isSettingsPage && (isCurrentUser || isMobile) ? styles.selectedFile : ""
+            isSettingsPage && (isCurrentUser || isMobile)
+              ? styles.selectedFile
+              : ""
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={profile}/>
+          <img src={profile} />
           {isSettingsPage && (isCurrentUser || isMobile) && (
             <div className={styles.header__imageContainer__image__fileEditable}>
               <PencilIcon className={"medium-icon"} />
@@ -143,6 +156,27 @@ const HeaderProfile = ({ maskId }: {maskId: string} ) => {
           )}
         </div>
       </div>
+
+      {selectedMember?.phrase && !isMobile && (
+        <div
+          className={styles.header__phraseContainer}
+          style={
+            {
+              "--custom-status-bubble-background-color": primaryColor,
+              "--border-faint": primaryColor,
+              "--text-color": phraseColor,
+            } as React.CSSProperties
+          }
+        >
+          <div className={styles.header__phraseContainer__inner}>
+            <span className={styles.header__phraseContainer__inner__wrapper}>
+              <div className={styles.phraseContent}>
+                {selectedMember?.phrase}
+              </div>
+            </span>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

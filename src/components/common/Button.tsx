@@ -42,6 +42,7 @@ interface ButtonProps {
   hideLabelOnSmallScreen?: boolean;
   height?: string;
   type?: "button" | "reset" | "submit";
+  openInNewTab?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -67,6 +68,7 @@ const Button: React.FC<ButtonProps> = ({
   height = "",
   type = "button",
   hideLabelOnSmallScreen = false,
+  openInNewTab = false,
 }) => {
   const buttonClasses = [
     styles.buttonCommon || "",
@@ -115,6 +117,8 @@ const Button: React.FC<ButtonProps> = ({
       to={disabled ? "#" : href}
       {...commonProps}
       tabIndex={disabled ? -1 : 0}
+      target={openInNewTab ? "_blank" : undefined}
+      rel={openInNewTab ? "noopener noreferrer" : undefined}
     >
       {renderContent()}
     </Link>

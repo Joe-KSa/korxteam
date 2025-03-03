@@ -74,12 +74,47 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   const handleTextAreaInput = (e: React.FormEvent<HTMLDivElement>) => {
-    if (maxLength && e.currentTarget.textContent!.length > maxLength) {
+    const selection = window.getSelection();
+    if (!selection || !textAreaRef.current) return;
+  
+    // Obtiene la posición actual del cursor
+    const range = selection.getRangeAt(0);
+    const preCaretRange = range.cloneRange();
+    preCaretRange.selectNodeContents(textAreaRef.current);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    const cursorPosition = preCaretRange.toString().length;
+  
+    // Obtiene el nuevo contenido
+    let text = e.currentTarget.innerText || "";
+    if (maxLength && text.length > maxLength) {
       e.preventDefault();
       return;
     }
-    onChange?.(e.currentTarget.textContent || "");
+    onChange?.(text);
+  
+    // Restaurar posición del cursor sin setTimeout
+    requestAnimationFrame(() => {
+      if (!textAreaRef.current) return;
+  
+      const newRange = document.createRange();
+      const newSelection = window.getSelection();
+      const textNode = textAreaRef.current.firstChild;
+  
+      if (textNode) {
+        const pos = Math.min(cursorPosition, textNode.textContent?.length || 0);
+        newRange.setStart(textNode, pos);
+        newRange.setEnd(textNode, pos);
+      } else {
+        newRange.setStart(textAreaRef.current, 0);
+        newRange.setEnd(textAreaRef.current, 0);
+      }
+  
+      newSelection?.removeAllRanges();
+      newSelection?.addRange(newRange);
+    });
   };
+  
+  
 
   // Limiter textArea controller
   useEffect(() => {
@@ -87,7 +122,7 @@ const InputField: React.FC<InputFieldProps> = ({
     if (!element) return;
   
     const handleBeforeInput = (e: InputEvent) => {
-      if (disabled || (maxLength && element.textContent!.length >= maxLength && e.inputType !== "deleteContentBackward")) {
+      if (disabled || (maxLength && element.innerText!.length >= maxLength && e.inputType !== "deleteContentBackward")) {
         e.preventDefault(); // Bloquea la entrada antes de que ocurra
       }
     };
@@ -164,7 +199,7 @@ const InputField: React.FC<InputFieldProps> = ({
           defaultOption={options[0]}
         />
       ) : type === "skills" ? (
-        <SkillInput id={htmlFor} onChangeSkill={onChangeSkill} value={valueSkill} maxLength={maxLength} disabled= {disabled}
+        <SkillInput id={htmlFor} onChangeSkill={onChangeSkill} value={valueSkill} maxLength={maxLength || 10} disabled= {disabled}
         />
       ) : (
         <input

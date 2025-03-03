@@ -10,6 +10,7 @@ interface SkillTagsProps {
   centerContent?: boolean;
   onlyIcon?: boolean;
   activeGradient?: boolean;
+  enableTooltip?: boolean;
   size?: "small-icon" | "medium-icon" | "large-icon";
 }
 
@@ -20,7 +21,8 @@ const SkillTags: React.FC<SkillTagsProps> = ({
   children,
   centerContent,
   onlyIcon = false,
-  activeGradient = false
+  activeGradient = false,
+  enableTooltip = false,
 }) => {
   const { selectedMember } = useMembers();
 
@@ -76,7 +78,7 @@ const SkillTags: React.FC<SkillTagsProps> = ({
     nestjs: <icon.NestjsIcon className={iconClassName} />,
     azure: <icon.AzureIcon className={iconClassName} />,
     django: <icon.DjangoIcon className={iconClassName} />,
-    flask: <icon.FlaskIcon className={iconClassName} />
+    flask: <icon.FlaskIcon className={iconClassName} />,
   };
 
   const getIcon = (tag: string) => tagIcons[tag.toLowerCase()] || null;
@@ -117,7 +119,10 @@ const SkillTags: React.FC<SkillTagsProps> = ({
                 </span>
               </div>
             )}
-            <div className={styles.tagContent__text}>
+            <div
+              className={styles.tagContent__text}
+              data-tooltip={enableTooltip ? tag : undefined}
+              >
               <i
                 className={
                   onlyIcon

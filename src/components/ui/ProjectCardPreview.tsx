@@ -8,7 +8,7 @@ import Button, {
   ButtonDirection,
   ButtonHoverStyle,
 } from "../common/Button";
-import { getTextColor } from "@/utils/getTextColor";
+import { getTextColor } from "@/utils/CheckColor";
 import { validateMediaFile, getFileType } from "@/utils/validateMedia";
 
 interface ProjectCardPreviewProps {
