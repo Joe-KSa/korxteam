@@ -290,7 +290,7 @@ const ProfilePage = () => {
             htmlFor="phrase"
             disabled={isDisabled}
             optional
-            maxLength={70}
+            maxLength={50}
             onChange={(value) => handleInputChange("phrase", value)}
           />
           <InputField
