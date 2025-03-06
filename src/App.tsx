@@ -10,6 +10,7 @@ import Dashboard from "@/pages/dashboard";
 import ModeratorRoute from "./routing/ModeratorRoute";
 import NewProjectPage from "./pages/newProject";
 import NotificationPage from "./pages/notification";
+import ModerationCommentsPage from "./pages/admin/ModerationComments";
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route path="notification" element={<NotificationPage />} />
           </Route>
           <Route path="/moderation" element={<ModeratorRoute />}>
+            <Route path="comments" element={<ModerationCommentsPage />} />
             <Route path="members" element={<ModerationMembersPage />} />
             <Route path="projects" element={<ModerationProjectsPage />} />
           </Route>

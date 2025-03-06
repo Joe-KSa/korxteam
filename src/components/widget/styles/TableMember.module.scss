@@ -51,6 +51,10 @@
         &__item:first-child {
             display: none;
         }
+
+        &__item:last-child {
+            text-align: center;
+        }
     }
 
     &__border {
@@ -138,11 +142,13 @@
             }
 
             &__role {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                justify-content: start;
                 font-weight: 700;
                 color: #b3b3b3;
+
+                @media (max-width: 517px) {
+                    justify-content: center;
+                }
             }
         }
     }

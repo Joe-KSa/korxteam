@@ -26,6 +26,7 @@ interface InputFieldProps {
   disableSeparation?: boolean;
   maxLength?: number;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -43,7 +44,8 @@ const InputField: React.FC<InputFieldProps> = ({
   optional = false,
   valueSkill,
   maxLength,
-  disabled
+  disabled,
+  placeholder = "",
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const isComplete = useMemo(() => value.trim() !== "", [value]);
@@ -114,8 +116,6 @@ const InputField: React.FC<InputFieldProps> = ({
     });
   };
   
-  
-
   // Limiter textArea controller
   useEffect(() => {
     const element = textAreaRef.current;
@@ -210,7 +210,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={handleChange}
           maxLength={maxLength}
           placeholder={
-            !isComplete && !optional && !isLoading ? error || "" : ""
+            !isComplete && !optional && !isLoading ? error || "" : placeholder
           }
           className={`${styles.formInput} ${
             !isComplete && !optional && !isLoading ? styles.inputError : ""

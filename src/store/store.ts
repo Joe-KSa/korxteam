@@ -14,6 +14,8 @@ interface projectStoreProps {
   setSelectedProject: (project: getProjectProps | null) => void;
   projectDominantColor: string | null;
   setProjectDominantColor: (color: string | null) => void;
+  showComments: boolean;
+  setShowComments: (show: boolean) => void;
 }
 
 interface membersStoreProps {
@@ -63,6 +65,8 @@ export const projectStore = create<projectStoreProps>((set) => ({
   setSelectedProject: (project) => set({ selectedProject: project }),
   projectDominantColor: null,
   setProjectDominantColor: (color) => set({ projectDominantColor: color }),
+  showComments: false,
+  setShowComments: (showComments) => set({ showComments }),
 }));
 
 export const membersStore = create<membersStoreProps>((set) => ({

@@ -15,7 +15,6 @@ const DropdownModeration = () => {
           href="/moderation/projects"
           hoverStyleType={ButtonHoverStyle.NORMAL}
           redirect
-          // onClick={() => (window.location.href = "/moderation/projects")}
         />
       </li>
       <li role="item">
@@ -29,7 +28,19 @@ const DropdownModeration = () => {
           hoverStyleType={ButtonHoverStyle.NORMAL}
           redirect
           href="/moderation/members"
-          // onClick={() => (window.location.href = "/moderation/members")}
+        />
+      </li>
+      <li role="item">
+        <Button
+          styleType={ButtonStyle.TEXT_ONLY}
+          label="Comentarios"
+          width="100%"
+          justifyContent="start"
+          iconMargin="0 5px 0 0"
+          borderRadius="4px"
+          hoverStyleType={ButtonHoverStyle.NORMAL}
+          redirect
+          href="/moderation/comments"
         />
       </li>
     </Dropdown>

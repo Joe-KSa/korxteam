@@ -7,20 +7,12 @@ import "overlayscrollbars/styles/overlayscrollbars.css";
 import "./styles/globals.css";
 import "./styles/variables.css";
 import styles from "./styles/Layout.module.scss"
-import { useMembers } from "./hooks/useMembers";
 import image from "@/assets/Loading.gif";
-import { useLocation } from "react-router-dom";
+
 import LeftSidebar from "./components/ui/LeftSidebar";
 
 const Layout: React.FC = () => {
   const { projects } = useProjects();
-  const { selectedMember } = useMembers();
-
-  // Ocultar en /settings solo en móviles
-  const location = useLocation();
-  const isSettingsPage = location.pathname === "/settings";
-  const isMobile = window.innerWidth <= 767;
-
   return (
     <div className={styles.appContainer}>
       <div className={styles.appContainer__app}>
@@ -28,9 +20,7 @@ const Layout: React.FC = () => {
           <Header />
           <LeftSidebar />
           <div
-            className={`${styles.pageContainer} ${
-              selectedMember && !(isSettingsPage && isMobile) ? styles.pageContainer__sidebar : ""
-            }`}
+            className={`${styles.pageContainer} `}
           >
             <div className={styles.pageContainer__inner}>
               <div className={styles.pageContainer__inner__content}>

@@ -25,13 +25,13 @@
     z-index: 1;
     margin: 20px;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
         margin: 0;
     }
 
     &__offCanvas {
         
-        @media (min-width: 767px) {
+        @media (min-width: 900px) {
             display: none;
         }
     }

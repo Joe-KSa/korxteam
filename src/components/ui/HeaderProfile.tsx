@@ -148,7 +148,7 @@ const HeaderProfile = ({
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={profile} />
+          <img src={profile} draggable={false}/>
           {isSettingsPage && (isCurrentUser || isMobile) && (
             <div className={styles.header__imageContainer__image__fileEditable}>
               <PencilIcon className={"medium-icon"} />

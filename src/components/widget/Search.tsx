@@ -20,7 +20,7 @@ export const Search: React.FC<SearchProps> = ({
   searchExpanded,
 }) => {
   const navigate = useNavigate();
-  const { setSelectedProject } = useProjects();
+  const { setSelectedProject, setShowComments } = useProjects();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export const Search: React.FC<SearchProps> = ({
       setSearchExpanded(false);
     } else {
       setSelectedProject(null);
+      setShowComments(false);
       navigate("/");
     }
   };

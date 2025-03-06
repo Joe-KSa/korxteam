@@ -138,7 +138,7 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
           <div className={styles.body__date}>
             <h1>Miembro desde</h1>
             <div className={styles.date}>
-              <img src={icono} alt="korxteam" style={{ height: "14px" }} />
+              <img src={icono} alt="korxteam" style={{ height: "14px" }} draggable={false}/>
               <span>{formattedDate}</span>
             </div>
           </div>

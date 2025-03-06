@@ -128,3 +128,11 @@ export interface NotificationProps {
   sender: Pick<userProps, "name" | "image">
   status: string
 }
+
+
+// Comments
+export interface PostComment {
+  content: string;
+  userId: string;
+  parentCommentId: number | null
+}

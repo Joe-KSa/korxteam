@@ -4,6 +4,7 @@ import type {
   postProjectProps,
   apiResponse,
   getMemberProps,
+  PostComment,
 } from "@/core/types";
 import { DataService } from "../dataService";
 
@@ -28,9 +29,9 @@ export class ProjectService extends DataService {
     }
   }
 
-  async getProjectById(id: number) {
+  async getProjectById(projectId: number) {
     try {
-      const response = await fetch(`${this.url}/${id}`, {
+      const response = await fetch(`${this.url}/${projectId}`, {
         method: "GET",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -68,11 +69,11 @@ export class ProjectService extends DataService {
   }
 
   async updateProject(
-    id: number,
+    projectId: number,
     project: postProjectProps
   ): Promise<apiResponse> {
     try {
-      const response = await fetch(`${this.url}/${id}`, {
+      const response = await fetch(`${this.url}/${projectId}`, {
         method: "PUT",
         credentials: "include",
         headers: {
@@ -92,9 +93,9 @@ export class ProjectService extends DataService {
     }
   }
 
-  async deleteProject(id: number): Promise<apiResponse> {
+  async deleteProject(projectId: number): Promise<apiResponse> {
     try {
-      const response = await fetch(`${this.url}/${id}`, {
+      const response = await fetch(`${this.url}/${projectId}`, {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -140,17 +141,99 @@ export class ProjectService extends DataService {
         },
         body: JSON.stringify({ hidden }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
-      const data = await response.json(); 
+
+      const data = await response.json();
       return data.project;
-  
     } catch (err) {
       console.error("Error updating visibility:", err);
       throw err;
+    }
+  }
+
+  async getProjectComments(projectId: number) {
+    try {
+      const response = await fetch(`${this.url}/${projectId}/comments`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error: any) {
+      this.handleError(error);
+      return [];
+    }
+  }
+
+  async addCommentProject(projectId: number, comment: PostComment) {
+    try {
+      const response = await fetch(`${this.url}/${projectId}/comments`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(comment),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        return { success: false, message: errorMessage.error };
+      }
+      return { success: true };
+    } catch (error: any) {
+      this.handleError(error);
+      return { success: false, message: error.message };
+    }
+  }
+
+  async getAllComments() {
+    try {
+      const response = await fetch(
+        `${environment.backEnd.baseUrl}/api/comments`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error: any) {
+      this.handleError(error);
+      return [];
+    }
+  }
+
+  async removeComment(commentId: number) {
+    try {
+      const response = await fetch(
+        `${environment.backEnd.baseUrl}/api/comments`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ commentId }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        return { success: false, message: errorMessage.error };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      this.handleError(error);
     }
   }
 }

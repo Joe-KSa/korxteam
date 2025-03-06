@@ -7,12 +7,13 @@ import { RedirectIcon } from "@/assets/icons";
 import { TokenManager } from "../../core/services/token/tokenService";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/hooks/useUser";
-
+import { useProjects } from "@/hooks/useProjects";
 import Dropdown from "../common/Dropdown";
 
 const UserConfiguration = () => {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { setShowComments } = useProjects();
 
   const handleLogout = () => {
     TokenManager.logout();
@@ -22,7 +23,9 @@ const UserConfiguration = () => {
   const handleSettingsRedirect = async () => {
     try {
       if (user) {
+        setShowComments(false)
         navigate("/profile");
+
       } else {
         console.error("No se pudo obtener los datos del usuario");
       }

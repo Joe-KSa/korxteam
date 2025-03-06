@@ -11,7 +11,7 @@ import SkillTags from "../widget/SkillTags";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTextColor } from "@/utils/CheckColor";
-import { getFileType  } from "@/utils/validateMedia";
+import { getFileType } from "@/utils/validateMedia";
 
 const ProjectCard = () => {
   const { id } = useParams();
@@ -21,6 +21,7 @@ const ProjectCard = () => {
     selectedProject,
     setProjectDominantColor,
     projectDominantColor,
+    setShowComments,
   } = useProjects(Number(id));
   const dominantColor = useDominantColor(selectedProject?.images?.url || "");
 
@@ -51,24 +52,26 @@ const ProjectCard = () => {
                 autoPlay
                 loop
                 muted
+                draggable={false}
               >
                 <source src={projectBanner.images.url} />
               </video>
-              
             ) : typeFile === "image" ? (
               <img
                 src={projectBanner.images.url}
                 alt={`Imagen del proyecto ${projectBanner.title}`}
+                draggable={false}
                 className={styles.card__imageContainer__img}
               />
             ) : null)}
         </div>
-
-        {/* Se aplica el color de texto calculado al contenedor de información */}
         <div className={styles.infoContainer}>
           <div>
             <span
-              onClick={() => setSelectedProject(projectBanner)}
+              onClick={() => {
+                setSelectedProject(projectBanner);
+                setShowComments(true);
+              }}
               className={styles.infoContainer__titleContainer}
             >
               <h1 style={{ color: textColor }}>{projectBanner.title}</h1>
@@ -77,7 +80,7 @@ const ProjectCard = () => {
               <div
                 className={styles.infoContainer__descriptionContainer__creator}
               >
-                <img src={projectBanner.creator.image} alt="" />
+                <img draggable={false} src={projectBanner.creator.image} />
                 <span style={{ color: textColor }}>
                   @{projectBanner.creator.username}
                 </span>
@@ -96,41 +99,36 @@ const ProjectCard = () => {
             />
           </div>
 
-          {(projectBanner.repository || projectBanner.url) && (
-            <div className={styles.buttons}>
-              {projectBanner.repository && (
-                <Button
-                  styleType={ButtonStyle.ICON}
-                  backgroundColor="var(--decorative-subdued)"
-                  borderRadius="4px"
-                  padding="10px 20px"
-                  redirect
-                  href={projectBanner.repository}
-                  hoverStyleType={ButtonHoverStyle.SCALE}
-                  openInNewTab
-                >
-                  <GithubIcon className="medium-icon" />
-                </Button>
-              )}
-              {projectBanner.url && (
-                <Button
-                  styleType={ButtonStyle.ICON_TEXT}
-                  backgroundColor="var(--decorative-subdued)"
-                  borderRadius="4px"
-                  padding="10px 20px"
-                  label="Ver más"
-                  flexDirection={ButtonDirection.REVERSE}
-                  iconMargin="0 0 0 10px"
-                  redirect
-                  href={projectBanner.url}
-                  hoverStyleType={ButtonHoverStyle.SCALE}
-                  openInNewTab
-                >
-                  <ChainIcon className="medium-icon" />
-                </Button>
-              )}
-            </div>
-          )}
+          <div className={styles.buttons}>
+            <Button
+              styleType={ButtonStyle.ICON}
+              backgroundColor="var(--decorative-subdued)"
+              borderRadius="4px"
+              padding="10px 20px"
+              redirect={projectBanner.repository ? true : false}
+              href={projectBanner.repository || ""}
+              hoverStyleType={ButtonHoverStyle.SCALE}
+              openInNewTab
+            >
+              <GithubIcon className="medium-icon" />
+            </Button>
+
+            <Button
+              styleType={ButtonStyle.ICON_TEXT}
+              backgroundColor="var(--decorative-subdued)"
+              borderRadius="4px"
+              padding="10px 20px"
+              label="Ver más"
+              flexDirection={ButtonDirection.REVERSE}
+              iconMargin="0 0 0 10px"
+              redirect={projectBanner.url ? true : false}
+              href={projectBanner.url || ""}
+              hoverStyleType={ButtonHoverStyle.SCALE}
+              openInNewTab
+            >
+              <ChainIcon className="medium-icon" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

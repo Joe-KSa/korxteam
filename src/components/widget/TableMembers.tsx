@@ -32,6 +32,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
     projectBanner,
     projectDominantColor,
     setProjectDominantColor,
+    setShowComments
   } = useProjects();
 
   const location = useLocation();
@@ -57,6 +58,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
   const handleUserClick = useCallback(
     (user: getMemberProps) => {
       setSelectedMember(user);
+      setShowComments(false);
     },
     [setSelectedMember]
   );
@@ -143,6 +145,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
                         className={styles.body__row__item__member__image}
                         src={member?.images?.avatar?.url}
                         alt={member.name}
+                        draggable={false}
                       />
                       <span className={styles.body__row__item__member__name}>
                         {member.name}

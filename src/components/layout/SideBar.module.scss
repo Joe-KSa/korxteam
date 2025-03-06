@@ -6,9 +6,11 @@
     min-height: 0;
     grid-area: right-sidebar;
     border-radius: 8px;
+    margin-left: 8px;
     
     @media (max-width: 767px) {
         width: calc(100% + 8px);
+        margin-left: 0;
         grid-area: main-view;
     }
 }

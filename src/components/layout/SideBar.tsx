@@ -4,9 +4,12 @@ import MemberProfile from "../widget/MemberProfile";
 import { useMembers } from "@/hooks/useMembers";
 import ResizeBar from "../common/ResizeBar";
 import styles from "./SideBar.module.scss";
+import { useProjects } from "@/hooks/useProjects";
+import Comments from "../widget/Comments";
 
 const SideBar = () => {
   const { selectedMember } = useMembers();
+  const { showComments, selectedProject } = useProjects();
   const [contentWidth, setContentWidth] = useState(420);
   const location = useLocation();
 
@@ -25,12 +28,22 @@ const SideBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!selectedMember || (isSettingsPage && isMobile)) return null;
+  if ((!selectedProject && !selectedMember) || (isSettingsPage && isMobile))
+    return null;
+
+  const content =
+    showComments && selectedProject ? (
+      <Comments width={contentWidth} />
+    ) : selectedMember ? (
+      <MemberProfile width={contentWidth} />
+    ) : null;
+
+  if (!content) return null; // Evita renderizar el SideBar vacío
 
   return (
     <div className={styles.sidebarRight}>
       <ResizeBar onResize={handleResize} />
-      <MemberProfile width={contentWidth} />
+      {content}
     </div>
   );
 };

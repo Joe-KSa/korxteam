@@ -55,6 +55,7 @@ const ProjectItem: React.FC<ProjectItem> = ({
             loop
             muted
             playsInline
+            draggable={false}
             ref={(video) => {
               if (video) {
                 isPlaying ? video.play() : video.pause();
@@ -65,7 +66,7 @@ const ProjectItem: React.FC<ProjectItem> = ({
           </video>
         ) : (
           <figure>
-            <img src={project.images.url || ""} alt="" />
+            <img src={project.images.url || ""} alt="" draggable={false}/>
           </figure>
         )}
 

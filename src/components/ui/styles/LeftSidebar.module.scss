@@ -15,7 +15,7 @@
     z-index: var(--left-sidebar-grid-area-z-index);
     view-transition-name: left-sidebar-grid;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
         display: none;
     }
 
@@ -68,7 +68,6 @@
         &__list {
             list-style: none;
             margin-bottom: 6em;
-
         }
     }
 }

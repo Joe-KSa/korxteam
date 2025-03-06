@@ -4,9 +4,11 @@ import { DashboardIcon, RoundedIcon } from "@/assets/icons";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import "overlayscrollbars/styles/overlayscrollbars.css";
 import { useMembers } from "@/hooks/useMembers";
+import { useProjects } from "@/hooks/useProjects";
 
 const LeftSidebar = () => {
   const { setSelectedMember, members } = useMembers();
+  const { setShowComments } = useProjects();
 
   return (
     <div className={styles.container}>
@@ -54,7 +56,10 @@ const LeftSidebar = () => {
                     .map((member, index) => (
                       <li
                         className={styles.listItem}
-                        onClick={() => setSelectedMember(member)}
+                        onClick={() => {
+                          setSelectedMember(member);
+                          setShowComments(false);
+                        }}
                         key={index}
                       >
                         <div className={styles.listItem__inner}>
