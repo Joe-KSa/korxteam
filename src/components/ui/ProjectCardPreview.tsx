@@ -109,39 +109,35 @@ const ProjectCardPreview: React.FC<ProjectCardPreviewProps> = ({
             </span>
             <SkillTags tags={tagNames} onlyIcon={true} />
           </div>
-          {(project.repository || project.url) && (
-            <div className={styles.buttons}>
-              {project.repository && (
-                <Button
-                  styleType={ButtonStyle.ICON}
-                  backgroundColor="var(--decorative-subdued)"
-                  borderRadius="4px"
-                  padding="10px 20px"
-                  redirect
-                  href={project.repository}
-                  hoverStyleType={ButtonHoverStyle.SCALE}
-                >
-                  <GithubIcon className="medium-icon" />
-                </Button>
-              )}
-              {project.url && (
-                <Button
-                  styleType={ButtonStyle.ICON_TEXT}
-                  backgroundColor="var(--decorative-subdued)"
-                  borderRadius="4px"
-                  padding="10px 20px"
-                  label="Ver más"
-                  flexDirection={ButtonDirection.REVERSE}
-                  iconMargin="0 0 0 10px"
-                  redirect
-                  href={project.url}
-                  hoverStyleType={ButtonHoverStyle.SCALE}
-                >
-                  <ChainIcon className="medium-icon" />
-                </Button>
-              )}
-            </div>
-          )}
+
+          <div className={styles.buttons}>
+            <Button
+              styleType={ButtonStyle.ICON}
+              backgroundColor="var(--decorative-subdued)"
+              borderRadius="4px"
+              padding="10px 20px"
+              redirect
+              href={project.repository}
+              hoverStyleType={ButtonHoverStyle.SCALE}
+            >
+              <GithubIcon className="medium-icon" />
+            </Button>
+
+            <Button
+              styleType={ButtonStyle.ICON_TEXT}
+              backgroundColor="var(--decorative-subdued)"
+              borderRadius="4px"
+              padding="10px 20px"
+              label="Ver más"
+              flexDirection={ButtonDirection.REVERSE}
+              iconMargin="0 0 0 10px"
+              redirect
+              href={project.url}
+              hoverStyleType={ButtonHoverStyle.SCALE}
+            >
+              <ChainIcon className="medium-icon" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

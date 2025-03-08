@@ -96,7 +96,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
               #
             </div>
             <div className={styles.header__item}>Nombre</div>
-            <div className={styles.header__item}>Rol</div>
+            <div className={`${styles.header__item} ${isManagingProject ? styles.isManagingProject__header : ""}`}>Rol</div>
           </div>
         </div>
         <div className={styles.body}>
@@ -160,6 +160,11 @@ const TableMembers: React.FC<TableMembersProps> = ({
                     <div
                       aria-colindex={3}
                       className={`${styles.body__row__item} ${styles.body__row__item__role}`}
+                      style={{
+                        justifyContent: isManagingProject
+                          ? "space-between"
+                          : "",
+                      }}
                     >
                       {displayRole}
                       {isManagingProject && !isCreator && !isCurrentUser && (
