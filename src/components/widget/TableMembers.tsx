@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import useDominantColor from "@/hooks/useDominantColor";
-import { useProjectMembers } from "@/hooks/useProjectMember";
+// import { useProjectMembers } from "@/hooks/useProjectMember";
 import { useMembers } from "@/hooks/useMembers";
 import { useProjects } from "@/hooks/useProjects";
 import styles from "./styles/TableMember.module.scss";
@@ -9,6 +9,7 @@ import { getMemberProps } from "@/core/types";
 import { useLocation } from "react-router-dom";
 import { useUser } from "@/hooks/useUser";
 import { RemoveIcon } from "@/assets/icons";
+import { Badges } from "./MemberProfile";
 
 type TableMembersProps = {
   isOverviewSectionVisible?: boolean;
@@ -24,7 +25,6 @@ const TableMembers: React.FC<TableMembersProps> = ({
   onRemoveMember,
 }) => {
   const { members, hiddenMembers, setSelectedMember } = useMembers();
-  const { projectMembers, loadProjectMembers } = useProjectMembers();
 
   const { user } = useUser();
   const {
@@ -32,7 +32,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
     projectBanner,
     projectDominantColor,
     setProjectDominantColor,
-    setShowComments
+    setShowComments,
   } = useProjects();
 
   const location = useLocation();
@@ -42,12 +42,6 @@ const TableMembers: React.FC<TableMembersProps> = ({
     location.pathname.startsWith(`/project/${selectedProject?.id}/edit`);
 
   const dominantColor = useDominantColor(projectBanner?.images.url);
-
-  useEffect(() => {
-    if (selectedProject?.id) {
-      loadProjectMembers(selectedProject.id);
-    }
-  }, [selectedProject?.id]);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -66,7 +60,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
   let currentMembers = isModerationPage
     ? hiddenMembers
     : selectedProject
-    ? projectMembers
+    ? selectedProject.members
     : members;
 
   if (!currentMembers) return;
@@ -115,10 +109,8 @@ const TableMembers: React.FC<TableMembersProps> = ({
             </div>
           ) : (
             currentMembers.map((member, index) => {
-              
-              const isCreator = String(member.userId) === String(creatorId)
+              const isCreator = String(member.userId) === String(creatorId);
               const isCurrentUser = String(member.userId) === String(user?.id);
-
 
               const displayRole = isCreator ? "Creador" : member.role.name;
 
@@ -147,9 +139,22 @@ const TableMembers: React.FC<TableMembersProps> = ({
                         alt={member.name}
                         draggable={false}
                       />
-                      <span className={styles.body__row__item__member__name}>
-                        {member.name}
-                      </span>
+                      <div className={styles.body__row__item__member__wrapper}>
+                        <div
+                          className={
+                            styles.body__row__item__member__wrapper__name
+                          }
+                        >
+                          {member.name}
+                        </div>
+                        {(member.projectsCount >= 1 ||
+                          member.tags.length === 10 ||
+                          member.collaborationsCount >= 1 ||
+                          member.projectsCount >= 3 ||
+                          member.commentsCount >= 10) && (
+                          <Badges selectedMember={member} />
+                        )}
+                      </div>
                     </div>
 
                     <div

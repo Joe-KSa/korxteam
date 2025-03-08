@@ -157,7 +157,7 @@ const HeaderProfile = ({
         </div>
       </div>
 
-      {selectedMember?.phrase && !isMobile && (
+      {selectedMember?.phrase && (
         <div
           className={styles.header__phraseContainer}
           style={

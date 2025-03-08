@@ -132,9 +132,7 @@
         --shadow-low: 0 1px 4px 0 hsl(none 0% 0%/0.14);
         --radius-lg: 16px;
         --border-faint: #393a3f;
-        --text-color: #fff
-
-        width: fit-content;
+        --text-color: #fff width: fit-content;
         height: fit-content;
         z-index: 2;
 
@@ -160,7 +158,6 @@
                 left: 10px;
                 width: 20px;
                 height: 20px;
-
             }
 
             &__wrapper {
@@ -174,7 +171,7 @@
                 word-break: break-word;
                 cursor: text;
                 user-select: text;
-                color: var(--text-color)
+                color: var(--text-color);
             }
 
             &::after {
@@ -263,11 +260,43 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 4px;
 
     &__username {
         font-size: 12px;
         font-weight: 400;
         overflow: hidden;
+    }
+
+    &__badges {
+        --bg-mod-faint: rgb(18, 18, 18);
+
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        box-sizing: border-box;
+        width: fit-content;
+        gap: 2px;
+        margin: 1px 0;
+        padding: 0 2px;
+        background-color: var(--bg-mod-faint);
+        border-radius: var(--encore-border-width-thick);
+        border: 1px solid hsla(0, 0%, 100%, 0.12);
+
+        img {
+            filter: saturate(1);
+            filter: saturate(var(--saturation-factor, 1));
+            display: block;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: 50%;
+            overflow: hidden;
+            pointer-events: none;
+            -o-object-fit: cover;
+            object-fit: cover;
+            width: 20px;
+            height: 20px;
+        }
     }
 }
 
@@ -294,11 +323,45 @@
     }
 }
 
-
 .phraseContent {
     max-height: 36px;
     overflow: hidden;
     font-size: 14px;
     line-height: 1.2857142857142858;
     font-weight: 400;
+}
+
+.badgesGradient {
+    background-color: rgb(18, 18, 18, 0.1);
+    border-color: hsla(0, 0%, 100%, 0.12);
+}
+
+.memberData__badges {
+    position: relative;
+
+    div {
+        position: relative;
+
+        &[aria-label]:hover::after {
+            content: attr(aria-label);
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #121212;
+            color: white;
+            font-size: 12px;
+            padding: 4px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        &[aria-label]:hover::after {
+            opacity: 1;
+        }
+    }
 }

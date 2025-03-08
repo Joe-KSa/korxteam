@@ -135,9 +135,16 @@
                     margin-right: 12px;
                 }
 
-                &__name {
-                    color: var(--text-subdued);
-                    font-weight: 700;
+                &__wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    
+
+                    &__name {
+                        color: var(--text-subdued);
+                        font-weight: 700;
+                    }
                 }
             }
 

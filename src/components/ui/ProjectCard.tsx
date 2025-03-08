@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getTextColor } from "@/utils/CheckColor";
 import { getFileType } from "@/utils/validateMedia";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = () => {
   const { id } = useParams();
@@ -35,6 +36,8 @@ const ProjectCard = () => {
     id ? dominantColor : projectDominantColor || ""
   );
   const typeFile = getFileType(projectBanner.images.url || "");
+
+  const navigate = useNavigate();
 
   return (
     <div className={styles.cardWrapper} key={projectBanner.id}>
@@ -69,7 +72,7 @@ const ProjectCard = () => {
           <div>
             <span
               onClick={() => {
-                setSelectedProject(projectBanner);
+                navigate(`/project/${projectBanner.id}`)
                 setShowComments(true);
               }}
               className={styles.infoContainer__titleContainer}

@@ -1,10 +1,10 @@
-import React from 'react';
-import { getProjectProps } from '@/core/types';
-import ProjectItem from '@/components/ui/ProjectItem';
-import image from '@/assets/Searching.gif';
-import styles from "@/pages/project/styles/Project.module.scss"
-import { useProjects } from '@/hooks/useProjects';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { getProjectProps } from "@/core/types";
+import ProjectItem from "@/components/ui/ProjectItem";
+import image from "@/assets/Searching.gif";
+import styles from "@/pages/project/styles/Project.module.scss";
+import { useProjects } from "@/hooks/useProjects";
+import { useNavigate } from "react-router-dom";
 
 interface ProjectListProps {
   title: string;
@@ -17,13 +17,12 @@ const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   emptyMessage,
 }) => {
-  const { setSelectedProject } = useProjects();
+  const { loadProject } = useProjects();
   const navigate = useNavigate();
 
-  const handleSelectProject = (project: getProjectProps) => {
-    
-    setSelectedProject(project);
-    navigate(`/project/${project.id}`)
+  const handleSelectProject = async (project: getProjectProps) => {
+    navigate(`/project/${project.id}`);
+    await loadProject(project.id);
   };
 
   return (

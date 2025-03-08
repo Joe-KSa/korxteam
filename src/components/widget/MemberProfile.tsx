@@ -12,10 +12,67 @@ import useClickOutside from "@/hooks/useClickOutside";
 import MenuModeration from "./MenuModeration";
 import { useLocation } from "react-router-dom";
 import { useRoleStore } from "@/store/useRoleStore";
+import { getMemberProps } from "@/core/types";
 
 interface memberProfileProps {
   width: number;
 }
+
+export const Badges: React.FC<{ selectedMember: getMemberProps }> = ({
+  selectedMember,
+}) => {
+  return (
+    <div
+      className={`${styles.memberData__badges} ${
+        selectedMember?.primaryColor ? styles.badgesGradient : ""
+      }`}
+      aria-label="Insignias de usuario"
+      role="group"
+    >
+      {selectedMember.projectsCount >= 1 && (
+        <div aria-label="Primer proyecto">
+          <img
+            src="https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png"
+            alt=""
+          />
+        </div>
+      )}
+      {selectedMember.tags.length === 10 && (
+        <div aria-label="Junior experimental">
+          <img
+            src="https://cdn.discordapp.com/badge-icons/7142225d31238f6387d9f09efaa02759.png"
+            alt=""
+          />
+        </div>
+      )}
+      {selectedMember.collaborationsCount >= 1 && (
+        <div aria-label="Colaborador">
+          <img
+            src="https://cdn.discordapp.com/badge-icons/011940fd013da3f7fb926e4a1cd2e618.png"
+            alt=""
+          />
+        </div>
+      )}
+
+      {selectedMember.projectsCount >= 3 && (
+        <div aria-label="Desarrollador activo">
+          <img
+            src="https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png"
+            alt=""
+          />
+        </div>
+      )}
+      {selectedMember.commentsCount >= 10 && (
+        <div aria-label="Reseñador compulsivo">
+          <img
+            src="https://cdn.discordapp.com/badge-icons/8a88d63823d8a71cd5e390baa45efa02.png"
+            alt=""
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
   const { setSelectedMember, selectedMember } = useMembers();
@@ -120,6 +177,8 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
                 <div className={styles.memberData__username}>
                   <span>@{username}</span>
                 </div>
+                {/* Badges */}
+                {selectedMember && <Badges selectedMember={selectedMember} />}
               </div>
             </div>
 
@@ -138,7 +197,12 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
           <div className={styles.body__date}>
             <h1>Miembro desde</h1>
             <div className={styles.date}>
-              <img src={icono} alt="korxteam" style={{ height: "14px" }} draggable={false}/>
+              <img
+                src={icono}
+                alt="korxteam"
+                style={{ height: "14px" }}
+                draggable={false}
+              />
               <span>{formattedDate}</span>
             </div>
           </div>

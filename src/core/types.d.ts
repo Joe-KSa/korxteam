@@ -40,6 +40,8 @@ export interface memberProps {
   images: memberImageProps
   createdAt: string;
   projectsCount: number;
+  commentsCount: number;
+  collaborationsCount: number;
 }
 
 export interface getMemberProps extends memberProps {

@@ -21,33 +21,44 @@ export const useProjects = (projectId?: number) => {
   );
 
   const loadProjects = useCallback(async () => {
-    const projectData = await new ProjectService().getProjects();
-    setProjects(projectData);
+    const projectsData = await new ProjectService().getProjects();
+    setProjects(projectsData);
   }, []);
+
+  const loadProject = useCallback(async (id: number) => {
+    try {
+      const projectData = await new ProjectService().getProjectById(id);
+      setSelectedProject(projectData);
+      return projectData;
+    } catch (err) {
+      console.error("Error al cargar proyecto:", err);
+      return null;
+    }
+  }, [setSelectedProject]);
+  
 
   useEffect(() => {
     loadProjects();
   }, [loadProjects]);
 
-  const deselectProject = useCallback(() => {
-    setSelectedProject(null);
-  }, [setSelectedProject]);
 
   // Nuevo efecto para manejar la selección basada en projectId
   useEffect(() => {
-    if (projectId && projects.length > 0) {
-      const project = projects.find((p) => p.id === projectId);
-      if (project) {
-        setSelectedProject(project);
-        setProjectDominantColor(project.images.url);
-      } else {
-        // Opcional: Manejar proyecto no encontrado
-        setSelectedProject(null);
-      }
+    if (projectId) {
+      loadProject(projectId).then((project) => {
+        if (project) {
+          setProjectDominantColor(project.images.url);
+        } else {
+          // Opcional: Manejar proyecto no encontrado
+          setSelectedProject(null);
+        }
+      });
     }
-  }, [projectId, projects, setSelectedProject]);
+  }, [projectId, loadProject, setProjectDominantColor, setSelectedProject]);
+  
 
   return {
+    loadProject,
     projects,
     setProjects,
     visibleProjects,
@@ -56,7 +67,6 @@ export const useProjects = (projectId?: number) => {
     showComments,
     setShowComments,
     setSelectedProject,
-    deselectProject,
     projectDominantColor,
     setProjectDominantColor,
     projectBanner:

@@ -7,7 +7,7 @@ const ProjectPage = () => {
   const { projects } = useProjects();
   
   const filteredProjects = projects.filter((p) => 
-    p.hidden !== true && (username ? p.members[0].username === username : true)
+    p.hidden !== true && (username ? p.creator.username === username : true)
   );
 
   return (

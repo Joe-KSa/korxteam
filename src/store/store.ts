@@ -23,7 +23,7 @@ interface membersStoreProps {
   setMembers: (members: getMemberProps[]) => void;
   selectedMember: getMemberProps | null;
   setSelectedMember: (member: getMemberProps | null) => void;
-  hiddenMembers: getMemberProps[] | null
+  hiddenMembers: getMemberProps[] | null;
   setHiddenMembers: (members: getMemberProps[]) => void;
 }
 
@@ -32,11 +32,6 @@ interface tagsStoreProps {
   setTags: (tags: tagProps[]) => void;
   suggestionsTags: tagProps[];
   setSuggestionsTags: (tags: tagProps[]) => void;
-}
-
-interface projectMembersStoreProps {
-  projectMembers: getMemberProps[];
-  setProjectMembers: (members: getMemberProps[]) => void;
 }
 
 interface rolesStoreProps {
@@ -85,11 +80,6 @@ export const tagsStore = create<tagsStoreProps>((set) => ({
   setSuggestionsTags: (tags) => set({ suggestionsTags: tags }),
 }));
 
-export const projectMembersStore = create<projectMembersStoreProps>((set) => ({
-  projectMembers: [],
-  setProjectMembers: (members) => set({ projectMembers: members }),
-}));
-
 export const rolStore = create<rolesStoreProps>((set) => ({
   roles: [],
   setRoles: (roles) => set({ roles }),
@@ -105,7 +95,7 @@ interface ImageStore {
     imageFile: File | null;
     bannerFile: File | null;
   };
-  setImage: (field: 'image' | 'banner', file: File | null) => void;
+  setImage: (field: "image" | "banner", file: File | null) => void;
 }
 export const useImageStore = create<ImageStore>((set) => ({
   images: {
@@ -116,33 +106,34 @@ export const useImageStore = create<ImageStore>((set) => ({
   },
   setImage: (field, file) => {
     if (!file) {
-      set(state => ({
+      set((state) => ({
         images: {
           ...state.images,
           [`${field}Url`]: null,
-          [`${field}File`]: null
-        }
+          [`${field}File`]: null,
+        },
       }));
       return;
     }
-    
+
     const url = URL.createObjectURL(file);
-    set(state => ({
+    set((state) => ({
       images: {
         ...state.images,
         [`${field}Url`]: url,
-        [`${field}File`]: file
-      }
+        [`${field}File`]: file,
+      },
     }));
   },
-  clearStore: () => set({
-    images: {
-      imageUrl: null,
-      bannerUrl: null,
-      imageFile: null,
-      bannerFile: null,
-    }
-  }),
+  clearStore: () =>
+    set({
+      images: {
+        imageUrl: null,
+        bannerUrl: null,
+        imageFile: null,
+        bannerFile: null,
+      },
+    }),
 }));
 
 // Audio
