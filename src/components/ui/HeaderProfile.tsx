@@ -53,7 +53,7 @@ const HeaderProfile = ({
   }, [user, selectedMember]);
 
   const handleImageChange = (field: "image" | "banner", file: File) => {
-    const MAX_SIZE_MB = 3;
+    const MAX_SIZE_MB = 5;
     const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
     if (file.size > MAX_SIZE_BYTES) {
@@ -121,7 +121,7 @@ const HeaderProfile = ({
             }`}
             onClick={() => handleImageClick("banner")}
             style={{
-              backgroundColor: banner ? "transparent" : dominantColor,
+              backgroundColor: banner ? "transparent" : dominantColor || "",
               backgroundImage: banner ? `url(${banner})` : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -148,7 +148,7 @@ const HeaderProfile = ({
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={profile} draggable={false}/>
+          <img src={profile} draggable={false} />
           {isSettingsPage && (isCurrentUser || isMobile) && (
             <div className={styles.header__imageContainer__image__fileEditable}>
               <PencilIcon className={"medium-icon"} />
