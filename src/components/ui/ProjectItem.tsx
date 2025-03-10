@@ -1,26 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./styles/ProjectItem.module.scss";
 import { getProjectProps } from "@/core/types";
 import { useUser } from "@/hooks/useUser";
 import { useNavigate } from "react-router-dom";
-import { EditIcon, ShowIcon, HideIcon } from "@/assets/icons";
+import {
+  EditIcon,
+  ShowIcon,
+  HideIcon,
+  HeartIcon,
+  HeartFillIcon,
+} from "@/assets/icons";
 import { ProjectService } from "@/core/services/project/projectService";
-import { useProjects } from "@/hooks/useProjects";
 import { getFileType } from "@/utils/validateMedia";
+import { debounce } from "lodash";
 
 interface ProjectItem {
   project: getProjectProps;
   setSelectedProject: () => void;
+  updateProject: (updatedProject: getProjectProps) => void;
 }
 
 const ProjectItem: React.FC<ProjectItem> = ({
   project,
   setSelectedProject,
+  updateProject,
 }) => {
   const { user } = useUser();
-  const { projects, setProjects } = useProjects();
   const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [like, setLike] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  const typeFile = getFileType(project?.images?.url ?? "image");
+  const isGif = project.images.url?.endsWith(".gif");
+
+  // Generamos la URL estática cambiando la extensión a .png
+  const staticGifUrl = isGif
+    ? project.images.url.replace(".gif", ".png")
+    : project.images.url;
+
+  // Cargar estado de like del proyecto
+  useEffect(() => {
+    if (project.likes && user) {
+      const userLiked = project.likes.some((l) => l.id === user.id);
+      setLike(userLiked);
+    }
+  }, [project.likes, user?.id]);
+
+  useEffect(() => {
+    if (isGif && imgRef.current) {
+      if (isHovered) {
+        // Al pasar el mouse, se carga el gif (opcionalmente forzamos la recarga con timestamp)
+        imgRef.current.src = `${project.images.url}?t=${Date.now()}`;
+      } else {
+        // Se muestra la versión estática
+        imgRef.current.src = staticGifUrl;
+      }
+    }
+  }, [isHovered, project.images.url, isGif, staticGifUrl]);
 
   const handleEditingProject = (project: getProjectProps) => {
     setSelectedProject();
@@ -30,23 +68,94 @@ const ProjectItem: React.FC<ProjectItem> = ({
   const handleVisibilityChange = async (hidden: boolean) => {
     try {
       await new ProjectService().updateProjectVisibility(project.id, hidden);
-      setProjects(
-        projects.map((p) => (p.id === project.id ? { ...p, hidden } : p))
-      );
+      updateProject({ ...project, hidden });
     } catch (error) {
       console.error("Error changing visibility:", error);
     }
   };
 
-  const typeFile = getFileType(project.images.url || "");
+  const debouncedToggleLikeRef = useRef(
+    debounce(
+      async (
+        projectId: number,
+        userId: string,
+        previousLike: boolean,
+        previousLikesCount: number,
+        previousLikes: any[]
+      ) => {
+        const projectService = new ProjectService();
+        try {
+          const { success } = await projectService.toggleLike(
+            projectId,
+            userId
+          );
+          if (!success) {
+            throw new Error("La operación no fue exitosa");
+          }
+        } catch (error) {
+          // Revierte el estado si hay error
+          setLike(previousLike);
+          updateProject({
+            ...project,
+            likesCount: previousLikesCount,
+            likes: previousLikes,
+          });
+          console.error("Error al actualizar like:", error);
+        }
+      },
+      300 // Tiempo de espera de 300ms
+    )
+  );
+
+  const handleToggleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+
+    // Captura el estado anterior
+    const previousLike = like;
+    const previousLikesCount = project.likesCount;
+    const previousLikes = [...project.likes];
+
+    // Actualización optimista
+    const newLike = !previousLike;
+    setLike(newLike);
+    updateProject({
+      ...project,
+      likesCount: newLike ? project.likesCount + 1 : project.likesCount - 1,
+      likes: newLike
+        ? [...project.likes, { id: user.id }]
+        : project.likes.filter((l) => l.id !== user.id),
+    });
+
+    // Llama a la función debounce
+    debouncedToggleLikeRef.current(
+      project.id,
+      user.id,
+      previousLike,
+      previousLikesCount,
+      previousLikes
+    );
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedToggleLikeRef.current.cancel();
+    };
+  }, []);
 
   return (
     <li className={styles.container}>
       <div
         className={styles.imageContainer}
         onClick={setSelectedProject}
-        onMouseEnter={() => setIsPlaying(true)}
-        onMouseLeave={() => setIsPlaying(false)}
+        onMouseEnter={() => {
+          setIsPlaying(true);
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsPlaying(false);
+          setIsHovered(false);
+        }}
       >
         {typeFile === "video" ? (
           <video
@@ -64,14 +173,35 @@ const ProjectItem: React.FC<ProjectItem> = ({
           >
             <source src={project.images.url} />
           </video>
+        ) : isGif ? (
+          <figure>
+            {/* La imagen se inicia con la versión estática */}
+            <img ref={imgRef} src={staticGifUrl} alt="" draggable={false} />
+          </figure>
         ) : (
           <figure>
-            <img src={project.images.url || ""} alt="" draggable={false}/>
+            <img src={project.images.url || ""} alt="" draggable={false} />
           </figure>
         )}
 
         <div className={styles.overlayContainer}>
-          <span>{project.title}</span>
+          <div className={styles.overlayContainer__inner}>
+            <span className={styles.overlayContainer__inner__title}>
+              {project.title}
+            </span>
+
+            {user && (
+              <div
+                onClick={handleToggleLike}
+                className={styles.overlayContainer__inner__actions}
+              >
+                <div className={styles.overlayContainer__inner__actions__like}>
+                  <span>{project.likesCount}</span>
+                  <i>{like ? <HeartFillIcon /> : <HeartIcon />}</i>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className={styles.infoContainer}>
@@ -115,4 +245,4 @@ const ProjectItem: React.FC<ProjectItem> = ({
   );
 };
 
-export default ProjectItem;
+export default React.memo(ProjectItem);

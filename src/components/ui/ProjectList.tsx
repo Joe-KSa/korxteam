@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { getProjectProps } from "@/core/types";
 import ProjectItem from "@/components/ui/ProjectItem";
 import image from "@/assets/Searching.gif";
@@ -17,13 +17,25 @@ const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   emptyMessage,
 }) => {
-  const { loadProject } = useProjects();
+  const { loadProject, setProjects, setSelectedProject } = useProjects();
   const navigate = useNavigate();
 
   const handleSelectProject = async (project: getProjectProps) => {
+    setSelectedProject(null);
     navigate(`/project/${project.id}`);
     await loadProject(project.id);
   };
+
+  const handleUpdateProject = useCallback(
+    (updatedProject: getProjectProps) => {
+      setProjects((prevProjects) =>
+        prevProjects.map((p) =>
+          p.id === updatedProject.id ? updatedProject : p
+        )
+      );
+    },
+    [setProjects]
+  );
 
   return (
     <>
@@ -37,6 +49,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
                   project={project}
                   key={project.id}
                   setSelectedProject={() => handleSelectProject(project)}
+                  updateProject={handleUpdateProject}
                 />
               ))}
             </ol>
@@ -54,4 +67,4 @@ const ProjectList: React.FC<ProjectListProps> = ({
   );
 };
 
-export default ProjectList;
+export default React.memo(ProjectList);

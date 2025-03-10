@@ -236,4 +236,24 @@ export class ProjectService extends DataService {
       this.handleError(error);
     }
   }
+
+  // Likes
+
+  // ProjectService.js
+  async toggleLike(projectId: number, userId: string) {
+    try {
+      const response = await fetch(`${this.url}/${projectId}/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ userId }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

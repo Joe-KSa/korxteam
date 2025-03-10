@@ -178,7 +178,14 @@ const MemberProfile: React.FC<memberProfileProps> = ({ width }) => {
                   <span>@{username}</span>
                 </div>
                 {/* Badges */}
-                {selectedMember && <Badges selectedMember={selectedMember} />}
+                {selectedMember &&
+                  (selectedMember.projectsCount >= 1 ||
+                    selectedMember.tags.length === 10 ||
+                    selectedMember.collaborationsCount >= 1 ||
+                    selectedMember.projectsCount >= 3 ||
+                    selectedMember.commentsCount >= 10) && (
+                    <Badges selectedMember={selectedMember} />
+                  )}
               </div>
             </div>
 

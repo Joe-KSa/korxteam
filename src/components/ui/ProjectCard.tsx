@@ -1,6 +1,7 @@
 import styles from "./styles/ProjectCard.module.scss";
 import useDominantColor from "@/hooks/useDominantColor";
 import { useProjects } from "@/hooks/useProjects";
+import { useLocation } from "react-router-dom";
 import Button, {
   ButtonStyle,
   ButtonDirection,
@@ -17,24 +18,24 @@ import { useNavigate } from "react-router-dom";
 const ProjectCard = () => {
   const { id } = useParams();
   const {
-    setSelectedProject,
     projectBanner,
-    selectedProject,
     setProjectDominantColor,
     projectDominantColor,
     setShowComments,
   } = useProjects(Number(id));
-  const dominantColor = useDominantColor(selectedProject?.images?.url || "");
+
+  const dominantColor = useDominantColor(projectBanner.images.url);
+
+  const location = useLocation();
 
   useEffect(() => {
-    if (dominantColor) {
-      setProjectDominantColor(dominantColor);
-    }
-  }, [dominantColor]);
+    setProjectDominantColor(dominantColor);
+  }, [location.pathname, dominantColor, setProjectDominantColor]);
 
   const textColor = getTextColor(
-    id ? dominantColor : projectDominantColor || ""
+    id ? dominantColor ?? "" : projectDominantColor ?? ""
   );
+
   const typeFile = getFileType(projectBanner.images.url || "");
 
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const ProjectCard = () => {
           <div>
             <span
               onClick={() => {
-                navigate(`/project/${projectBanner.id}`)
+                navigate(`/project/${projectBanner.id}`);
                 setShowComments(true);
               }}
               className={styles.infoContainer__titleContainer}

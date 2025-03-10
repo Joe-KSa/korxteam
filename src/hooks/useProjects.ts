@@ -20,6 +20,12 @@ export const useProjects = (projectId?: number) => {
     [projects]
   );
 
+  //Ordenar proyectos visibles por cantidad de likes
+  const sortedProjectsByLikes = useMemo(
+    () => visibleProjects.sort((a, b) => b.likesCount - a.likesCount),
+    [visibleProjects]
+  );
+
   const loadProjects = useCallback(async () => {
     const projectsData = await new ProjectService().getProjects();
     setProjects(projectsData);
@@ -29,6 +35,7 @@ export const useProjects = (projectId?: number) => {
     try {
       const projectData = await new ProjectService().getProjectById(id);
       setSelectedProject(projectData);
+      
       return projectData;
     } catch (err) {
       console.error("Error al cargar proyecto:", err);
@@ -70,6 +77,6 @@ export const useProjects = (projectId?: number) => {
     projectDominantColor,
     setProjectDominantColor,
     projectBanner:
-      selectedProject || visibleProjects[0],
+      selectedProject || sortedProjectsByLikes[0],
   };
 };

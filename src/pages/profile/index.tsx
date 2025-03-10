@@ -15,11 +15,15 @@ import { MemberService } from "../../core/services/member/memberService";
 import InputColor from "@/components/common/InputColor";
 import InputAudio, { InputAudioRef } from "@/components/common/InputAudio";
 import FormStyles from "@/components/common/styles/InputField.module.scss";
-import { ERROR_MESSAGES, handleAudioUpload, handleImageUpload } from "@/utils/handleUpload";
+import {
+  ERROR_MESSAGES,
+  handleAudioUpload,
+  handleImageUpload,
+} from "@/utils/handleUpload";
 
 const ProfilePage = () => {
   const { user } = useUser();
-  const { setSelectedMember } = useMembers();
+  const { setSelectedMember, setMembers } = useMembers();
   const { images, setImage } = useImageStore();
 
   const member = useMemberByUsername(user?.username);
@@ -70,7 +74,7 @@ const ProfilePage = () => {
         formState.github !== member.github ||
         formState.primaryColor !== member.primaryColor ||
         formState.secondaryColor !== member.secondaryColor ||
-        formState.phrase!== member.phrase ||
+        formState.phrase !== member.phrase ||
         formState.sound.url !== member.sound.url;
 
       const hasImagesChanged = !!images.imageFile || !!images.bannerFile;
@@ -113,7 +117,6 @@ const ProfilePage = () => {
       secondaryColor: "",
     }));
   };
-
 
   const handleAudioChange = (url: string | null) => {
     setFormState((prev) => ({
@@ -222,7 +225,6 @@ const ProfilePage = () => {
         },
       };
 
-
       const response = await new MemberService().updateMember(
         member.id,
         memberData
@@ -230,6 +232,36 @@ const ProfilePage = () => {
 
       if (response.success === true) {
         alert("El miembro ha sido actualizado con éxito.");
+
+        const updatedMember = {
+          ...member,
+          ...formState,
+          tags,
+          images: {
+            avatar: {
+              url: avatarUrl || member?.images.avatar.url,
+              publicId: publicAvatarId || member?.images.avatar.publicId,
+            },
+            banner: {
+              url: bannerUrl || member?.images.banner.url,
+              publicId: publicBannerId || member?.images.banner.publicId,
+            },
+          },
+          sound: {
+            url: audioUpload?.soundUrl || member.sound.url,
+            path: audioUpload?.soundPath || member.sound.path,
+            type: "general",
+          },
+          projectsCount: member?.projectsCount,
+        };
+
+        // Actualizamos la lista de miembros en el store manualmente.
+        setMembers((prevMembers) =>
+          prevMembers.map((m) =>
+            m.id === updatedMember.id ? updatedMember : m
+          )
+        );
+
         setSelectedMember(null);
         setHasChanges(false);
       } else {

@@ -10,6 +10,8 @@ const LeftSidebar = () => {
   const { setSelectedMember, members } = useMembers();
   const { setShowComments } = useProjects();
 
+  console.log(members)
+
   return (
     <div className={styles.container}>
       <nav className={styles.container__inner}>

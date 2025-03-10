@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 
-const useDominantColor = (imageUrl: string) => {
-  const [dominantColor, setDominantColor] = useState<string>("");
+const useDominantColor = (mediaUrl: string) => {
+  const [dominantColor, setDominantColor] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!imageUrl) return;
+    if (!mediaUrl) return;
+
+    if (/\.(mp4|mov|webm)$/i.test(mediaUrl)) {
+      setDominantColor(null);
+      return;
+    }
 
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = imageUrl;
+    img.src = mediaUrl;
 
     img.onload = () => {
       const canvas = document.createElement("canvas");
@@ -43,7 +48,7 @@ const useDominantColor = (imageUrl: string) => {
 
       setDominantColor(`rgb(${mostFrequentColor})`);
     };
-  }, [imageUrl]);
+  }, [mediaUrl]);
 
   return dominantColor;
 };

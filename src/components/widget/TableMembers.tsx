@@ -1,12 +1,9 @@
-import React, { useEffect, useCallback } from "react";
-import useDominantColor from "@/hooks/useDominantColor";
-// import { useProjectMembers } from "@/hooks/useProjectMember";
+import React, { useCallback } from "react";
 import { useMembers } from "@/hooks/useMembers";
 import { useProjects } from "@/hooks/useProjects";
 import styles from "./styles/TableMember.module.scss";
 import image from "@/assets/LoadingMembers.gif";
 import { getMemberProps } from "@/core/types";
-import { useLocation } from "react-router-dom";
 import { useUser } from "@/hooks/useUser";
 import { RemoveIcon } from "@/assets/icons";
 import { Badges } from "./MemberProfile";
@@ -29,25 +26,14 @@ const TableMembers: React.FC<TableMembersProps> = ({
   const { user } = useUser();
   const {
     selectedProject,
-    projectBanner,
     projectDominantColor,
-    setProjectDominantColor,
     setShowComments,
   } = useProjects();
 
-  const location = useLocation();
   const isModerationPage = location.pathname.startsWith("/moderation/members");
   const isManagingProject =
     location.pathname.startsWith("/new-project") ||
     location.pathname.startsWith(`/project/${selectedProject?.id}/edit`);
-
-  const dominantColor = useDominantColor(projectBanner?.images.url);
-
-  useEffect(() => {
-    if (location.pathname === "/") {
-      setProjectDominantColor(dominantColor);
-    }
-  }, [location.pathname, dominantColor, setProjectDominantColor]);
 
   const handleUserClick = useCallback(
     (user: getMemberProps) => {
@@ -96,7 +82,13 @@ const TableMembers: React.FC<TableMembersProps> = ({
               #
             </div>
             <div className={styles.header__item}>Nombre</div>
-            <div className={`${styles.header__item} ${isManagingProject ? styles.isManagingProject__header : ""}`}>Rol</div>
+            <div
+              className={`${styles.header__item} ${
+                isManagingProject ? styles.isManagingProject__header : ""
+              }`}
+            >
+              Rol
+            </div>
           </div>
         </div>
         <div className={styles.body}>

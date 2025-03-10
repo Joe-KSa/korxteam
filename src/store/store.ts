@@ -10,7 +10,11 @@ import type {
 interface projectStoreProps {
   projects: getProjectProps[];
   selectedProject: getProjectProps | null;
-  setProjects: (projects: getProjectProps[]) => void;
+  setProjects: (
+    projects:
+      | getProjectProps[]
+      | ((prev: getProjectProps[]) => getProjectProps[])
+  ) => void;
   setSelectedProject: (project: getProjectProps | null) => void;
   projectDominantColor: string | null;
   setProjectDominantColor: (color: string | null) => void;
@@ -20,7 +24,9 @@ interface projectStoreProps {
 
 interface membersStoreProps {
   members: getMemberProps[];
-  setMembers: (members: getMemberProps[]) => void;
+  setMembers: (
+    members: getMemberProps[] | ((prev: getMemberProps[]) => getMemberProps[])
+  ) => void;
   selectedMember: getMemberProps | null;
   setSelectedMember: (member: getMemberProps | null) => void;
   hiddenMembers: getMemberProps[] | null;
@@ -55,7 +61,11 @@ export const userStore = create<userStore>((set) => ({
 
 export const projectStore = create<projectStoreProps>((set) => ({
   projects: [],
-  setProjects: (projects) => set({ projects }),
+  setProjects: (updater) =>
+    set((state) => ({
+      projects:
+        typeof updater === "function" ? updater(state.projects) : updater,
+    })),
   selectedProject: null,
   setSelectedProject: (project) => set({ selectedProject: project }),
   projectDominantColor: null,
@@ -66,7 +76,10 @@ export const projectStore = create<projectStoreProps>((set) => ({
 
 export const membersStore = create<membersStoreProps>((set) => ({
   members: [],
-  setMembers: (members) => set({ members }),
+  setMembers: (updater) =>
+    set((state) => ({
+      members: typeof updater === "function" ? updater(state.members) : updater,
+    })),
   selectedMember: null,
   setSelectedMember: (member) => set({ selectedMember: member }),
   hiddenMembers: null,

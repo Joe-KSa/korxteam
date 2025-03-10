@@ -111,10 +111,7 @@
         line-height: normal;
         text-align: left;
         word-break: break-word;
-        overflow: hidden;
         color: white;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
 
         h1 {
             visibility: visible;
@@ -123,9 +120,10 @@
             text-wrap-style: balance;
             font-weight: 700;
             margin: 0;
-            overflow: hidden;
             text-overflow: ellipsis;
+            width: fit-content;
             font-size: clamp(1.5rem, 4vw, 5rem);
+            cursor: pointer;
         }
     }
 

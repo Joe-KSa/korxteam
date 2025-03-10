@@ -1,7 +1,7 @@
 export interface userProps {
   id: string;
   name: string;
-  username: string
+  username: string;
   email: string;
   image: string;
   banner: string;
@@ -36,8 +36,8 @@ export interface memberProps {
   phrase: string;
   primaryColor: string;
   secondaryColor: string;
-  sound: soundProps
-  images: memberImageProps
+  sound: soundProps;
+  images: memberImageProps;
   createdAt: string;
   projectsCount: number;
   commentsCount: number;
@@ -46,7 +46,7 @@ export interface memberProps {
 
 export interface getMemberProps extends memberProps {
   id: number;
-  hidden:  boolean;
+  hidden: boolean;
   role: roleProps;
   tags: tagProps[];
 }
@@ -66,11 +66,6 @@ export interface tagProps {
   name: string;
 }
 
-export interface imageProps {
-  url: string
-  publicId: string; 
-}
-
 export interface projectProps {
   title: string;
   description: string;
@@ -79,17 +74,18 @@ export interface projectProps {
   images: imageProps;
   members: getMemberProps[];
   tags: tagProps[];
-  
+  hidden: boolean;
+  creator: Pick<userProps, "id" | "name" | "username" | "image">;
 }
 
 export interface getProjectProps extends projectProps {
   id: number;
-  hidden: boolean
-  creator: Pick<memberProps, "id", "name", "username">
+  likesCount: number;
+  likes: Array<{ id: string; username?: string }>;
 }
 
 export interface postProjectProps extends projectProps {
-  creator: Pick<userProps, "id" | "username">
+  creator: Pick<userProps, "id" | "username">;
   tags: (number | null)[];
   members: (number | null)[];
 }
@@ -125,16 +121,15 @@ export interface NotificationProps {
   message: string;
   project: {
     title: string;
-    image: string
-  }
-  sender: Pick<userProps, "name" | "image">
-  status: string
+    image: string;
+  };
+  sender: Pick<userProps, "name" | "image">;
+  status: string;
 }
-
 
 // Comments
 export interface PostComment {
   content: string;
   userId: string;
-  parentCommentId: number | null
+  parentCommentId: number | null;
 }
