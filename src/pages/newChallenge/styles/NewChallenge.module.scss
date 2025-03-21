@@ -1,0 +1,145 @@
+.container {
+    margin: 0 auto;
+    padding: 32px;
+    max-width: 1400px;
+
+    &__navbar {
+        height: 40px;
+        margin-bottom: 15px;
+        background-color: #ffffff1a;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__actions {
+            list-style: none;
+            display: flex;
+        }
+
+        &__switch {
+            list-style: none;
+            display: block;
+
+            &__wrapper {
+                float: left;
+                display: block;
+                position: relative;
+                height: 39px;
+                padding: 0;
+                margin: 0;
+                line-height: 36px;
+
+                &__devChallenges {
+                    font-weight: 600;
+                    font-size: 14px;
+                    padding-right: 40px;
+                    position: relative;
+                    color: #b3b3b3;
+                    position: relative;
+                    padding: 0 20px;
+                    padding-right: 40px;
+                    display: block;
+                    text-decoration: none;
+                    font-size: 14px;
+                    line-height: 2.8em;
+
+                    &::after {
+                        content: "";
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        border: solid 4px;
+                        border-color: #fff transparent transparent transparent;
+                        position: absolute;
+                        right: 20px;
+                        top: 17px;
+                    }
+                }
+            }
+        }
+    }
+
+    &__form {
+        padding-block: 1rem;
+        display: flex;
+        overflow: hidden;
+        gap: 2.5em;
+        
+        @container (max-width: 800px) {
+            flex-direction: column;
+            gap: 1.5em;
+        }
+
+        &__inner {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+
+            &__inputs {
+                width: 100%;
+            }
+
+            &__header {
+                display: block;
+                height: 40px;
+                padding: 0;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }
+
+            &__body {
+                height: 400px;
+                min-height: 400px;
+                overflow-y: auto;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                background: #1b1b1b;
+                padding: 1em;
+
+                &::-webkit-scrollbar {
+                    width: 8px;
+                    height: 8px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: #ffffff4d;
+                }
+
+                div {
+                    
+                    * {
+                        margin: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.devChallengeItem {
+    font-size: 14px;
+    padding: 0 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: #ffffff1a;
+    }
+
+    &__title {
+        max-width: 125px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__languages {
+        display: flex;
+        gap: 4px;
+    }
+}

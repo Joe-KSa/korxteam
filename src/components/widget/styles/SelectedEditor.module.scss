@@ -1,0 +1,37 @@
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    @container (max-width: 800px) {
+        flex: auto;
+        height: 400px;  
+    }
+
+    &__header {
+        width: 150px;
+
+        div {
+            --encore-spacing-looser: 12px;
+        }
+        
+    }
+
+    &__editor {
+        height: 100%;
+        overflow: hidden;
+        
+        &__header {
+            display: block;
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #202020;
+            border-radius: 4px 4px 0 0;
+        }
+
+        &__content {
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+}

@@ -17,12 +17,13 @@ const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   emptyMessage,
 }) => {
-  const { loadProject, setProjects, setSelectedProject } = useProjects();
+  const { loadProject, setProjects, setSelectedProject, setShowComments } = useProjects();
   const navigate = useNavigate();
 
   const handleSelectProject = async (project: getProjectProps) => {
     setSelectedProject(null);
     navigate(`/project/${project.id}`);
+    setShowComments(true);
     await loadProject(project.id);
   };
 

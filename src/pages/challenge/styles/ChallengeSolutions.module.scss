@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    
+    &__inner {
+        padding: 32px;
+    }
+
+    &__header {
+        margin-bottom: 1em;
+    }
+        
+}
+
+.card {
+    border-radius: 4px;
+    padding: 0.5rem 1rem 1rem 1rem;
+    background-color: #ffffff1a;
+    margin-bottom: 1em;
+
+    &__user {
+        display: flex;
+        align-items: center;
+        padding-block: 1em;
+
+        span {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        img {
+            width: 32px;
+            height: 32px;
+            border-radius: 99999px;
+            margin-right: 0.5em;
+        }
+    }
+}

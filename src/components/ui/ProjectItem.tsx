@@ -190,17 +190,18 @@ const ProjectItem: React.FC<ProjectItem> = ({
               {project.title}
             </span>
 
-            {user && (
-              <div
-                onClick={handleToggleLike}
-                className={styles.overlayContainer__inner__actions}
-              >
-                <div className={styles.overlayContainer__inner__actions__like}>
-                  <span>{project.likesCount}</span>
-                  <i>{like ? <HeartFillIcon /> : <HeartIcon />}</i>
-                </div>
+            <div
+              className={styles.overlayContainer__inner__actions}
+              onClick={user ? handleToggleLike : undefined}
+              style={{
+                cursor: user ? "pointer" : "default",
+              }}
+            >
+              <div className={styles.overlayContainer__inner__actions__like}>
+                <span>{project.likesCount}</span>
+                <i>{like ? <HeartFillIcon /> : <HeartIcon />}</i>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

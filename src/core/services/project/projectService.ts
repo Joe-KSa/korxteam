@@ -46,7 +46,7 @@ export class ProjectService extends DataService {
     }
   }
 
-  async createProject(project: postProjectProps): Promise<apiResponse> {
+  async createProject(project: Omit<postProjectProps, "hidden">): Promise<apiResponse> {
     try {
       const response = await fetch(`${this.url}`, {
         method: "POST",
@@ -70,7 +70,7 @@ export class ProjectService extends DataService {
 
   async updateProject(
     projectId: number,
-    project: postProjectProps
+    project: Omit<postProjectProps, "hidden">
   ): Promise<apiResponse> {
     try {
       const response = await fetch(`${this.url}/${projectId}`, {

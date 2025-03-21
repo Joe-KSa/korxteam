@@ -75,13 +75,13 @@ export interface projectProps {
   members: getMemberProps[];
   tags: tagProps[];
   hidden: boolean;
-  creator: Pick<userProps, "id" | "name" | "username" | "image">;
 }
 
 export interface getProjectProps extends projectProps {
   id: number;
   likesCount: number;
   likes: Array<{ id: string; username?: string }>;
+  creator: Pick<userProps, "id" | "name" | "username" | "image">;
 }
 
 export interface postProjectProps extends projectProps {
@@ -132,4 +132,69 @@ export interface PostComment {
   content: string;
   userId: string;
   parentCommentId: number | null;
+}
+
+// Challlenge
+
+export interface ChallengeProps {
+  id: number;
+  title: string;
+  description: string;
+  creator: Pick<userProps, "id" | "name" | "username" | "image">;
+  languages: tagProps[];
+  disciplines: tagProps[];
+  hint: string;
+  language: tagProps;
+  difficulty: number;
+}
+
+export type getChallengesProps = Omit<
+  ChallengeProps,
+  "description" | "hint" | "language"
+>;
+
+// User Challenge
+export type getUserChallengesProps = Pick<
+  ChallengeProps,
+  "id" | "title" | "languages"
+>;
+
+export type getChallengeLanguageHint = Pick<
+  ChallengeProps,
+  "hint" | "language"
+>;
+
+export interface postChallengeProps {
+  title: string;
+  description: string;
+  creator: {
+    id: string;
+    username: string;
+  };
+  disciplines: (number | null)[];
+  hint: string;
+  difficulty: number;
+  languageId: number;
+}
+
+// Solutions
+
+export interface SolutionProps {
+  id: number;
+  challengeId: number;
+  creator: {
+    id: string;
+    username: string;
+    name: string;
+    image: string;
+  };
+  code: string;
+  language: tagProps;
+}
+
+export type getSolutionsProps = Pick<SolutionProps, "code" | "language">;
+
+export interface ChallengeSolutionsResponse {
+  solutions: SolutionProps[];
+  availableLanguages: TagsProps[];
 }

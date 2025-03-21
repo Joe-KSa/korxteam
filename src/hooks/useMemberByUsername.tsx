@@ -5,8 +5,6 @@ import { getMemberProps } from "@/core/types";
 export const useMemberByUsername = (username?: string) => {
   const [member, setMember] = useState<getMemberProps | undefined>();
 
-  console.log(member)
-
   useEffect(() => {
     if (!username) return;
 

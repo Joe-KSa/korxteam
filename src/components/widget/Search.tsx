@@ -105,6 +105,7 @@ export const Search: React.FC<SearchProps> = ({
                         padding="0"
                         href="/projects"
                         redirect
+                        onClick={() => setShowComments(false)}
                       >
                         <ProjectIcon className="large-icon" />
                       </Button>

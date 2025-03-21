@@ -60,7 +60,7 @@ const ProjectCard = () => {
               >
                 <source src={projectBanner.images.url} />
               </video>
-            ) : typeFile === "image" ? (
+            ) : typeFile === "image" || "webp" ? (
               <img
                 src={projectBanner.images.url}
                 alt={`Imagen del proyecto ${projectBanner.title}`}

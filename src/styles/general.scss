@@ -1,0 +1,61 @@
+/* MarkdownBody */
+.cm-editor {
+    
+
+    .cm-scroller {
+        padding: 0.7em;
+
+        .cm-gutters {
+            background-color: transparent;
+        }
+
+        .cm-content {
+            line-height: 2 !important;
+            font-family: "cascadia code";
+            font-size: 12px;
+            font-weight: 300;
+        }
+    }
+}
+
+.cm-foldPlaceholder {
+    background-color: transparent !important;
+    border: 0 !important;
+}
+
+.markdown-body {
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    height: 100%;
+    user-select: text;
+    // margin-bottom: 45em;
+
+    --text-color: #f0f0f0;
+    
+
+    * {
+        border-bottom: 0 !important;
+    }
+
+    pre {
+        background-color: #ffffff1a !important;
+    }
+
+    hr {
+        background-color: #ffffff1a !important;
+    }
+
+    strong {
+        font-weight: bolder;
+        color: #fff;
+    }
+
+    p {
+        color: var(--text-color);
+    }
+
+    li {
+        color: var(--text-color)
+    }
+}

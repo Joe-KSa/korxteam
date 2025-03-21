@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import SkillTags from "../widget/SkillTags";
 import type { tagProps } from "@/core/types";
-import { useTags } from "@/hooks/useTags";
 import Collapsible from "./Collapsible";
 import styles from "./styles/InputField.module.scss";
 
@@ -12,40 +11,54 @@ interface SkillInputProps {
   error?: string;
   maxLength: number;
   disabled?: boolean;
+  items: tagProps[];
+  setItems: (items: tagProps[]) => void;
+  allSuggestions: tagProps[];
 }
 
 const SkillInput: React.FC<SkillInputProps> = ({
   value = [],
   id,
   onChangeSkill,
-  maxLength, // Límite por defecto
+  maxLength,
   disabled = false,
+  items,
+  setItems,
+  allSuggestions,
 }) => {
-  const { tags, setTags, suggestionsTags, setSuggestionsTags } = useTags();
   const [inputValue, setInputValue] = useState("");
-  const [filteredSuggestions, setFilteredSuggestions] = useState<tagProps[]>([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<tagProps[]>(
+    []
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTags(value);
+    if (JSON.stringify(items) !== JSON.stringify(value)) {
+      setItems(value);
+    }
   }, [value]);
 
   useEffect(() => {
     if (inputValue) {
       setFilteredSuggestions(
-        suggestionsTags.filter((suggestion) =>
-          suggestion.name.toLowerCase().includes(inputValue.toLowerCase())
+        allSuggestions.filter(
+          (suggestion) =>
+            suggestion.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+            !items.some((tag) => tag.name === suggestion.name)
         )
       );
     } else {
       setFilteredSuggestions([]);
     }
-  }, [inputValue, suggestionsTags]);
+  }, [inputValue, allSuggestions, items]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setFilteredSuggestions([]);
       }
     };
@@ -60,35 +73,28 @@ const SkillInput: React.FC<SkillInputProps> = ({
   };
 
   const handleAddTag = (tag: string) => {
-    if (disabled || tags.length >= maxLength) return; // Respetar el límite de etiquetas
-
-    const existingTag = suggestionsTags.find((suggestion) => suggestion.name === tag);
-    if (!existingTag) return; // Solo agregar etiquetas que existen en las sugerencias
-
-    if (!tags.some((t) => t.name === tag)) {
-      const newTags = [...tags, existingTag];
-      setTags(newTags);
-      onChangeSkill?.(newTags);
-      setSuggestionsTags(suggestionsTags.filter((suggestion) => suggestion.name !== tag));
+    if (disabled || items.length >= maxLength) return;
+    const existingTag = allSuggestions.find(
+      (suggestion) => suggestion.name === tag
+    );
+    if (!existingTag) return;
+    if (!items.some((t) => t.name === tag)) {
+      const newItems = [...items, existingTag];
+      setItems(newItems);
+      onChangeSkill?.(newItems);
     }
-
     setInputValue("");
   };
 
   const handleRemoveTag = (tag: string) => {
-    if (disabled) return; // Bloquear si está deshabilitado
-    const newTags = tags.filter((t) => t.name !== tag);
-    setTags(newTags);
-    onChangeSkill?.(newTags);
-
-    const removedTag = tags.find((t) => t.name === tag);
-    if (removedTag && !suggestionsTags.some((s) => s.name === removedTag.name)) {
-      setSuggestionsTags([...suggestionsTags, removedTag]);
-    }
+    if (disabled) return;
+    const newItems = items.filter((t) => t.name !== tag);
+    setItems(newItems);
+    onChangeSkill?.(newItems);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return; // Bloquear si está deshabilitado
+    if (disabled) return;
     if (e.key === "Enter" && inputValue) {
       handleAddTag(inputValue);
     }
@@ -96,7 +102,9 @@ const SkillInput: React.FC<SkillInputProps> = ({
 
   const handleInputFocus = () => {
     setFilteredSuggestions(
-      suggestionsTags.filter((suggestion) => !tags.some((tag) => tag.name === suggestion.name))
+      allSuggestions.filter(
+        (suggestion) => !items.some((tag) => tag.name === suggestion.name)
+      )
     );
     containerRef.current?.classList.add("input-focus");
   };
@@ -106,9 +114,13 @@ const SkillInput: React.FC<SkillInputProps> = ({
   };
 
   return (
-    <div className={styles.formInput} style={{ display: "flex", alignItems: "center" }} ref={containerRef}>
+    <div
+      className={styles.formInput}
+      style={{ display: "flex", alignItems: "center" }}
+      ref={containerRef}
+    >
       <div className={styles.skillInputContainer}>
-        <SkillTags tags={tags.map((t) => t.name)} onRemoveTag={handleRemoveTag}>
+        <SkillTags tags={items.map((t) => t.name)} onRemoveTag={handleRemoveTag}>
           <input
             type="text"
             name="skill"
@@ -121,7 +133,7 @@ const SkillInput: React.FC<SkillInputProps> = ({
             onBlur={handleInputBlur}
             className={styles.skillInputContainer__skillInput}
             ref={inputRef}
-            disabled={tags.length >= maxLength || disabled} 
+            disabled={items.length >= maxLength || disabled}
           />
         </SkillTags>
       </div>

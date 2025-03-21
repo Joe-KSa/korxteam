@@ -28,6 +28,8 @@ const DrowpdownAddElement = () => {
           justifyContent="start"
           iconMargin="0 5px 0 0"
           borderRadius="4px"
+          href="/challenge/new/javascript"
+          redirect
           hoverStyleType={ButtonHoverStyle.NORMAL}
         >
           <RetoIcon className="medium-icon"/>

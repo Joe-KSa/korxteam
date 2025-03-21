@@ -24,6 +24,8 @@ const LeftSidebar = () => {
                     justifyContent="center"
                     width="40px"
                     height="40px"
+                    redirect
+                    href="/projects"
                   >
                     <DashboardIcon className="large-icon" />
                   </Button>
@@ -33,6 +35,8 @@ const LeftSidebar = () => {
                     justifyContent="center"
                     width="32px"
                     height="32px"
+                    redirect
+                    href="/challenges"
                   >
                     <RoundedIcon />
                   </Button>

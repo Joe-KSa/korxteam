@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import Collapsible from "./Collapsible";
-// import "./styles/CustomSelect.Styled.css";
+import stylesInput from "./styles/InputField.module.scss";
 
 interface Option {
   id: number | null;
@@ -9,71 +9,96 @@ interface Option {
 
 interface CustomSelectProps {
   options: Option[];
-  defaultOption?: Option;
   onChangeSelected?: (option: Option) => void;
   valueSelected?: Option;
+  itemsSelected?: string[];
+  showAllOptions?: boolean;
+  placeholder?: string; // Ahora es opcional
+  onRemoveSelectedIcon?: (item: string) => void;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
   options,
-  defaultOption,
   onChangeSelected,
   valueSelected,
+  itemsSelected,
+  showAllOptions = false,
+  placeholder, // No se establece un valor por defecto
+  onRemoveSelectedIcon
 }) => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(
-    valueSelected || defaultOption || null
+    valueSelected ?? (options.length > 0 ? options[0] : null)
   );
   const [isOpen, setIsOpen] = useState(false);
   const selectBoxRef = useRef<HTMLDivElement>(null);
+  const initialDefaultFired = useRef(false);
 
   const handleOptionClick = (option: Option) => {
     setSelectedOption(option);
     setIsOpen(false);
-    if (onChangeSelected) {
-      onChangeSelected(option);
-    }
+    onChangeSelected?.(option);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (selectBoxRef.current && !selectBoxRef.current.contains(event.target as Node)) {
+    if (
+      selectBoxRef.current &&
+      !selectBoxRef.current.contains(event.target as Node)
+    ) {
       setIsOpen(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
-
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    if (onChangeSelected && valueSelected) {
-      
-      onChangeSelected(valueSelected);
+    if (valueSelected !== undefined) {
+      if (valueSelected?.id !== selectedOption?.id) {
+        setSelectedOption(valueSelected);
+      }
     } else {
-      if(onChangeSelected && defaultOption) {
-        setSelectedOption(defaultOption);
-        onChangeSelected(defaultOption);
+      if (options.length > 0) {
+        const isCurrentOptionValid = selectedOption && options.some(opt => opt.id === selectedOption.id);
+
+        if (!isCurrentOptionValid) {
+          const firstOption = options[0];
+          setSelectedOption(firstOption);
+          onChangeSelected?.(firstOption);
+          initialDefaultFired.current = true;
+        } else if (!initialDefaultFired.current) {
+          onChangeSelected?.(selectedOption);
+          initialDefaultFired.current = true;
+        }
+      } else {
+        setSelectedOption(null);
+        initialDefaultFired.current = false;
       }
     }
-  }, [valueSelected, defaultOption]);
+  }, [valueSelected, options, selectedOption?.id, onChangeSelected]);
 
-  const filteredOptions = options.filter(
+  const filteredOptions = showAllOptions ? options : options.filter(
     (option) => option.id !== selectedOption?.id
   );
 
   return (
-    <div className="custom-select" ref={selectBoxRef} tabIndex={0}>
-      <div className="select-box" onClick={() => setIsOpen(!isOpen)}>
-        <div className="selected-option" aria-label="Selected option">
-          {selectedOption ? selectedOption.name : "Opciones"}
+    <div ref={selectBoxRef} tabIndex={0}>
+      <div
+        className={stylesInput.formInput}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div style={{ paddingTop: "5px" }} aria-label="Selected option">
+          {isOpen && placeholder !== undefined ? placeholder : selectedOption ? selectedOption.name : "Opciones"}
         </div>
         {isOpen && (
           <Collapsible
             items={filteredOptions}
-            onSelect={(option) => handleOptionClick(option)}
+            onSelect={handleOptionClick}
+            itemsSelected={itemsSelected}
+            onRemoveSelectedIcon={onRemoveSelectedIcon}
           />
         )}
       </div>

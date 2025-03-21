@@ -7,7 +7,7 @@ import InputField from "@/components/common/InputField";
 import styles from "./styles/newProject.module.scss";
 import { useProjects } from "@/hooks/useProjects";
 import ProjectCardPreview from "@/components/ui/ProjectCardPreview";
-import { tagProps } from "@/core/types";
+import { postProjectProps, tagProps } from "@/core/types";
 import useDominantColor from "@/hooks/useDominantColor";
 import TableMembers from "@/components/widget/TableMembers";
 import Button, {
@@ -26,6 +26,7 @@ import {
 import { ProjectService } from "@/core/services/project/projectService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useTags } from "@/hooks/useTags";
 
 const DEFAULT_FORM_STATE = {
   title: "Insertar texto",
@@ -57,6 +58,8 @@ const NewProjectPage = () => {
     setSelectedProject,
     selectedProject,
   } = useProjects();
+
+  const { tags: tagsItems } = useTags();
 
   // Estado del proyecto y formulario
   const [formState, setFormState] = useState(DEFAULT_FORM_STATE);
@@ -215,7 +218,9 @@ const NewProjectPage = () => {
       !formState.description.trim() ||
       tags.length === 0
     ) {
-      alert("Los campos imagen, titulo, descripcion, tecnologias son requeridos.");
+      alert(
+        "Los campos imagen, titulo, descripcion, tecnologias son requeridos."
+      );
       return;
     }
 
@@ -237,13 +242,17 @@ const NewProjectPage = () => {
       uploadedImage = { imageUrl, publicId };
 
       const finalMembers = [
-        ...new Set([
-          ...selectedMembers,
-          selectedProject?.creator.id || currentUserMember.id,
-        ]),
+        ...new Set(
+          [
+            ...selectedMembers,
+            selectedProject?.creator.id || currentUserMember.id,
+          ]
+            .map((id) => (typeof id === "string" ? parseInt(id, 10) : id)) // Convierte strings a números
+            .filter((id) => !isNaN(id as number)) // Filtra NaN por si `parseInt` falla
+        ),
       ];
 
-      const projectData = {
+      const projectData: Omit<postProjectProps, "hidden"> = {
         title: formState.title,
         description: formState.description,
         repository: formState.repository,
@@ -309,7 +318,6 @@ const NewProjectPage = () => {
       }
     }
   };
-
 
   return (
     <WorkSpace>
@@ -437,6 +445,9 @@ const NewProjectPage = () => {
                 htmlFor="skills"
                 maxLength={5}
                 valueSkill={tags}
+                itemsSkills={tags}
+                setItemsSkills={setTags}
+                allSuggestionsSkills={tagsItems}
                 onChangeSkill={(value) => handleTagsChange(value)}
               />
               <InputField
@@ -476,7 +487,9 @@ const NewProjectPage = () => {
             isOverviewSectionVisible={isOverviewSectionVisible}
             selectedMemberIds={selectedMembers}
             creatorId={
-              isEditing ? selectedProject?.creator.id : currentUserMember.id
+              isEditing
+                ? Number(selectedProject?.creator.id)
+                : currentUserMember.id
             }
             onRemoveMember={(memberId) => {
               const currentCreatorId = isEditing

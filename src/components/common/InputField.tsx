@@ -16,7 +16,7 @@ interface InputFieldProps {
   htmlFor?: string;
   options?: Option[];
   value?: string;
-  valueSkill?: tagProps[],
+  valueSkill?: tagProps[];
   valueSelected?: Option;
   onChange?: (value: string) => void;
   onChangeSelected?: (option: Option) => void;
@@ -27,6 +27,17 @@ interface InputFieldProps {
   maxLength?: number;
   disabled?: boolean;
   placeholder?: string;
+
+  //Selected
+  itemsSelected?: string[];
+  showAllOptions?: boolean;
+  placeholderSelected?: string; // Ahora es opcional
+  onRemoveSelectedIcon?: (item: string) => void;
+
+  // Skills
+  itemsSkills?: tagProps[];
+  setItemsSkills?: (itemsSkills: tagProps[]) => void;
+  allSuggestionsSkills?: tagProps[];
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -44,13 +55,20 @@ const InputField: React.FC<InputFieldProps> = ({
   optional = false,
   valueSkill,
   maxLength,
+  itemsSelected = [],
   disabled,
   placeholder = "",
+  itemsSkills = [],
+  setItemsSkills,
+  allSuggestionsSkills = [],
+  placeholderSelected,
+  showAllOptions = false,
+  onRemoveSelectedIcon
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const isComplete = useMemo(() => value.trim() !== "", [value]);
   const textAreaRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     if (value !== "") {
       setIsLoading(false);
@@ -78,14 +96,14 @@ const InputField: React.FC<InputFieldProps> = ({
   const handleTextAreaInput = (e: React.FormEvent<HTMLDivElement>) => {
     const selection = window.getSelection();
     if (!selection || !textAreaRef.current) return;
-  
+
     // Obtiene la posición actual del cursor
     const range = selection.getRangeAt(0);
     const preCaretRange = range.cloneRange();
     preCaretRange.selectNodeContents(textAreaRef.current);
     preCaretRange.setEnd(range.endContainer, range.endOffset);
     const cursorPosition = preCaretRange.toString().length;
-  
+
     // Obtiene el nuevo contenido
     let text = e.currentTarget.innerText || "";
     if (maxLength && text.length > maxLength) {
@@ -93,15 +111,15 @@ const InputField: React.FC<InputFieldProps> = ({
       return;
     }
     onChange?.(text);
-  
+
     // Restaurar posición del cursor sin setTimeout
     requestAnimationFrame(() => {
       if (!textAreaRef.current) return;
-  
+
       const newRange = document.createRange();
       const newSelection = window.getSelection();
       const textNode = textAreaRef.current.firstChild;
-  
+
       if (textNode) {
         const pos = Math.min(cursorPosition, textNode.textContent?.length || 0);
         newRange.setStart(textNode, pos);
@@ -110,27 +128,31 @@ const InputField: React.FC<InputFieldProps> = ({
         newRange.setStart(textAreaRef.current, 0);
         newRange.setEnd(textAreaRef.current, 0);
       }
-  
+
       newSelection?.removeAllRanges();
       newSelection?.addRange(newRange);
     });
   };
-  
+
   // Limiter textArea controller
   useEffect(() => {
     const element = textAreaRef.current;
     if (!element) return;
-  
+
     const handleBeforeInput = (e: InputEvent) => {
-      if (disabled || (maxLength && element.innerText!.length >= maxLength && e.inputType !== "deleteContentBackward")) {
+      if (
+        disabled ||
+        (maxLength &&
+          element.innerText!.length >= maxLength &&
+          e.inputType !== "deleteContentBackward")
+      ) {
         e.preventDefault(); // Bloquea la entrada antes de que ocurra
       }
     };
-  
+
     element.addEventListener("beforeinput", handleBeforeInput);
     return () => element.removeEventListener("beforeinput", handleBeforeInput);
   }, [maxLength]);
-
 
   const handleTextAreaPaste = (e: React.ClipboardEvent) => {
     if (disabled) {
@@ -139,19 +161,21 @@ const InputField: React.FC<InputFieldProps> = ({
     }
 
     e.preventDefault();
-    const pastedText = e.clipboardData.getData('text/plain');
-    const currentContent = textAreaRef.current?.textContent || '';
-    
+    const pastedText = e.clipboardData.getData("text/plain");
+    const currentContent = textAreaRef.current?.textContent || "";
+
     // Calcula espacio disponible
-    const remainingChars = maxLength ? maxLength - currentContent.length : Infinity;
-    
+    const remainingChars = maxLength
+      ? maxLength - currentContent.length
+      : Infinity;
+
     if (remainingChars <= 0) return;
-    
+
     // Trunca el texto pegado
     const truncatedText = pastedText.slice(0, remainingChars);
-    
+
     // Inserta el texto truncado
-    document.execCommand('insertText', false, truncatedText);
+    document.execCommand("insertText", false, truncatedText);
   };
 
   return (
@@ -196,10 +220,21 @@ const InputField: React.FC<InputFieldProps> = ({
           options={options}
           onChangeSelected={handleSelectChange}
           valueSelected={valueSelected}
-          defaultOption={options[0]}
+          itemsSelected={itemsSelected}
+          placeholder={placeholderSelected}
+          showAllOptions={showAllOptions}
+          onRemoveSelectedIcon={onRemoveSelectedIcon}
         />
       ) : type === "skills" ? (
-        <SkillInput id={htmlFor} onChangeSkill={onChangeSkill} value={valueSkill} maxLength={maxLength || 10} disabled= {disabled}
+        <SkillInput
+          id={htmlFor}
+          onChangeSkill={onChangeSkill}
+          value={valueSkill}
+          maxLength={maxLength || 10}
+          disabled={disabled}
+          items={itemsSkills}
+          setItems={setItemsSkills ?? (() => {})}
+          allSuggestions={allSuggestionsSkills}
         />
       ) : (
         <input

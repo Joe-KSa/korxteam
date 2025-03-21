@@ -20,11 +20,13 @@ import {
   handleAudioUpload,
   handleImageUpload,
 } from "@/utils/handleUpload";
+import { useTags } from "@/hooks/useTags";
 
 const ProfilePage = () => {
   const { user } = useUser();
   const { setSelectedMember, setMembers } = useMembers();
   const { images, setImage } = useImageStore();
+  const { tags: tagsItems } = useTags();
 
   const member = useMemberByUsername(user?.username);
   const [hasChanges, setHasChanges] = useState(false);
@@ -341,6 +343,9 @@ const ProfilePage = () => {
             disabled={isDisabled}
             maxLength={10}
             valueSkill={tags}
+            itemsSkills={tags}
+            setItemsSkills={setTags}
+            allSuggestionsSkills={tagsItems}
             onChangeSkill={(value) => handleTagsChange(value)}
           />
 

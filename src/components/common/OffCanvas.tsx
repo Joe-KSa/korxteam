@@ -1,6 +1,6 @@
 import styles from "./styles/OffCanvas.module.scss";
 import Button, { ButtonHoverStyle, ButtonStyle } from "./Button";
-import { HomeIcon, ProjectIcon } from "@/assets/icons";
+import { HomeIcon, ProjectIcon, RoundedIcon } from "@/assets/icons";
 import stylesNavbar from "../layout/header/styles/Navbar.module.scss";
 import { LinesHorizontalIcon } from "@/assets/icons";
 import image from "@/assets/KorxteamIcon.png";
@@ -13,7 +13,7 @@ interface OffCanvasProps {
 }
 const OffCanvas: React.FC<OffCanvasProps> = ({ open, setIsOpen }) => {
   const { setSelectedMember } = useMembers();
-  const { setSelectedProject } = useProjects()
+  const { setSelectedProject } = useProjects();
 
   return (
     <>
@@ -68,6 +68,20 @@ const OffCanvas: React.FC<OffCanvasProps> = ({ open, setIsOpen }) => {
               iconMargin="0 5px 0 0"
             >
               <ProjectIcon className="medium-icon" />
+            </Button>
+            <Button
+              styleType={ButtonStyle.TEXT_ONLY}
+              label="Retos"
+              hoverStyleType={ButtonHoverStyle.NORMAL}
+              width="100%"
+              justifyContent="start"
+              borderRadius="4px"
+              redirect
+              onClick={() => setSelectedMember(null)}
+              href="/challenges"
+              iconMargin="0 5px 0 0"
+            >
+              <RoundedIcon className="medium-icon" />
             </Button>
           </div>
         </div>

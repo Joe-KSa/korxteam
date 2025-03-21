@@ -36,6 +36,7 @@ const HeaderProfile = ({
       : currentUser?.images.banner.url || selectedMember?.images.banner.url;
 
   const dominantColor = useDominantColor(profile || "");
+
   const isMobile = window.innerWidth <= 767;
 
   const isDisabled = !isSettingsPage || user?.role.name === "Bloqueado";

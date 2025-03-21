@@ -12,7 +12,7 @@ import { getTextColor } from "@/utils/CheckColor";
 import { validateMediaFile, getFileType } from "@/utils/validateMedia";
 
 interface ProjectCardPreviewProps {
-  project: projectProps;
+  project: Omit<projectProps, "hidden">;
   onImageChange: (mediaUrl: string, file: File) => void;
   dominantColor: string;
 }
