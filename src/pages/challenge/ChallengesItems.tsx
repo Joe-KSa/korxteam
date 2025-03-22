@@ -6,14 +6,15 @@ import { useChallenges } from "@/hooks/useChallenges";
 import { getChallengesProps, tagProps } from "@/core/types";
 import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
+import DiscordLogo from "@/assets/DiscordLogo.jpg";
 
-
-export const languageIcons = (size: "medium-icon" | "large-icon"): Record<string, JSX.Element> => ({
+export const languageIcons = (
+  size: "medium-icon" | "large-icon"
+): Record<string, JSX.Element> => ({
   JavaScript: <JavaScriptIcon className={size} />,
   Python: <PythonIcon className={size} />,
   "C++": <CplusIcon className={size} />,
 });
-
 
 export const languageSlugMap: Record<string, string> = {
   JavaScript: "javascript",
@@ -55,7 +56,14 @@ export const ChallengeDetails = ({
         )}
       </div>
       <div className={styles.challengeItem__inner__left__details}>
-        <img src={challenge.creator.image} alt="" />
+        <img
+          src={challenge.creator.image}
+          alt=""
+          onError={(e) => {
+            e.currentTarget.src = DiscordLogo;
+            e.currentTarget.onerror = null;
+          }}
+        />
         {challenge.creator.username}
       </div>
     </>

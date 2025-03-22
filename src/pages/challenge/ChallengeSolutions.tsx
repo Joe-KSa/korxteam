@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./styles/ChallengeSolutions.module.scss";
 import WorkSpace from "@/components/ui/Workspace";
 import { LightAsync as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -8,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import InputField from "@/components/common/InputField";
 import { tagProps } from "@/core/types";
 import { languageSlugMap } from "./ChallengesItems";
+import DiscordLogo from "@/assets/DiscordLogo.jpg";
 
 const ChallengeSolutions = () => {
   const { id, language } = useParams();
@@ -31,12 +31,24 @@ const ChallengeSolutions = () => {
     (tag) => languageSlugMap[tag.name] === language
   );
 
+  const getRandomColor = () => {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  };
+
   return (
     <WorkSpace>
       <div className={styles.container}>
+        <div
+          className={styles.container__mask}
+          style={
+            {
+              "--background-mask": getRandomColor(),
+            } as React.CSSProperties
+          }
+        />
         <div className={styles.container__inner}>
-          <h1 className={styles.container__header}>Soluciones</h1>
-          <div>
+          <div className={styles.container__header}>
+            <h1 className={styles.container__header__title}>Soluciones</h1>
             <InputField
               type="select"
               valueSelected={selectedLanguageTag}
@@ -51,7 +63,15 @@ const ChallengeSolutions = () => {
             <div className={styles.card} key={solution.id}>
               <div className={styles.card__user}>
                 <i>
-                  <img src={solution.creator.image} draggable={false} alt="" />
+                  <img
+                    src={solution.creator.image}
+                    draggable={false}
+                    alt=""
+                    onError={(e) => {
+                      e.currentTarget.src = DiscordLogo;
+                      e.currentTarget.onerror = null;
+                    }}
+                  />
                 </i>
                 <span>{solution.creator.username}</span>
               </div>

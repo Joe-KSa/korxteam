@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { getTextColor } from "@/utils/CheckColor";
 import { getFileType } from "@/utils/validateMedia";
 import { useNavigate } from "react-router-dom";
+import DiscordLogo from "@/assets/DiscordLogo.jpg";
 
 const ProjectCard = () => {
   const { id } = useParams();
@@ -84,7 +85,14 @@ const ProjectCard = () => {
               <div
                 className={styles.infoContainer__descriptionContainer__creator}
               >
-                <img draggable={false} src={projectBanner.creator.image} />
+                <img
+                  draggable={false}
+                  src={projectBanner.creator.image}
+                  onError={(e) => {
+                    e.currentTarget.src = DiscordLogo;
+                    e.currentTarget.onerror = null;
+                  }}
+                />
                 <span style={{ color: textColor }}>
                   @{projectBanner.creator.username}
                 </span>

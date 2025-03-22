@@ -9,6 +9,7 @@ import { useImageStore } from "@/store/store";
 import { PencilIcon } from "@/assets/icons";
 import { getTextColor } from "@/utils/CheckColor";
 import { hexToRgb } from "@/utils/CheckColor";
+import DiscordLogo from "@/assets/DiscordLogo.jpg"
 
 const HeaderProfile = ({
   maskId,
@@ -149,7 +150,10 @@ const HeaderProfile = ({
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={profile} draggable={false} />
+          <img src={profile} draggable={false} onError={(e) => {
+                            e.currentTarget.src = DiscordLogo
+                            e.currentTarget.onerror = null;
+                        }}/>
           {isSettingsPage && (isCurrentUser || isMobile) && (
             <div className={styles.header__imageContainer__image__fileEditable}>
               <PencilIcon className={"medium-icon"} />

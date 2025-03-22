@@ -5,11 +5,12 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import "overlayscrollbars/styles/overlayscrollbars.css";
 import { useMembers } from "@/hooks/useMembers";
 import { useProjects } from "@/hooks/useProjects";
+import DiscordLogo from "@/assets/DiscordLogo.jpg";
 
 const LeftSidebar = () => {
   const { setSelectedMember, members } = useMembers();
   const { setShowComments } = useProjects();
-  
+
   return (
     <div className={styles.container}>
       <nav className={styles.container__inner}>
@@ -73,6 +74,10 @@ const LeftSidebar = () => {
                                 <img
                                   src={member.images.avatar.url}
                                   alt={member.name}
+                                  onError={(e) => {
+                                    e.currentTarget.src = DiscordLogo;
+                                    e.currentTarget.onerror = null;
+                                  }}
                                 />
                               </div>
                             </div>

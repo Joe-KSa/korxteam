@@ -9,7 +9,7 @@ import { ChallengeService } from "@/core/services/challenge/challengeService";
 import {
   createLanguageSlugMap,
   createReverseLanguageMap,
-  getAllowedTags
+  getAllowedTags,
 } from "@/utils/languageUtils";
 
 type SelectedEditorProps = {
@@ -52,6 +52,7 @@ export const SelectedEditor = ({
   // Obtener lenguaje actual
   const currentLanguageName =
     reverseLanguageMap[language || "javascript"] || "JavaScript";
+
   const selectedLanguageTag = allowedTags.find(
     (tag) => tag.name === currentLanguageName
   );
@@ -117,8 +118,8 @@ export const SelectedEditor = ({
         />
       </div>
 
+      <span className={styles.container__editor__header}>Solución</span>
       <div className={styles.container__editor}>
-        <span className={styles.container__editor__header}>Solución</span>
         <div className={styles.container__editor__content}>
           <CodeEditor
             onChange={(newValue) => onDataChange(newValue)}

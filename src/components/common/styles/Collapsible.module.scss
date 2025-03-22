@@ -1,7 +1,7 @@
 .container {
     max-height: 150px;
     overflow-y: auto;
-    background-color: #2e2e2e;
+    background-color: #2e2e2e !important;
     position: absolute;
     top: 110%;
     left: 0;
@@ -10,6 +10,7 @@
     border-top: none;
     border-radius: 0 0 5px 5px;
     width: 100%;
+    overflow-x: hidden;
 
     &__inner {
         padding: 10px;

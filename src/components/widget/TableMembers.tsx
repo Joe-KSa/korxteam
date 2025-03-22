@@ -7,6 +7,7 @@ import { getMemberProps } from "@/core/types";
 import { useUser } from "@/hooks/useUser";
 import { RemoveIcon } from "@/assets/icons";
 import { Badges } from "./MemberProfile";
+import DiscordLogo from "@/assets/DiscordLogo.jpg"
 
 type TableMembersProps = {
   isOverviewSectionVisible?: boolean;
@@ -130,6 +131,10 @@ const TableMembers: React.FC<TableMembersProps> = ({
                         src={member?.images?.avatar?.url}
                         alt={member.name}
                         draggable={false}
+                        onError={(e) => {
+                            e.currentTarget.src = DiscordLogo
+                            e.currentTarget.onerror = null;
+                        }}
                       />
                       <div className={styles.body__row__item__member__wrapper}>
                         <div

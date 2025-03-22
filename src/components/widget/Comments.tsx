@@ -9,6 +9,7 @@ import { ReplyIcon, DeleteIcon } from "@/assets/icons";
 import { ProjectService } from "@/core/services/project/projectService";
 import { useUser } from "@/hooks/useUser";
 import { useRoleStore } from "@/store/useRoleStore";
+import DiscordLogo from "@/assets/DiscordLogo.jpg"
 
 interface Comment {
   id: number;
@@ -52,6 +53,10 @@ const CommentItem: React.FC<CommentItemProps> = ({
               <img
                 src={comment.author.avatar}
                 alt={`${comment.author.username} avatar`}
+                onError={(e) => {
+                  e.currentTarget.src = DiscordLogo
+                  e.currentTarget.onerror = null;
+              }}
               />
             </div>
             <div className={styles.actionsContainer}>

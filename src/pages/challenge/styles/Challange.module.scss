@@ -4,7 +4,7 @@
     &__mask {
         --background-noise: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=");
 
-        --background-mask: #f41b1b;
+        --background-mask: #121212;
         background-color: var(--background-mask);
         background-image: linear-gradient(rgba(0, 0, 0, 0.6) 0, var(--background-base) 100%), var(--background-noise);
         height: 256px;
@@ -116,10 +116,19 @@
         width: 100%;
         display: flex;
 
+        @container (max-width: 400px) {
+            flex-direction: column;
+            align-items: center;
+        }
+
         &__left {
             display: flex;
             flex: 1;
             flex-direction: column;
+
+            @container (max-width: 400px) {
+                margin-bottom: 1em;
+            }
 
             &__title {
                 font-weight: 600;
@@ -181,7 +190,13 @@
             align-items: center;
             justify-content: end;
             flex: 1;
+            width: 100%;
 
+            @container (max-width: 400px) {
+                justify-content: center;
+            }
+
+            
             ul {
                 margin-top: 4px;
                 list-style: none;

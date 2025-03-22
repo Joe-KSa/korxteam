@@ -4,7 +4,7 @@ import { ChallengeDetails } from "./ChallengesItems";
 import Button, { ButtonStyle } from "@/components/common/Button";
 import { SelectedEditor } from "@/components/widget/SelectedEditor";
 import { useChallenges } from "@/hooks/useChallenges";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { ChallengeService } from "@/core/services/challenge/challengeService";
 
@@ -17,6 +17,7 @@ const ChallengeSolvePage = () => {
   );
   const [codeSolution, setCodeSolution] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   if (!challenge) return <div>Loading...</div>;
 
@@ -36,6 +37,7 @@ const ChallengeSolvePage = () => {
 
       if (response.success) {
         alert("Solución guardada con éxito.");
+        navigate(`/challenge/${id}/solution/${language}`);
       } else {
         alert("Error al guardar la solución. Intente de nuevo.");
       }

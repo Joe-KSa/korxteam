@@ -13,6 +13,7 @@ import {
 import { ProjectService } from "@/core/services/project/projectService";
 import { getFileType } from "@/utils/validateMedia";
 import { debounce } from "lodash";
+import DiscordLogo from "@/assets/DiscordLogo.jpg"
 
 interface ProjectItem {
   project: getProjectProps;
@@ -208,7 +209,10 @@ const ProjectItem: React.FC<ProjectItem> = ({
       <div className={styles.infoContainer}>
         <div className={styles.infoContainer__inner}>
           <div className={styles.infoContainer__inner__url}>
-            <img src={project.creator?.image} alt="" />
+            <img src={project.creator?.image} alt="" onError={(e) => {
+                            e.currentTarget.src = DiscordLogo
+                            e.currentTarget.onerror = null;
+                        }}/>
             <span className="project-admin">
               @{project.creator?.username || ""}
             </span>
