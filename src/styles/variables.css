@@ -21,7 +21,7 @@
 
    --min-fluid-height-large-header: clamp(216px,216px + (var(--main-view-grid-width) - 600px)/424*60,276px);
 
-   --min-fluid-height-xlarge-header: calc(clamp(286px,286px + (var(--main-view-grid-width) - 600px)/424*50,336px)* 1.65);
+   --min-fluid-height-xlarge-header: calc(clamp(286px,286px + (var(--main-view-grid-width) - 600px)/424*50,336px)* 1.5);
 
    /* OffCanvas */
    --offcanvas-width: 232px;

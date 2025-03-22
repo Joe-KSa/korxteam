@@ -21,12 +21,17 @@ const InputAudio = forwardRef<InputAudioRef, InputAudioProps>(({ soundUrl, onCha
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 5 * 1024 * 1024) { // Máximo 5MB
+      alert("El archivo de audio no puede pesar más de 5MB.");
+      return;
+    }
+
     const tempUrl = URL.createObjectURL(file);
     const audioElement = new Audio(tempUrl);
 
     audioElement.onloadedmetadata = () => {
-      if (audioElement.duration > 20) {
-        alert("El audio no puede durar más de 20 segundos.");
+      if (audioElement.duration > 180) { // Máximo 3 minutos
+        alert("El audio no puede durar más de 3 minutos.");
         URL.revokeObjectURL(tempUrl);
         setAudio(null);
         if (inputRef.current) inputRef.current.value = "";
