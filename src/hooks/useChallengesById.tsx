@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ChallengeService } from "@/core/services/challenge/challengeService";
 import { getUserChallengesProps } from "@/core/types";
 
-export const useChallengesById = (userId: string) => {
+export const useChallengesById = (userId?: string) => {
   const [devChallenges, setDevChallenges] = useState<getUserChallengesProps[]>([]);
 
   useEffect(() => {
@@ -17,5 +17,5 @@ export const useChallengesById = (userId: string) => {
     fetchMember();
   }, [userId]);
   
-  return { devChallenges };
+  return { devChallenges, setDevChallenges };
 };

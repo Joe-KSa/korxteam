@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button, { ButtonStyle } from "@/components/common/Button";
 import styles from "./styles/NewChallenge.module.scss";
 import { BookIcon, DeleteIcon, SaveIcon, ShowIcon } from "@/assets/icons";
@@ -44,7 +44,7 @@ const NewChallengePage = () => {
 
   if (!user) return null;
 
-  const { devChallenges } = useChallengesById(user.id);
+  const { devChallenges, setDevChallenges } = useChallengesById(user.id);
 
   // Dropdown
   const [showDevChallenges, setShowDevChallenges] = useState(false);
@@ -56,6 +56,26 @@ const NewChallengePage = () => {
     disciplines: disciplinesItems,
     languageHint,
   } = useChallenges(Number(id), language);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+
+  // Hide dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDevChallenges(false);
+      }
+    };
+  
+    if (showDevChallenges) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDevChallenges]);
+  
 
   useEffect(() => {
     if (id && challenge) {
@@ -131,6 +151,28 @@ const NewChallengePage = () => {
       if (response?.id) {
         alert("Reto guardado correctamente.");
         navigate(`/challenge/${response.id}/edit/${language}`);
+        setDevChallenges((prev) => {
+          const existingChallenge = prev.find((c) => c.id === response.id);
+
+          if (existingChallenge) {
+            // Actualizar título y lenguajes
+            return prev.map((c) =>
+              c.id === response.id
+                ? { ...c, title: response.title, languages: response.languages }
+                : c
+            );
+          }
+
+          // Si no existe, agregarlo
+          return [
+            ...prev,
+            {
+              id: response.id,
+              title: response.title,
+              languages: response.languages,
+            },
+          ];
+        });
       } else {
         alert("Error al guardar el reto.");
       }
@@ -197,7 +239,7 @@ const NewChallengePage = () => {
                 Cambiar reto
               </div>
               {showDevChallenges && (
-                <Dropdown transform="translate3d(0px, 45px, 0px)">
+                <Dropdown transform="translate3d(0px, 45px, 0px)" ref={dropdownRef}>
                   <li
                     className={styles.devChallengeItem}
                     key={0}
@@ -255,6 +297,7 @@ const NewChallengePage = () => {
                   label="Nombre:"
                   type="text"
                   htmlFor="Name"
+                  maxLength={50}
                   value={formState.title}
                   placeholder="Dale un nombre al reto"
                   onChange={(value) => handleInputChange("title", value)}
@@ -272,6 +315,7 @@ const NewChallengePage = () => {
                   label="Disciplina"
                   htmlFor="discipline"
                   type="skills"
+                  maxLength={3}
                   itemsSkills={disciplines}
                   allSuggestionsSkills={disciplinesItems}
                   setItemsSkills={setDisciplines}
@@ -317,13 +361,13 @@ const NewChallengePage = () => {
             </div>
           </div>
           <SelectedEditor
-              newChallenge
-              workSpaceLanguage={workspaceLanguage}
-              setWorkSpaceLanguage={setWorkSpaceLanguage}
-              onLanguageChange={setLanguageId}
-              value={code}
-              onDataChange={(data) => setCode(data)}
-            />
+            newChallenge
+            workSpaceLanguage={workspaceLanguage}
+            setWorkSpaceLanguage={setWorkSpaceLanguage}
+            onLanguageChange={setLanguageId}
+            value={code}
+            onDataChange={(data) => setCode(data)}
+          />
         </div>
       </form>
     </main>
