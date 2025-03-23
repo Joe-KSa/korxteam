@@ -1,23 +1,29 @@
-import { MarkdownPreview } from "@/components/common/MarkdownPreview";
-import styles from "./styles/ChallengeSolve.module.scss";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChallengeDetails } from "./ChallengesItems";
+import { MarkdownPreview } from "@/components/common/MarkdownPreview";
 import Button, { ButtonStyle } from "@/components/common/Button";
 import { SelectedEditor } from "@/components/widget/SelectedEditor";
 import { useChallenges } from "@/hooks/useChallenges";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import { ChallengeService } from "@/core/services/challenge/challengeService";
+import Output, { OutputHandle } from "@/components/widget/Output";
+import styles from "./styles/ChallengeSolve.module.scss";
 
 const ChallengeSolvePage = () => {
   const { id, language } = useParams();
-
   const { challenge, languageHint, solution } = useChallenges(
     Number(id),
     language
   );
   const [codeSolution, setCodeSolution] = useState<string>("");
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const navigate = useNavigate();
+  const outputRef = useRef<OutputHandle>(null);
+
+  useEffect(() => {
+    setCodeSolution(solution?.code || languageHint?.hint || "");
+  }, [solution?.code, languageHint?.hint]);
 
   if (!challenge) return <div>Loading...</div>;
 
@@ -27,14 +33,12 @@ const ChallengeSolvePage = () => {
         alert("Debe seleccionar un lenguaje y escribir una solución.");
         return;
       }
-
       setIsSubmitting(true);
       const response = await new ChallengeService().postChallengeSolution(
         id,
         language,
         codeSolution
       );
-
       if (response.success) {
         alert("Solución guardada con éxito.");
         navigate(`/challenge/${id}/solution/${language}`);
@@ -46,6 +50,10 @@ const ChallengeSolvePage = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleRunCode = () => {
+    outputRef.current?.runCode();
   };
 
   return (
@@ -66,16 +74,22 @@ const ChallengeSolvePage = () => {
           options={challenge.languages.map((lang) => lang.name)}
           onDataChange={(value) => setCodeSolution(value)}
         />
+        <Output
+          ref={outputRef}
+          language={language || "python"}
+          sourceCode={codeSolution}
+        />
 
         <div className={styles.container__right__footer}>
-          <Button
-            styleType={ButtonStyle.TEXT_ONLY}
-            label="Resetear"
-            padding="10px"
-            borderRadius="4px"
-            border
-          />
           <div style={{ display: "flex", gap: "10px" }}>
+            <Button
+              styleType={ButtonStyle.TEXT_ONLY}
+              label="Testear"
+              onClick={handleRunCode}
+              padding="10px"
+              borderRadius="4px"
+              border
+            />
             <Button
               styleType={ButtonStyle.TEXT_ONLY}
               label="Ver soluciones"
@@ -86,6 +100,8 @@ const ChallengeSolvePage = () => {
               borderRadius="4px"
               border
             />
+          </div>
+          <div>
             <Button
               styleType={ButtonStyle.TEXT_ONLY}
               label="Enviar"
@@ -101,4 +117,5 @@ const ChallengeSolvePage = () => {
     </div>
   );
 };
+
 export default ChallengeSolvePage;

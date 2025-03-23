@@ -1,0 +1,30 @@
+.container {
+    width: 100%;
+    margin-top: 0.5em;
+
+    &__output {
+        height: 100%;
+        overflow: hidden;
+
+        &__header {
+            display: block;
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #202020;
+            border-radius: 8px 8px 0 0;
+        }
+
+        &__content {
+            background-color: #1b1b1b;
+            max-height: 100px;
+            padding: 12px;
+            overflow: hidden;
+            word-break: break-word;
+            font-size: 12px;
+            font-family: "cascadia code";
+            font-weight: 400;
+            overflow-y: auto;
+        }
+    }
+
+}

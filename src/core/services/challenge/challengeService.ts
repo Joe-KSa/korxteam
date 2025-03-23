@@ -10,6 +10,7 @@ import type {
   tagProps,
 } from "@/core/types";
 import { DataService } from "../dataService";
+import { getCompilerVersions } from "@/utils/languageUtils";
 
 export class ChallengeService extends DataService {
   constructor() {
@@ -276,6 +277,36 @@ export class ChallengeService extends DataService {
       return data;
     } catch (error) {
       this.handleError(error);
+      return null;
+    }
+  }
+
+  async executeCode(language: string, sourceCode: string) {
+
+    try {
+      const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          language,
+          version: getCompilerVersions[language],
+          files: [
+            {
+              name: "main",
+              content: sourceCode
+            }
+          ],
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error ejecutando el código:", error);
       return null;
     }
   }

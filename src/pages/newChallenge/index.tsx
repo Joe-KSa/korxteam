@@ -317,13 +317,13 @@ const NewChallengePage = () => {
             </div>
           </div>
           <SelectedEditor
-            newChallenge
-            workSpaceLanguage={workspaceLanguage}
-            setWorkSpaceLanguage={setWorkSpaceLanguage}
-            onLanguageChange={setLanguageId}
-            value={code}
-            onDataChange={(data) => setCode(data)}
-          />
+              newChallenge
+              workSpaceLanguage={workspaceLanguage}
+              setWorkSpaceLanguage={setWorkSpaceLanguage}
+              onLanguageChange={setLanguageId}
+              value={code}
+              onDataChange={(data) => setCode(data)}
+            />
         </div>
       </form>
     </main>
