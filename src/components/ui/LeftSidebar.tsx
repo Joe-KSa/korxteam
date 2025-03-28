@@ -72,7 +72,7 @@ const LeftSidebar = () => {
                             <div className={styles.imageContainer}>
                               <div className={styles.imageContainer__inner}>
                                 <img
-                                  src={member.images.avatar.url}
+                                  src={member.images.avatar.url || DiscordLogo}
                                   alt={member.name}
                                   onError={(e) => {
                                     e.currentTarget.src = DiscordLogo;

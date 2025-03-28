@@ -96,6 +96,7 @@ export const SelectedEditor = ({
 
     if (response.success) {
       alert("Lenguaje de trabajo eliminado correctamente");
+
     } else {
       alert("Error al eliminar el lenguaje de trabajo");
     }

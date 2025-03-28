@@ -128,7 +128,7 @@ const TableMembers: React.FC<TableMembersProps> = ({
                     >
                       <img
                         className={styles.body__row__item__member__image}
-                        src={member?.images?.avatar?.url}
+                        src={member?.images?.avatar?.url || DiscordLogo}
                         alt={member.name}
                         draggable={false}
                         onError={(e) => {

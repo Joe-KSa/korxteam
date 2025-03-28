@@ -6,6 +6,9 @@ import { ViewUpdate } from "@codemirror/view";
 import { cpp } from "@codemirror/lang-cpp";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
+import { go } from "@codemirror/lang-go";
+import { csharp } from "@replit/codemirror-lang-csharp"
+import { java } from "@codemirror/lang-java"
 
 interface CodeEditorProps {
   value: string;
@@ -36,6 +39,15 @@ const CodeEditor = ({
       break;
     case "python":
       language = python();
+      break;
+    case "go":
+      language = go();
+      break;
+    case "csharp":
+      language = csharp();
+      break;
+    case "java":
+      language = java();
       break;
     default:
       language = markdown();

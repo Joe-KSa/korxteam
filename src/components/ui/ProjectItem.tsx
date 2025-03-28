@@ -209,7 +209,7 @@ const ProjectItem: React.FC<ProjectItem> = ({
       <div className={styles.infoContainer}>
         <div className={styles.infoContainer__inner}>
           <div className={styles.infoContainer__inner__url}>
-            <img src={project.creator?.image} alt="" onError={(e) => {
+            <img src={project.creator?.image || DiscordLogo} alt="" onError={(e) => {
                             e.currentTarget.src = DiscordLogo
                             e.currentTarget.onerror = null;
                         }}/>

@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { CplusIcon, JavaScriptIcon, PythonIcon, TagIcon } from "@/assets/icons";
+import { CplusIcon, CsharpIcon, GoIcon, JavaIcon, JavaScriptIcon, PythonIcon, TagIcon } from "@/assets/icons";
 import styles from "./styles/Challange.module.scss";
 import Button, { ButtonStyle } from "@/components/common/Button";
 import { useChallenges } from "@/hooks/useChallenges";
@@ -14,12 +14,18 @@ export const languageIcons = (
   JavaScript: <JavaScriptIcon className={size} />,
   Python: <PythonIcon className={size} />,
   "C++": <CplusIcon className={size} />,
+  GO: <GoIcon className={size} />,
+  Java: <JavaIcon className={size} />,
+  "C#": <CsharpIcon className={size} />,
 });
 
 export const languageSlugMap: Record<string, string> = {
   JavaScript: "javascript",
   Python: "python",
   "C++": "cpp",
+  GO: "go",
+  Java: "java",
+  "C#": "csharp",
 };
 
 export const ChallengeDetails = ({
@@ -57,7 +63,7 @@ export const ChallengeDetails = ({
       </div>
       <div className={styles.challengeItem__inner__left__details}>
         <img
-          src={challenge.creator.image}
+          src={challenge.creator.image || DiscordLogo}
           alt=""
           onError={(e) => {
             e.currentTarget.src = DiscordLogo;

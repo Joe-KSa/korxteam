@@ -5,7 +5,7 @@ import { tagProps } from "@/core/types";
  */
 export const createLanguageSlugMap = (tags: tagProps[]) => {
   return tags.reduce((acc: Record<string, string>, tag) => {
-    acc[tag.name] = tag.name.toLowerCase().replace(/\++/g, "pp");
+    acc[tag.name] = tag.name.toLowerCase().replace(/\++/g, "pp").replace(/\#/g, "sharp");
     return acc;
   }, {});
 };
@@ -33,7 +33,7 @@ export const getAllowedTags = (tags: tagProps[], options?: string[]) => {
     return tags.filter((tag) => options.includes(tag.name));
   }
   return tags.filter((tag) =>
-    ["JavaScript", "C++", "Python"].includes(tag.name)
+    ["JavaScript", "C++", "Python", "GO", "Java", "C#"].includes(tag.name)
   );
 };
 

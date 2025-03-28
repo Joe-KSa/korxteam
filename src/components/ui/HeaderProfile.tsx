@@ -150,7 +150,7 @@ const HeaderProfile = ({
           }`}
           onClick={() => handleImageClick("image")}
         >
-          <img src={profile} draggable={false} onError={(e) => {
+          <img src={profile || DiscordLogo} draggable={false} onError={(e) => {
                             e.currentTarget.src = DiscordLogo
                             e.currentTarget.onerror = null;
                         }}/>
