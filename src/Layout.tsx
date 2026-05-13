@@ -8,7 +8,6 @@ import "./styles/globals.css";
 import "./styles/variables.css";
 import styles from "./styles/Layout.module.scss"
 import image from "@/assets/Loading.gif";
-
 import LeftSidebar from "./components/ui/LeftSidebar";
 
 const Layout: React.FC = () => {

@@ -81,7 +81,7 @@ const Button: React.FC<ButtonProps> = ({
     .filter(Boolean)
     .join(" ");
 
-  const contentClasses = `${styles.buttonContent} ${styles[styleType]} `;
+  const contentClasses = `${styles.buttonContent} ${styles[styleType]}`;
 
   const commonProps = {
     className: buttonClasses,
